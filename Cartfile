@@ -1,0 +1,5 @@
+github "Swinject/Swinject"
+github "Swinject/SwinjectStoryboard"
+github "ReactiveCocoa/ReactiveSwift"
+github "ReactiveCocoa/ReactiveCocoa"
+github "realm/realm-cocoa"
