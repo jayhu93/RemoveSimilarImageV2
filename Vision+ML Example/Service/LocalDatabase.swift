@@ -168,11 +168,14 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             similarGroup.append(photo)
             let currentPhotoSimilarArray = Array(photo.similarArray)
             for (innerIndex, innerPhoto) in photoArray.enumerated() {
+                guard photo.id != innerPhoto.id else { break }
                 if photo.containsElementsFrom(anotherArray: Array(innerPhoto.similarArray)) {
                     similarGroup.append(innerPhoto)
                 }
             }
-            similarPhotoGroups.append(similarGroup)
+            if similarGroup.count > 1 {
+                similarPhotoGroups.append(similarGroup)
+            }
         }
     }
 
