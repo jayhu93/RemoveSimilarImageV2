@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import ReactiveSwift
+import Result
 
 // MARK: LocalDatabaseInputs
 
@@ -17,7 +18,7 @@ protocol LocalDatabaseInputs {
     func updatePhotoObject(withId id: String, photoObject: PhotoObject)
     func deletePhotoObject(withId id: String)
 
-    func returnSomeResults()
+    func getSimilarObjectGroups()
 
     #if !RELEASE
     func deleteAllObjects()
@@ -27,6 +28,7 @@ protocol LocalDatabaseInputs {
 // MARK: LocalDatabaseOutputs
 
 protocol LocalDatabaseOutputs {
+    var similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError> { get }
 }
 
 // MARK: LocalDatabaseType
@@ -61,6 +63,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     typealias Dependency = ()
 
     init(dependency: Dependency) {
+        similarPhotoGroupsSignal = getSimilarObjectGroupsIO.output
     }
 
     // MARK: LocalDatabaseType
@@ -103,6 +106,8 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     }
 
     // MARK: LocalDatabaseOutputs
+    
+    let similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError>
 
     // MARK: Methods should be declared as private but public for test
 
@@ -156,7 +161,8 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         return DispatchQueue.mainSyncSafe(execute: returnObject)
     }
 
-    func returnSomeResults() {
+    private let getSimilarObjectGroupsIO = Signal<[[PhotoObject]], NoError>.pipe()
+    func getSimilarObjectGroups() {
         let photoObjects = realm.objects(PhotoObject.self)
 
         var similarPhotoGroups = [[PhotoObject]]()
@@ -176,7 +182,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                 similarPhotoGroups.append(similarGroup)
             }
         }
-        print("")
+        getSimilarObjectGroupsIO.input.send(value: similarPhotoGroups)
     }
 
     // MARK: Private

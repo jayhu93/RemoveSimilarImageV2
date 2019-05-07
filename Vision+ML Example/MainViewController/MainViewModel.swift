@@ -19,6 +19,7 @@ protocol MainViewModelInputs {
 protocol MainViewModelOutpus {
     func numberOfSections() -> Int
     func numberOfElements(_ section: Int) -> Int
+    var reloadSignal: Signal<Void, NoError> { get }
 }
 
 protocol MainViewModelType {
@@ -34,10 +35,18 @@ final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModel
         LocalDatabaseType
     )
     
+    var displayModel: Property<[[PhotoObject]]>
+    
     init(dependency: Dependency) {
         let (similarImageService, photoLibraryService, localDatabase) = dependency
         print("got similar image service: \(similarImageService)")
 
+        
+        displayModel = Property(initial: [[PhotoObject]](),
+                                then: localDatabase.outputs.similarPhotoGroupsSignal)
+        
+        reloadSignal = displayModel.signal.map { _ in }
+        
         similarImageService.outputs.similarImageResultSignal.observeValues { photoResult in
             let photoObject = PhotoObject()
             photoObject.id = photoResult.rawPhoto.id
@@ -58,8 +67,8 @@ final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModel
             localDatabase.inputs.deleteAllObjects()
         }
 
-        printSimilarPhotoObjectsIO.output.observeValues {
-            localDatabase.inputs.returnSomeResults()
+        printSimilarPhotoObjectsIO.output.observeValues { _ in
+            localDatabase.inputs.getSimilarObjectGroups()
         }
     }
     
@@ -88,6 +97,8 @@ final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModel
     }
     
     func numberOfElements(_ section: Int) -> Int {
-        return 100
+        return displayModel.value.count
     }
+    
+    let reloadSignal: Signal<Void, NoError>
 }

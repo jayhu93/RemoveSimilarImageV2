@@ -21,8 +21,15 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModel()
         viewModel.inputs.viewDidLoad()
         collectionView.registerClass(forCellType: ContainerCollectionViewCell<MainPhotoView>.self)
+    }
+    
+    private func bindViewController() {
+        viewModel.outputs.reloadSignal.observeValues { _ in
+            collectionView.reloadData()
+        }
     }
 
 }
