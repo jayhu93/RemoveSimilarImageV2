@@ -162,12 +162,11 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         var similarPhotoGroups = [[PhotoObject]]()
         let photoArray = Array(photoObjects)
 
-        for (index, photo) in photoArray.enumerated() {
+        for photo in photoArray {
             guard photo.grouped == false else { break }
             var similarGroup = [PhotoObject]()
             similarGroup.append(photo)
-            let currentPhotoSimilarArray = Array(photo.similarArray)
-            for (innerIndex, innerPhoto) in photoArray.enumerated() {
+            for innerPhoto in photoArray {
                 guard photo.id != innerPhoto.id else { break }
                 if photo.containsElementsFrom(anotherArray: Array(innerPhoto.similarArray)) {
                     similarGroup.append(innerPhoto)
@@ -177,6 +176,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                 similarPhotoGroups.append(similarGroup)
             }
         }
+        print("")
     }
 
     // MARK: Private
