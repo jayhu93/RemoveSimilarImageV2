@@ -26,9 +26,9 @@ class MainViewController: UIViewController {
         collectionView.registerClass(forCellType: ContainerCollectionViewCell<MainPhotoView>.self)
     }
     
-    private func bindViewController() {
-        viewModel.outputs.reloadSignal.observeValues { _ in
-            collectionView.reloadData()
+    private func bindViewModel() {
+        viewModel.outputs.reloadSignal.observeValues { [weak self] in
+            self?.collectionView.reloadData()
         }
     }
 
