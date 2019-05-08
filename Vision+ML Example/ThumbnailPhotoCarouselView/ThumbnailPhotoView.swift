@@ -7,15 +7,30 @@
 //
 
 import Foundation
+import Photos
 
 final class ThumbnailPhotoView: NibInstantiableView {
-
+    
+    let imageManager = PHImageManager()
+    @IBOutlet private weak var imageView: UIImageView!
+    
 }
 
 extension ThumbnailPhotoView: InputAppliable {
-    typealias Input = String
+    typealias Input = PhotoObject
 
-    func apply(input: String) {
-        print("")
+    func apply(input: Input) {
+        let id = input.id
+        
+        // TODO: Will most likely move this block our of this view
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = false
+        let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: .none).firstObject!
+        
+        let thumbnailSize = CGSize(width: 300, height: 300)
+        
+        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: .none) { (image, info) in
+            self.imageView.image = image
+        }
     }
 }

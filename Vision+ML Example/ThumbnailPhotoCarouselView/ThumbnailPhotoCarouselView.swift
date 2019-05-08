@@ -9,6 +9,9 @@
 import UIKit
 
 final class ThumbnailPhotoCarouselView: NibInstantiableView {
+    
+    private var input: Input?
+    
     @IBOutlet private weak var collectionView: UICollectionView!
 
     override init(frame: CGRect) {
@@ -28,10 +31,11 @@ final class ThumbnailPhotoCarouselView: NibInstantiableView {
 }
 
 extension ThumbnailPhotoCarouselView: InputAppliable {
-    typealias Input = String
+    typealias Input = [PhotoObject]
 
-    func apply(input: String) {
-        print("x")
+    func apply(input: Input) {
+        self.input = input
+        self.collectionView.reloadData()
     }
 }
 
@@ -41,11 +45,14 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        guard let input = input else { return 0 }
+        return input.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let input = input else { return UICollectionViewCell() }
         return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<ThumbnailPhotoView>.self, for: indexPath)
+            .applied(input: input[indexPath.row])
     }
 }
 

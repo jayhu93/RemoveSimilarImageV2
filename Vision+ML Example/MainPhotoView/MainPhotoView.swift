@@ -11,10 +11,13 @@ import Swinject
 
 final class MainPhotoView: NibInstantiableView, InputAppliable {
 
+    @IBOutlet private weak var previewPhotoCarouselView: PreviewPhotoCarouselView!
+    @IBOutlet private weak var thumbnailPhotoCarouselView: ThumbnailPhotoCarouselView!
+
     typealias Input = [PhotoObject]
-    @IBOutlet weak var previewPhotoCarouselView: PreviewPhotoCarouselView!
     
     func apply(input: [PhotoObject]) {
         previewPhotoCarouselView.apply(input: input)
+        thumbnailPhotoCarouselView.apply(input: input)
     }
 }

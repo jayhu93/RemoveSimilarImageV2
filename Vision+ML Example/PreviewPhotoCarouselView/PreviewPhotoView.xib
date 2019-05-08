@@ -20,11 +20,10 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="364"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZdQ-f8-0f7">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZdQ-f8-0f7">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="364"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="1" green="0.026292043188856251" blue="0.0029641924386588636" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ZdQ-f8-0f7" secondAttribute="bottom" id="4t8-qA-hWO"/>
                 <constraint firstItem="ZdQ-f8-0f7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="EF5-UX-jCj"/>

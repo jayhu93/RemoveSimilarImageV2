@@ -55,7 +55,6 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                     fatalError("Could not instantiate Realm: \(error)")
                 }
             }
-            fatalError("Realm Could not get created.. Nothing to see here")
         }
         return DispatchQueue.mainSyncSafe(execute: initRealm)
     }()
