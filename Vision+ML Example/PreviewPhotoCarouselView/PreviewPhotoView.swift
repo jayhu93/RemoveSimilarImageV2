@@ -17,11 +17,12 @@ final class PreviewPhotoView: NibInstantiableView {
 }
 
 extension PreviewPhotoView: InputAppliable {
-    typealias Input = PhotoObjectData
+    typealias Input = PhotoObject
 
     func apply(input: Input) {
-        let id = input.photoObject.id
+        let id = input.id
         
+        // TODO: Will most likely move this block our of this view
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = false
         let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: .none).firstObject!

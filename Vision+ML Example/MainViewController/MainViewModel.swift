@@ -19,18 +19,13 @@ protocol MainViewModelInputs {
 protocol MainViewModelOutpus {
     func numberOfSections() -> Int
     func numberOfElements(_ section: Int) -> Int
-    func element(at indexPath: IndexPath) -> [PhotoObjectData]
+    func element(at indexPath: IndexPath) -> [PhotoObject]
     var reloadSignal: Signal<Void, NoError> { get }
 }
 
 protocol MainViewModelType {
     var inputs: MainViewModelInputs { get }
     var outputs: MainViewModelOutpus { get }
-}
-
-struct PhotoObjectData {
-    var photoObject: PhotoObject
-    var image: UIImage?
 }
 
 final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutpus {
@@ -41,14 +36,14 @@ final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModel
         LocalDatabaseType
     )
     
-    var displayModel: Property<[[PhotoObjectData]]>
+    var displayModel: Property<[[PhotoObject]]>
     
     init(dependency: Dependency) {
         let (similarImageService, photoLibraryService, localDatabase) = dependency
         print("got similar image service: \(similarImageService)")
 
         
-        displayModel = Property(initial: [[PhotoObjectData]](),
+        displayModel = Property(initial: [[PhotoObject]](),
                                 then: localDatabase.outputs.similarPhotoGroupsSignal)
         
         reloadSignal = displayModel.signal.map { _ in }
@@ -106,7 +101,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModel
         return displayModel.value.count
     }
     
-    func element(at indexPath: IndexPath) -> [PhotoObjectData] {
+    func element(at indexPath: IndexPath) -> [PhotoObject] {
         return displayModel.value[indexPath.row]
     }
 

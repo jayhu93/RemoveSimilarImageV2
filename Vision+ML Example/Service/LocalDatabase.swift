@@ -28,7 +28,7 @@ protocol LocalDatabaseInputs {
 // MARK: LocalDatabaseOutputs
 
 protocol LocalDatabaseOutputs {
-    var similarPhotoGroupsSignal: Signal<[[PhotoObjectData]], NoError> { get }
+    var similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError> { get }
 }
 
 // MARK: LocalDatabaseType
@@ -107,7 +107,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
 
     // MARK: LocalDatabaseOutputs
     
-    let similarPhotoGroupsSignal: Signal<[[PhotoObjectData]], NoError>
+    let similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError>
 
     // MARK: Methods should be declared as private but public for test
 
@@ -161,21 +161,26 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         return DispatchQueue.mainSyncSafe(execute: returnObject)
     }
 
-    private let getSimilarObjectGroupsIO = Signal<[[PhotoObjectData]], NoError>.pipe()
+    private let getSimilarObjectGroupsIO = Signal<[[PhotoObject]], NoError>.pipe()
     func getSimilarObjectGroups() {
         let photoObjects = realm.objects(PhotoObject.self)
 
-        var similarPhotoGroups = [[PhotoObjectData]]()
+        var similarPhotoGroups = [[PhotoObject]]()
         let photoArray = Array(photoObjects)
 
         for photo in photoArray {
-            guard photo.grouped == false else { break }
-            var similarGroup = [PhotoObjectData]()
-            similarGroup.append(PhotoObjectData(photoObject: photo, image: nil))
+            guard photo.grouped == false else { continue }
+            var similarGroup = [PhotoObject]()
+            photo.grouped = true
+            similarGroup.append(photo)
             for innerPhoto in photoArray {
-                guard photo.id != innerPhoto.id else { break }
+                guard photo.id != innerPhoto.id else { continue }
+                guard innerPhoto.grouped == false else { continue }
                 if photo.containsElementsFrom(anotherArray: Array(innerPhoto.similarArray)) {
-                    similarGroup.append(PhotoObjectData(photoObject: innerPhoto, image: nil))
+                    if let index = photoArray.index(of: innerPhoto) {
+                        photoArray[index].grouped = true
+                        similarGroup.append(innerPhoto)
+                    }
                 }
             }
             if similarGroup.count > 1 {

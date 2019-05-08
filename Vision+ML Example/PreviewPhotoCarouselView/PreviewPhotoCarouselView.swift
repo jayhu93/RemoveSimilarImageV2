@@ -34,7 +34,7 @@ final class PreviewPhotoCarouselView: NibInstantiableView {
 // MARK: Input Appliable
 
 extension PreviewPhotoCarouselView: InputAppliable {
-    typealias Input = [PhotoObjectData]
+    typealias Input = [PhotoObject]
 
     func apply(input: Input) {
         self.input = input

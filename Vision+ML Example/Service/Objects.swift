@@ -11,7 +11,7 @@ import RealmSwift
 
 class PhotoObject: Object {
     @objc dynamic var id: String = ""
-    @objc dynamic var grouped: Bool = false
+    var grouped: Bool = false
     let similarArray = List<Int>()
 
     override static func primaryKey() -> String {
