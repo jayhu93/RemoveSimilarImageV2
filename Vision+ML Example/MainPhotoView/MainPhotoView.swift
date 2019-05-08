@@ -11,10 +11,10 @@ import Swinject
 
 final class MainPhotoView: NibInstantiableView, InputAppliable {
 
-    typealias Input = String
-
-    func apply(input: String) {
-        print("applying")
-        self.backgroundColor = .red
+    typealias Input = [PhotoObjectData]
+    @IBOutlet weak var previewPhotoCarouselView: PreviewPhotoCarouselView!
+    
+    func apply(input: [PhotoObjectData]) {
+        previewPhotoCarouselView.apply(input: input)
     }
 }

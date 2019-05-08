@@ -28,7 +28,7 @@ protocol LocalDatabaseInputs {
 // MARK: LocalDatabaseOutputs
 
 protocol LocalDatabaseOutputs {
-    var similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError> { get }
+    var similarPhotoGroupsSignal: Signal<[[PhotoObjectData]], NoError> { get }
 }
 
 // MARK: LocalDatabaseType
@@ -107,7 +107,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
 
     // MARK: LocalDatabaseOutputs
     
-    let similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError>
+    let similarPhotoGroupsSignal: Signal<[[PhotoObjectData]], NoError>
 
     // MARK: Methods should be declared as private but public for test
 
@@ -161,21 +161,21 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         return DispatchQueue.mainSyncSafe(execute: returnObject)
     }
 
-    private let getSimilarObjectGroupsIO = Signal<[[PhotoObject]], NoError>.pipe()
+    private let getSimilarObjectGroupsIO = Signal<[[PhotoObjectData]], NoError>.pipe()
     func getSimilarObjectGroups() {
         let photoObjects = realm.objects(PhotoObject.self)
 
-        var similarPhotoGroups = [[PhotoObject]]()
+        var similarPhotoGroups = [[PhotoObjectData]]()
         let photoArray = Array(photoObjects)
 
         for photo in photoArray {
             guard photo.grouped == false else { break }
-            var similarGroup = [PhotoObject]()
-            similarGroup.append(photo)
+            var similarGroup = [PhotoObjectData]()
+            similarGroup.append(PhotoObjectData(photoObject: photo, image: nil))
             for innerPhoto in photoArray {
                 guard photo.id != innerPhoto.id else { break }
                 if photo.containsElementsFrom(anotherArray: Array(innerPhoto.similarArray)) {
-                    similarGroup.append(innerPhoto)
+                    similarGroup.append(PhotoObjectData(photoObject: innerPhoto, image: nil))
                 }
             }
             if similarGroup.count > 1 {

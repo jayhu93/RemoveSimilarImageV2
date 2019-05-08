@@ -50,7 +50,8 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<MainPhotoView>.self, for: indexPath).applied(input: "")
+        let photoObjectData = viewModel.outputs.element(at: indexPath)
+        return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<MainPhotoView>.self, for: indexPath).applied(input: photoObjectData)
     }
 }
 

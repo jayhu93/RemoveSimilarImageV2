@@ -10,6 +10,8 @@ import UIKit
 
 final class PreviewPhotoCarouselView: NibInstantiableView {
 
+    private var input: Input?
+    
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var pageControl: UIPageControl!
 
@@ -32,10 +34,11 @@ final class PreviewPhotoCarouselView: NibInstantiableView {
 // MARK: Input Appliable
 
 extension PreviewPhotoCarouselView: InputAppliable {
-    typealias Input = String
+    typealias Input = [PhotoObjectData]
 
-    func apply(input: String) {
-        print("x")
+    func apply(input: Input) {
+        self.input = input
+        self.collectionView.reloadData()
     }
 }
 
@@ -43,7 +46,9 @@ extension PreviewPhotoCarouselView: InputAppliable {
 
 extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<PreviewPhotoView>.self, for: indexPath)
+        guard let input = input else { return UICollectionViewCell() }
+        let data = input[indexPath.row]
+        return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<PreviewPhotoView>.self, for: indexPath).applied(input: data)
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -51,7 +56,8 @@ extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        guard let input = input else { return 0 }
+        return input.count
     }
 }
 
