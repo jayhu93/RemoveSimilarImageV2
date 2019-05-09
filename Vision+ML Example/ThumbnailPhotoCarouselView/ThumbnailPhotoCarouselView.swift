@@ -15,6 +15,7 @@ final class ThumbnailPhotoCarouselView: NibInstantiableView {
     private var dataSource = [PhotoObject]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var collectionViewLayout: UICollectionViewFlowLayout!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,11 +61,20 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDataSource {
         return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<ThumbnailPhotoView>.self, for: indexPath)
             .applied(input: data)
     }
+        
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let indexOfMajorCell = self.indexOfMajorCell()
+        let indexPath = IndexPath(item: indexOfMajorCell, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        thumbnailPhotoSwipeHandler?(indexOfMajorCell)
+    }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let index = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
-        thumbnailPhotoSwipeHandler?(index)
-        print("thumbnail photo carousel view scroll view did end decelerating")
+    private func indexOfMajorCell() -> Int {
+        let itemWidth = collectionViewLayout.itemSize.width
+        let proportionalOffset = collectionViewLayout.collectionView!.contentOffset.x / itemWidth
+        let index = Int(round(proportionalOffset))
+        let safeIndex = max(0, min(dataSource.count - 1, index))
+        return safeIndex
     }
 }
 
@@ -84,6 +94,6 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDelegateFlowLayout {
         let totalCellWidth = collectionView.frame.height
         let totalSpacingWidth: CGFloat = 10
         let leftInset = (collectionViewWidth - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
-        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: 5)
+        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: leftInset)
     }
 }
