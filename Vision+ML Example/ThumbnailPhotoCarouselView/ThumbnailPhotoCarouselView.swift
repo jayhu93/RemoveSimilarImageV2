@@ -10,7 +10,9 @@ import UIKit
 
 final class ThumbnailPhotoCarouselView: NibInstantiableView {
     
-    private var input: Input?
+    var thumbnailPhotoSwipeHandler: ((Int) -> Void)?
+    
+    private var dataSource = [PhotoObject]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
 
@@ -27,14 +29,19 @@ final class ThumbnailPhotoCarouselView: NibInstantiableView {
     private func sharedInit() {
         collectionView.registerClass(forCellType: ContainerCollectionViewCell<ThumbnailPhotoView>.self)
     }
-
+    
+    func updatePhoto(to photoIndex: Int) {
+        collectionView.scrollToItem(at: IndexPath(item: photoIndex, section: 0), at: .centeredHorizontally, animated: true)
+    }
+    
 }
 
 extension ThumbnailPhotoCarouselView: InputAppliable {
-    typealias Input = [PhotoObject]
+    typealias Input = (dataSource: [PhotoObject], thumbnailPhotoSwipeHandler: ((Int) -> Void)?)
 
     func apply(input: Input) {
-        self.input = input
+        self.dataSource = input.dataSource
+        self.thumbnailPhotoSwipeHandler = input.thumbnailPhotoSwipeHandler
         self.collectionView.reloadData()
     }
 }
@@ -45,14 +52,19 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let input = input else { return 0 }
-        return input.count
+        return dataSource.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let input = input else { return UICollectionViewCell() }
+        let data = dataSource[indexPath.row]
         return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<ThumbnailPhotoView>.self, for: indexPath)
-            .applied(input: input[indexPath.row])
+            .applied(input: data)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
+        thumbnailPhotoSwipeHandler?(index)
+        print("thumbnail photo carousel view scroll view did end decelerating")
     }
 }
 
@@ -68,6 +80,10 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        let collectionViewWidth = collectionView.frame.width
+        let totalCellWidth = collectionView.frame.height
+        let totalSpacingWidth: CGFloat = 10
+        let leftInset = (collectionViewWidth - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: 5)
     }
 }

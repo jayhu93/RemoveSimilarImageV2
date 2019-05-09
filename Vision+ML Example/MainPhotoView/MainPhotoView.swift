@@ -17,7 +17,16 @@ final class MainPhotoView: NibInstantiableView, InputAppliable {
     typealias Input = [PhotoObject]
     
     func apply(input: [PhotoObject]) {
-        previewPhotoCarouselView.apply(input: input)
-        thumbnailPhotoCarouselView.apply(input: input)
+        
+        let previewPhotoSwipeHandler: ((Int) -> Void)? = { [weak self] photoIndex  in
+            self?.thumbnailPhotoCarouselView.updatePhoto(to: photoIndex)
+        }
+        
+        let thumbnailPhotoSwipeHandler: ((Int) -> Void)? = { [weak self] photoIndex in
+            self?.previewPhotoCarouselView.updatePhoto(to: photoIndex)
+        }
+        
+        previewPhotoCarouselView.apply(input: (input, previewPhotoSwipeHandler))
+        thumbnailPhotoCarouselView.apply(input: (input, thumbnailPhotoSwipeHandler))
     }
 }

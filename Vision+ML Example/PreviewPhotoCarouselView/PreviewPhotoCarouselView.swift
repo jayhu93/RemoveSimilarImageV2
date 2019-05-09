@@ -10,10 +10,10 @@ import UIKit
 
 final class PreviewPhotoCarouselView: NibInstantiableView {
 
-    private var input: Input?
+    var previewPhotoSwipeHandler: ((Int) -> Void)?
+    var dataSource = [PhotoObject]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet private weak var pageControl: UIPageControl!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,16 +28,21 @@ final class PreviewPhotoCarouselView: NibInstantiableView {
     private func sharedInit() {
         collectionView.registerClass(forCellType: ContainerCollectionViewCell<PreviewPhotoView>.self)
     }
+    
+    func updatePhoto(to photoIndex: Int) {
+        collectionView.scrollToItem(at: IndexPath(item: photoIndex, section: 0), at: .centeredHorizontally, animated: true)
+    }
 
 }
 
 // MARK: Input Appliable
 
 extension PreviewPhotoCarouselView: InputAppliable {
-    typealias Input = [PhotoObject]
+    typealias Input = (dataSource: [PhotoObject], previewPhotoSwipeHandler: ((Int) -> Void)?)
 
     func apply(input: Input) {
-        self.input = input
+        self.dataSource = input.dataSource
+        self.previewPhotoSwipeHandler = input.previewPhotoSwipeHandler
         self.collectionView.reloadData()
     }
 }
@@ -46,8 +51,7 @@ extension PreviewPhotoCarouselView: InputAppliable {
 
 extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let input = input else { return UICollectionViewCell() }
-        let data = input[indexPath.row]
+        let data = dataSource[indexPath.row]
         return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<PreviewPhotoView>.self, for: indexPath).applied(input: data)
     }
 
@@ -56,8 +60,13 @@ extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let input = input else { return 0 }
-        return input.count
+        return dataSource.count
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
+        previewPhotoSwipeHandler?(index)
+        print("preview photo carousel view scroll view did end decelerating")
     }
 }
 
