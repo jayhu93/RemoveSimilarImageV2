@@ -54,7 +54,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     private let photoObserver: Signal<RawPhoto, NoError>.Observer
     private let assetCollectionProperty = MutableProperty<PHAssetCollection?>(nil)
     fileprivate let imageManager = PHCachingImageManager()
-    let thumbnailSize = CGSize.init(width: 200, height: 200)
+    let thumbnailSize = CGSize.init(width: 30, height: 30)
 
     // Init
 
@@ -108,7 +108,10 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             let indexSet = IndexSet(0..<totalAssetCount)
             guard let assets = assets?.objects(at: indexSet) else { return }
             guard let strongSelf = self else { return }
+            var counter = 0
             for asset in assets {
+                counter += 1
+                print("counter: \(counter)")
                 strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
                     // UIKit may have recycled this cell by the handler's activation time.
                     // Set the cell's thumbnail image only if it's still showing the same asset.

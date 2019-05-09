@@ -50,7 +50,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModel
         
         similarImageService.outputs.similarImageResultSignal.observeValues { photoResult in
             let photoObject = PhotoObject()
-            photoObject.id = photoResult.rawPhoto.id
+            photoObject.id = photoResult.id
             let similarArray = photoResult.results.map { $0.offset }
             photoObject.similarArray.append(objectsIn: similarArray)
             localDatabase.inputs.addPhotoObject(photoObject)

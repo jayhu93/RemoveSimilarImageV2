@@ -14,7 +14,7 @@ import ReactiveSwift
 import Result
 
 struct PhotoResult {
-    var rawPhoto: RawPhoto
+    var id: String
     var results: [(offset: Int, element: Double)]
 }
 
@@ -57,7 +57,7 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                 let orientation = CGImagePropertyOrientation(image.imageOrientation)
                 guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self) from \(image).") }
                 
-                DispatchQueue.global(qos: .userInitiated).async {
+//                DispatchQueue.global(qos: .background).async {
                     let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
                     do {
                         try handler.perform([request])
@@ -69,11 +69,11 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                          */
                         print("Failed to perform classification.\n\(error.localizedDescription)")
                     }
-                }
+//                }
             }
             
             func processQuery(for request: VNRequest, error: Error?, k: Int = 10) {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     guard let results = request.results else {
                         print("Unable to rank image.\n\(error!.localizedDescription)")
                         return
@@ -94,9 +94,9 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                     
                     print(knn)
                     let result = Array(knn)
-                    let photoResult = PhotoResult(rawPhoto: rawPhoto, results: result)
+                    let photoResult = PhotoResult(id: rawPhoto.id, results: result)
                     similarImgageResultIO.input.send(value: photoResult)
-                }
+//                }
             }
             
             let request = VNCoreMLRequest(model: model, completionHandler: { (requst, error) in
