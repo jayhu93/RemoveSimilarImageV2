@@ -27,7 +27,21 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zaz-qv-ar5" customClass="ThumbnailPhotoCarouselView" customModule="RemoveSimilarImages" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="339.5" width="363" height="37.5"/>
+                    <subviews>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nkv-pv-FjH">
+                            <rect key="frame" x="180" y="3" width="3" height="31"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="3" id="HbY-tY-TQl"/>
+                            </constraints>
+                        </view>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="nkv-pv-FjH" firstAttribute="top" secondItem="zaz-qv-ar5" secondAttribute="top" constant="3" id="fo6-8T-SRa"/>
+                        <constraint firstAttribute="bottom" secondItem="nkv-pv-FjH" secondAttribute="bottom" constant="3.5" id="ibq-ro-zeF"/>
+                        <constraint firstItem="nkv-pv-FjH" firstAttribute="centerX" secondItem="zaz-qv-ar5" secondAttribute="centerX" id="rtN-Rb-w3z"/>
+                    </constraints>
                 </view>
             </subviews>
             <constraints>
