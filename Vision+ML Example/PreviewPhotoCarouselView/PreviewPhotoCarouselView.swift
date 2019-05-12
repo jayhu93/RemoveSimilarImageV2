@@ -44,6 +44,7 @@ extension PreviewPhotoCarouselView: InputAppliable {
         self.dataSource = input.dataSource
         self.previewPhotoSwipeHandler = input.previewPhotoSwipeHandler
         self.collectionView.reloadData()
+        self.collectionView.setContentOffset(.zero, animated: false)
     }
 }
 

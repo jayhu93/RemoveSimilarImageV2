@@ -44,6 +44,7 @@ extension ThumbnailPhotoCarouselView: InputAppliable {
         self.dataSource = input.dataSource
         self.thumbnailPhotoSwipeHandler = input.thumbnailPhotoSwipeHandler
         self.collectionView.reloadData()
+        self.collectionView.setContentOffset(.zero, animated: false)
     }
 }
 
