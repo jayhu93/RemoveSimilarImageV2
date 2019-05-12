@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         bindViewModel()
         viewModel.inputs.viewDidLoad()
-        collectionView.registerClass(forCellType: ContainerCollectionViewCell<MainPhotoView>.self)
+        collectionView.registerNib(forCellType: MainPhotoView.self)
     }
     
     private func bindViewModel() {
@@ -51,13 +51,13 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let photoObject = viewModel.outputs.element(at: indexPath)
-        return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<MainPhotoView>.self, for: indexPath).applied(input: photoObject)
+        return collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: photoObject)
     }
 }
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width - (12 * 2)
+        let width = collectionView.frame.width
         let height = width * 1.4
         return CGSize(width: width, height: height)
     }
