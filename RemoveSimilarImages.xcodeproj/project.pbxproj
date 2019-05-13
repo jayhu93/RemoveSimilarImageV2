@@ -12,6 +12,7 @@
 		11063F691EC0EECC0033EE6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11063F681EC0EECC0033EE6D /* Assets.xcassets */; };
 		11063F741EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11063F731EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
 		113695D81EC1151400CA6C43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 113695D61EC1151400CA6C43 /* LaunchScreen.storyboard */; };
+		B784CB1B2289296800EAA250 /* MainViewDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B784CB1A2289296800EAA250 /* MainViewDisplayModel.swift */; };
 		D14344C52280022C00331606 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C42276644400CED5A1 /* Realm.framework */; };
 		D14344C62280022C00331606 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C52276644400CED5A1 /* RealmSwift.framework */; };
 		D14344C7228002D100331606 /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8007E227812450074F7CC /* Objects.swift */; };
@@ -71,6 +72,7 @@
 		113695D71EC1151400CA6C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A9558E70A9563BA000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		A9666960A9666AD000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		B784CB1A2289296800EAA250 /* MainViewDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDisplayModel.swift; sourceTree = "<group>"; };
 		C858E5CC1ECA99CC006C5CAA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D13750EB22323307006DB588 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		D13750EC22323307006DB588 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				11063F631EC0EECC0033EE6D /* MainViewController.swift */,
 				D19A452F2233716100046F1F /* MainViewModel.swift */,
 				D19A452A22336CFC00046F1F /* MainViewController.storyboard */,
+				B784CB1A2289296800EAA250 /* MainViewDisplayModel.swift */,
 			);
 			path = MainViewController;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				D14BC3A1227FF1AF00277293 /* Objects.swift in Sources */,
 				11063F741EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */,
 				D19A4536223375E400046F1F /* Container+Extension.swift in Sources */,
+				B784CB1B2289296800EAA250 /* MainViewDisplayModel.swift in Sources */,
 				D19A4532223372BD00046F1F /* MainViewControllerAssembly.swift in Sources */,
 				D19A453822337A0E00046F1F /* PhotoLibraryService.swift in Sources */,
 				D172D26B22618260002E7B38 /* PreviewPhotoCarouselView.swift in Sources */,
