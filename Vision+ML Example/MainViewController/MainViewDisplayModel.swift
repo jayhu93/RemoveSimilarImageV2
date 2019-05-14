@@ -30,6 +30,20 @@ struct MainViewDisplayModel {
 
         // if no, mutate this last section and append it in that section
     }
+
+    // Data Source
+    func numberOfSections() -> Int {
+        return sections.count
+    }
+
+    func numberOfElements(inSection section: Int) -> Int {
+        return sections[section].items.count
+    }
+
+    func element(at indexPath: IndexPath) -> MainViewDisplayModel.ItemType {
+        return sections[indexPath.section].items[indexPath.row]
+    }
+
 }
 
 extension MainViewDisplayModel {

@@ -38,10 +38,10 @@ final class PreviewPhotoCarouselView: NibInstantiableView {
 // MARK: Input Appliable
 
 extension PreviewPhotoCarouselView: InputAppliable {
-    typealias Input = (dataSource: [PhotoObject], previewPhotoSwipeHandler: ((Int) -> Void)?)
+    typealias Input = (dataSource: MainViewDisplayModel.SimilarPhotosDisplayModel, previewPhotoSwipeHandler: ((Int) -> Void)?)
 
     func apply(input: Input) {
-        self.dataSource = input.dataSource
+        self.dataSource = input.dataSource.photos
         self.previewPhotoSwipeHandler = input.previewPhotoSwipeHandler
         self.collectionView.reloadData()
         self.collectionView.setContentOffset(.zero, animated: false)

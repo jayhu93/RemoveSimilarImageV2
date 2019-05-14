@@ -34,9 +34,9 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
         myContentView.clipsToBounds = true
     }
     
-    typealias Input = [PhotoObject]
+    typealias Input = MainViewDisplayModel.SimilarPhotosDisplayModel
     
-    func apply(input: [PhotoObject]) {
+    func apply(input: Input) {
         
         let previewPhotoSwipeHandler: ((Int) -> Void)? = { [weak self] photoIndex  in
             self?.thumbnailPhotoCarouselView.updatePhoto(to: photoIndex)

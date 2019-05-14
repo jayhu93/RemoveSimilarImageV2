@@ -12,23 +12,37 @@ import ImageIO
 import Swinject
 import ReactiveSwift
 import Result
+import ReactiveCocoa
 
 class MainViewController: UIViewController {
     
-    var viewModel: MainViewModelType!
+    var viewModel: MainViewModel!
+
+    private var refreshControl = UIRefreshControl()
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            collectionView.registerNib(forCellType: MainPhotoView.self)
+            collectionView.refreshControl = refreshControl
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
-        viewModel.inputs.viewDidLoad()
-        collectionView.registerNib(forCellType: MainPhotoView.self)
+        viewModel.apply(input: .viewDidLoad)
     }
     
     private func bindViewModel() {
-        viewModel.outputs.reloadSignal.observeValues { [weak self] in
-            self?.collectionView.reloadData()
+        refreshControl.reactive.controlEvents(.valueChanged).observeValues { [weak self] _ in
+            self?.viewModel.apply(input: .refreshControlAction)
+        }
+
+        viewModel.outputSignal.observeValues { [weak self] output in
+            guard let strongSelf = self else { return }
+            switch output {
+            case .reloadData: strongSelf.collectionView.reloadData()
+            }
         }
     }
 
@@ -38,11 +52,11 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.outputs.numberOfSections()
+        return viewModel.numberOfSections()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.outputs.numberOfElements(section)
+        return viewModel.numberOfElements(inSection: section)
     }
 }
 
@@ -50,8 +64,10 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let photoObject = viewModel.outputs.element(at: indexPath)
-        return collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: photoObject)
+        switch viewModel.element(at: indexPath) {
+        case .similarPhotos(let displayModel):
+            return collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: displayModel)
+        }
     }
 }
 
@@ -60,6 +76,12 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.frame.width
         let height = width * 1.4
         return CGSize(width: width, height: height)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.hasReachedPaginationOffsetY() {
+            viewModel.apply(input: .reachedPaginationOffsetY)
+        }
     }
 }
 
@@ -71,13 +93,13 @@ extension MainViewController {
             // Present debug menu
             let sheet = UIAlertController(title: "Debug Menu", message: "", preferredStyle: .actionSheet)
             let removeAllObjects = UIAlertAction(title: "Remove all objs", style: .default) { [weak self] (_) in
-                self?.viewModel.inputs.removeAllObjs()
+                self?.viewModel.apply(input: .removeAllObjs)
             }
             let dismiss = UIAlertAction(title: "Dismiss", style: .default) { (_) in
                 sheet.dismiss(animated: true, completion: nil)
             }
             let printSimilar = UIAlertAction(title: "Print Simialr PhotoObjects", style: .default) { [weak self] (_) in
-                self?.viewModel.inputs.printSimilarPhotoObjects()
+                self?.viewModel.apply(input: .printSimilarPhotoObjects)
             }
             sheet.addAction(removeAllObjects)
             sheet.addAction(dismiss)

@@ -38,10 +38,10 @@ final class ThumbnailPhotoCarouselView: NibInstantiableView {
 }
 
 extension ThumbnailPhotoCarouselView: InputAppliable {
-    typealias Input = (dataSource: [PhotoObject], thumbnailPhotoSwipeHandler: ((Int) -> Void)?)
+    typealias Input = (dataSource: MainViewDisplayModel.SimilarPhotosDisplayModel, thumbnailPhotoSwipeHandler: ((Int) -> Void)?)
 
     func apply(input: Input) {
-        self.dataSource = input.dataSource
+        self.dataSource = input.dataSource.photos
         self.thumbnailPhotoSwipeHandler = input.thumbnailPhotoSwipeHandler
         self.collectionView.reloadData()
         self.collectionView.setContentOffset(.zero, animated: false)

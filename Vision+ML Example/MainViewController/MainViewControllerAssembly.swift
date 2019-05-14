@@ -11,7 +11,7 @@ import UIKit
 
 final class MainViewControllerAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(MainViewModelType.self) { resolver in
+        container.register(MainViewModel.self) { resolver in
             let dependency = (
                 resolver.resolve(SimilarImageServiceType.self)!,
                 resolver.resolve(PhotoLibraryServiceType.self)!,
@@ -21,7 +21,7 @@ final class MainViewControllerAssembly: Assembly {
         }
         container.register(MainViewController.self) { resolver in
             let vc = UIStoryboard.instantiateViewController(of: MainViewController.self)
-            vc.viewModel = resolver.resolve(MainViewModelType.self)
+            vc.viewModel = resolver.resolve(MainViewModel.self)
             return vc
         }
         container.register(MainPhotoViewModelType.self) { resolver in

@@ -10,101 +10,106 @@ import ReactiveSwift
 import UIKit
 import Result
 
-protocol MainViewModelInputs {
-    func viewDidLoad()
-    func removeAllObjs()
-    func printSimilarPhotoObjects()
-}
-
-protocol MainViewModelOutpus {
-    func numberOfSections() -> Int
-    func numberOfElements(_ section: Int) -> Int
-    func element(at indexPath: IndexPath) -> [PhotoObject]
-    var reloadSignal: Signal<Void, NoError> { get }
-}
-
-protocol MainViewModelType {
-    var inputs: MainViewModelInputs { get }
-    var outputs: MainViewModelOutpus { get }
-}
-
-final class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutpus {
+final class MainViewModel: SectionedDataSource {
     
     typealias Dependency = (
         SimilarImageServiceType,
         PhotoLibraryServiceType,
         LocalDatabaseType
     )
-    
-    var displayModel: Property<[[PhotoObject]]>
-    
+
+    private let similarImageService: SimilarImageServiceType
+    private let photoLibraryService: PhotoLibraryServiceType
+    private let localDatabase: LocalDatabaseType
+    private lazy var displayModel: Property<MainViewDisplayModel> = {
+        return Property(value: MainViewDisplayModel())
+    }()
+
     init(dependency: Dependency) {
-        let (similarImageService, photoLibraryService, localDatabase) = dependency
-        print("got similar image service: \(similarImageService)")
-
-        
-        displayModel = Property(initial: [[PhotoObject]](),
-                                then: localDatabase.outputs.similarPhotoGroupsSignal)
-        
-        reloadSignal = displayModel.signal.map { _ in }
-        
-        similarImageService.outputs.similarImageResultSignal.observeValues { photoResult in
-            let photoObject = PhotoObject()
-            photoObject.id = photoResult.id
-            let similarArray = photoResult.results.map { $0.offset }
-            photoObject.similarArray.append(objectsIn: similarArray)
-            localDatabase.inputs.addPhotoObject(photoObject)
-        }
-
-        photoLibraryService.outputs.photoSignal.observeValues { rawPhoto in
-            similarImageService.inputs.analyze(rawPhoto: rawPhoto)
-        }
-        
-        viewDidLoadIO.output.observeValues {
-            photoLibraryService.inputs.fetchImage()
-        }
-
-        removeAllObjcsIO.output.observeValues {
-            localDatabase.inputs.deleteAllObjects()
-        }
-
-        printSimilarPhotoObjectsIO.output.observeValues { _ in
-            localDatabase.inputs.getSimilarObjectGroups()
-        }
+        (similarImageService, photoLibraryService, localDatabase) = dependency
+        bind()
     }
+
+    // MARK: Inputs
     
-    var inputs: MainViewModelInputs { return self }
-    var outputs: MainViewModelOutpus { return self }
-    
+    enum Input: Equatable {
+        case viewDidLoad
+        case removeAllObjs
+        case printSimilarPhotoObjects
+        case refreshControlAction
+        case reachedPaginationOffsetY
+    }
+
     private let viewDidLoadIO = Signal<Void, NoError>.pipe()
-    func viewDidLoad() {
-        viewDidLoadIO.input.send(value: ())
-    }
-
     private let removeAllObjcsIO = Signal<Void, NoError>.pipe()
-    func removeAllObjs() {
-        removeAllObjcsIO.input.send(value: ())
-    }
+    private let printSimilarPhotoObjects = Signal<Void, NoError>.pipe()
+    private let refreshControlActionIO = Signal<Void, NoError>.pipe()
+    private let reachedPaginationOffsetY = Signal<Void, NoError>.pipe()
 
-    private let printSimilarPhotoObjectsIO = Signal<Void, NoError>.pipe()
-    func printSimilarPhotoObjects() {
-        printSimilarPhotoObjectsIO.input.send(value: ())
+    func apply(input: Input) {
+        switch input {
+        case .viewDidLoad:
+            viewDidLoadIO.input.send(value: ())
+        case .removeAllObjs:
+            removeAllObjcsIO.input.send(value: ())
+        case .printSimilarPhotoObjects:
+            printSimilarPhotoObjects.input.send(value: ())
+        case .refreshControlAction:
+            refreshControlActionIO.input.send(value: ())
+        case .reachedPaginationOffsetY:
+            reachedPaginationOffsetY.input.send(value: ())
+        }
     }
 
     // MARK: Outputs
 
-    func numberOfSections() -> Int {
-        return 1
-    }
-    
-    func numberOfElements(_ section: Int) -> Int {
-        return displayModel.value.count
-    }
-    
-    func element(at indexPath: IndexPath) -> [PhotoObject] {
-        return displayModel.value[indexPath.row]
+    enum Output: Equatable {
+        case reloadData
     }
 
-    
-    let reloadSignal: Signal<Void, NoError>
+    private let outputIO = Signal<Output, NoError>.pipe()
+    private(set) lazy var outputSignal = outputIO.output
+
+    func numberOfSections() -> Int {
+        return displayModel.value.numberOfSections()
+    }
+
+    func numberOfElements(inSection section: Int) -> Int {
+        return displayModel.value.numberOfElements(inSection: section)
+    }
+
+    func element(at indexPath: IndexPath) -> MainViewDisplayModel.ItemType {
+        return displayModel.value.element(at: indexPath)
+    }
+
+    // MARK: Bind
+    private func bind() {
+        bindIO()
+    }
+
+    private func bindIO() {
+        similarImageService.outputs.similarImageResultSignal.observeValues { [weak self] photoResult in
+            let photoObject = PhotoObject()
+            photoObject.id = photoResult.id
+            let similarArray = photoResult.results.map { $0.offset }
+            photoObject.similarArray.append(objectsIn: similarArray)
+            self?.localDatabase.inputs.addPhotoObject(photoObject)
+        }
+
+        photoLibraryService.outputs.photoSignal.observeValues { [weak self] rawPhoto in
+            self?.similarImageService.inputs.analyze(rawPhoto: rawPhoto)
+        }
+
+        viewDidLoadIO.output.observeValues { [weak self] in
+            self?.photoLibraryService.inputs.fetchImage()
+        }
+
+        removeAllObjcsIO.output.observeValues { [weak self] in
+            self?.localDatabase.inputs.deleteAllObjects()
+        }
+
+        printSimilarPhotoObjects.output.observeValues { [weak self] _ in
+            self?.localDatabase.inputs.getSimilarObjectGroups()
+        }
+    }
 }

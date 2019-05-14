@@ -13,6 +13,8 @@
 		11063F741EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11063F731EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
 		113695D81EC1151400CA6C43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 113695D61EC1151400CA6C43 /* LaunchScreen.storyboard */; };
 		B784CB1B2289296800EAA250 /* MainViewDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B784CB1A2289296800EAA250 /* MainViewDisplayModel.swift */; };
+		B784DDEF228A8BD300C9D798 /* SectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B784DDEE228A8BD300C9D798 /* SectionDataSource.swift */; };
+		B7925E2E228A91DF00412952 /* UIScrollView+Offset.swift in Sources */ = {isa = PBXBuildFile; fileRef = B784DDED228A895000C9D798 /* UIScrollView+Offset.swift */; };
 		D14344C52280022C00331606 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C42276644400CED5A1 /* Realm.framework */; };
 		D14344C62280022C00331606 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C52276644400CED5A1 /* RealmSwift.framework */; };
 		D14344C7228002D100331606 /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8007E227812450074F7CC /* Objects.swift */; };
@@ -73,6 +75,8 @@
 		A9558E70A9563BA000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		A9666960A9666AD000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		B784CB1A2289296800EAA250 /* MainViewDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDisplayModel.swift; sourceTree = "<group>"; };
+		B784DDED228A895000C9D798 /* UIScrollView+Offset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIScrollView+Offset.swift"; path = "../../../mercari-double-ios/Double/Double/Extension/UIScrollView+Offset.swift"; sourceTree = "<group>"; };
+		B784DDEE228A8BD300C9D798 /* SectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDataSource.swift; sourceTree = "<group>"; };
 		C858E5CC1ECA99CC006C5CAA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D13750EB22323307006DB588 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		D13750EC22323307006DB588 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
@@ -264,12 +268,14 @@
 		D17658B72262AB42006AA7D4 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B784DDED228A895000C9D798 /* UIScrollView+Offset.swift */,
 				D19A4533223374D600046F1F /* UIStoryboard+Extensions.swift */,
 				D1C0528F225F25A2006EB22A /* UICollectionView+ReusableCell.swift */,
 				D1C05291225F260A006EB22A /* ContainerCollectionViewCell.swift */,
 				D1C05293225F2696006EB22A /* NibInstantiableView.swift */,
 				D185325C225FA12B0059F6AB /* InputAppliable.swift */,
 				D19A4535223375E400046F1F /* Container+Extension.swift */,
+				B784DDEE228A8BD300C9D798 /* SectionDataSource.swift */,
 			);
 			path = HelperClasses;
 			sourceTree = "<group>";
@@ -452,6 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1816C9C2235E54600EF3892 /* AppDelegateViewModel.swift in Sources */,
+				B784DDEF228A8BD300C9D798 /* SectionDataSource.swift in Sources */,
 				D1816C952235D87500EF3892 /* SimilarImageServiceAssembly.swift in Sources */,
 				D1C05294225F2696006EB22A /* NibInstantiableView.swift in Sources */,
 				D172D26922603A02002E7B38 /* MainPhotoViewModel.swift in Sources */,
@@ -464,6 +471,7 @@
 				11063F741EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */,
 				D19A4536223375E400046F1F /* Container+Extension.swift in Sources */,
 				B784CB1B2289296800EAA250 /* MainViewDisplayModel.swift in Sources */,
+				B7925E2E228A91DF00412952 /* UIScrollView+Offset.swift in Sources */,
 				D19A4532223372BD00046F1F /* MainViewControllerAssembly.swift in Sources */,
 				D19A453822337A0E00046F1F /* PhotoLibraryService.swift in Sources */,
 				D172D26B22618260002E7B38 /* PreviewPhotoCarouselView.swift in Sources */,
