@@ -29,8 +29,8 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bindViewModel()
         viewModel.apply(input: .viewDidLoad)
+        bindViewModel()
     }
     
     private func bindViewModel() {
