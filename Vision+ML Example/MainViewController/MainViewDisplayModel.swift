@@ -16,19 +16,27 @@ struct MainViewDisplayModel {
 
     struct Section {
         private(set) var items: [ItemType]
+
+        mutating func append(_ newElements: [ItemType]) {
+            items.append(contentsOf: newElements)
+        }
     }
 
-    let sections: [Section] // each section contains 20 groups of the simiar photos
+    var sections: [Section] // there is only one giant section for now
 
     init(sections: [Section] = []) {
         self.sections = sections
     }
 
-    mutating func appendNewSimilarGroup(_ photos: [PhotoObject]) {
-        // check if last section has 20 items
-        // if yes, make a new section, append photos in the new section and append the new section
-
-        // if no, mutate this last section and append it in that section
+    mutating func appendNewSimilarGroup(_ photos: [[PhotoObject]]) {
+        var newItems = [ItemType]()
+        for photo in photos {
+            let displayModel = SimilarPhotosDisplayModel(photos: photo)
+            let itemType = ItemType.similarPhotos(displayModel)
+            newItems.append(itemType)
+        }
+        let section = Section(items: newItems)
+        sections.append(section)
     }
 
     // Data Source

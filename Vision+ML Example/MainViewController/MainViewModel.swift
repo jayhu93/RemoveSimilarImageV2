@@ -21,8 +21,8 @@ final class MainViewModel: SectionedDataSource {
     private let similarImageService: SimilarImageServiceType
     private let photoLibraryService: PhotoLibraryServiceType
     private let localDatabase: LocalDatabaseType
-    private lazy var displayModel: Property<MainViewDisplayModel> = {
-        return Property(value: MainViewDisplayModel())
+    private lazy var displayModel: MutableProperty<MainViewDisplayModel> = {
+        return MutableProperty.init(MainViewDisplayModel())
     }()
 
     init(dependency: Dependency) {
@@ -110,6 +110,14 @@ final class MainViewModel: SectionedDataSource {
 
         printSimilarPhotoObjects.output.observeValues { [weak self] _ in
             self?.localDatabase.inputs.getSimilarObjectGroups()
+        }
+
+        localDatabase.outputs.similarPhotoGroupsSignal.observeValues { [weak self] in
+            self?.displayModel.value.appendNewSimilarGroup($0)
+        }
+
+        displayModel.signal.observeValues { [weak self] _ in
+            self?.outputIO.input.send(value: .reloadData)
         }
     }
 }
