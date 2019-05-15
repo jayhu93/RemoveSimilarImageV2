@@ -42,7 +42,7 @@ class PhotoObject: Object {
                     return true
                 }
                 counter1 += 1
-                counter2 += 2
+                counter2 += 1
             } else if array1[counter1] > array2[counter2] {
                 // increment the lower counter
                 guard counter <= array2.count else { return false }
