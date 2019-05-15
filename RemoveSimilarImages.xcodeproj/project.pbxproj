@@ -12,6 +12,7 @@
 		11063F691EC0EECC0033EE6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11063F681EC0EECC0033EE6D /* Assets.xcassets */; };
 		11063F741EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11063F731EC0F5270033EE6D /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
 		113695D81EC1151400CA6C43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 113695D61EC1151400CA6C43 /* LaunchScreen.storyboard */; };
+		B701F140228B239700A8382F /* PaginationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701F13F228B239700A8382F /* PaginationService.swift */; };
 		B784CB1B2289296800EAA250 /* MainViewDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B784CB1A2289296800EAA250 /* MainViewDisplayModel.swift */; };
 		B784DDEF228A8BD300C9D798 /* SectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B784DDEE228A8BD300C9D798 /* SectionDataSource.swift */; };
 		B7925E2E228A91DF00412952 /* UIScrollView+Offset.swift in Sources */ = {isa = PBXBuildFile; fileRef = B784DDED228A895000C9D798 /* UIScrollView+Offset.swift */; };
@@ -74,6 +75,7 @@
 		113695D71EC1151400CA6C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A9558E70A9563BA000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		A9666960A9666AD000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		B701F13F228B239700A8382F /* PaginationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationService.swift; sourceTree = "<group>"; };
 		B784CB1A2289296800EAA250 /* MainViewDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDisplayModel.swift; sourceTree = "<group>"; };
 		B784DDED228A895000C9D798 /* UIScrollView+Offset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIScrollView+Offset.swift"; path = "../../../mercari-double-ios/Double/Double/Extension/UIScrollView+Offset.swift"; sourceTree = "<group>"; };
 		B784DDEE228A8BD300C9D798 /* SectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDataSource.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				D157D93F226F708300C593CB /* SchedulerProviderAssembly.swift */,
 				D1C8007E227812450074F7CC /* Objects.swift */,
 				D14BC38F227AB39C00277293 /* LocalDatabaseAssembly.swift */,
+				B701F13F228B239700A8382F /* PaginationService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				D1C0528C225F245A006EB22A /* MainPhotoView.swift in Sources */,
 				11063F621EC0EECC0033EE6D /* AppDelegate.swift in Sources */,
 				D19A45302233716100046F1F /* MainViewModel.swift in Sources */,
+				B701F140228B239700A8382F /* PaginationService.swift in Sources */,
 				D185325D225FA12B0059F6AB /* InputAppliable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
