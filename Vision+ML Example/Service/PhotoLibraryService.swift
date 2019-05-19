@@ -13,6 +13,10 @@ import Result
 import ImageIO
 import ReactiveCocoa
 
+protocol ServiceType {
+    func response<R: RequestType>(from request: R) -> SignalProducer<R.Response, Error>
+}
+
 struct RawPhoto {
     var id: String
     var image: UIImage
@@ -44,7 +48,7 @@ protocol PhotoLibraryServiceType {
     var outputs: PhotoLibraryServiceOutputs { get }
 }
 
-final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLibraryServiceType, PhotoLibraryServiceInputs, PhotoLibraryServiceOutputs {
+final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLibraryServiceType, PhotoLibraryServiceInputs, PhotoLibraryServiceOutputs, ServiceType {
 
     typealias Dependency = SchedulerProviderType
 
@@ -132,6 +136,18 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
         DispatchQueue.main.sync {
             fetchResultProperty.value = changes.fetchResultAfterChanges
         }
+    }
+
+    // MARK: ServiceType
+    public func response<R: RequestType>(from request: R) -> SignalProducer<R.Response, Error> {
+        return SignalProducer(value: request)
+            .withLatest(from: apiConfigurationProvider.outputs.configuration)
+            .flatMap(.merge) { [apiClient] request, configuration -> SignalProducer<R.Response, Error> in
+                self.token(with: configuration).flatMap(.merge) {
+                    apiClient.response(from: request, configuration: configuration, accessToken: $0.token.accessToken)
+                }
+            }
+            .on(failed: self.hook(error:))
     }
 
     // MARK: PhotoLibraryServiceType
