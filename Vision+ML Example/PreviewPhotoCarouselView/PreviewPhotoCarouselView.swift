@@ -10,7 +10,7 @@ import UIKit
 
 final class PreviewPhotoCarouselView: NibInstantiableView {
 
-    var previewPhotoSwipeHandler: ((Int) -> Void)?
+    var emitter = EventEmitter<BehaviorEvent>()
     var dataSource = [PhotoObject]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -42,7 +42,6 @@ extension PreviewPhotoCarouselView: InputAppliable {
 
     func apply(input: Input) {
         self.dataSource = input.dataSource.photos
-        self.previewPhotoSwipeHandler = input.previewPhotoSwipeHandler
         self.collectionView.reloadData()
         self.collectionView.setContentOffset(.zero, animated: false)
     }
@@ -66,8 +65,7 @@ extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
-        previewPhotoSwipeHandler?(index)
-        print("preview photo carousel view scroll view did end decelerating")
+        emitter.emit(event: .photoSwipe(index: index))
     }
 }
 
@@ -87,5 +85,13 @@ extension PreviewPhotoCarouselView: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+}
+
+// MARK: Emittable
+
+extension PreviewPhotoCarouselView: BehaviorEventEmittable {
+    enum BehaviorEvent {
+        case photoSwipe(index: Int)
     }
 }

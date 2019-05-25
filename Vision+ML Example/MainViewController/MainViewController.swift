@@ -66,7 +66,21 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch viewModel.element(at: indexPath) {
         case .similarPhotos(let displayModel):
-            return collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: displayModel)
+            let cell = collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: (displayModel, indexPath))
+            cell.observe { [weak self] in
+                guard let strongSelf = self else { return }
+                switch $0 {
+                case .removeAll(let indexPath):
+                    strongSelf.viewModel.apply(input: .removeAll(indexPath: indexPath))
+                case .removeSelected(let indexPath):
+                    strongSelf.viewModel.apply(input: .removeSelected(indexPath: indexPath))
+                case .keepAll(let indexPath):
+                    strongSelf.viewModel.apply(input: .keepAll(indexPath: indexPath))
+                case .markForDelete(let indexPath, let photoIndex):
+                    strongSelf.viewModel.apply(input: .markForDelete(indexPath: indexPath, photoIndex: photoIndex))
+                }
+            }
+            return cell
         }
     }
 }

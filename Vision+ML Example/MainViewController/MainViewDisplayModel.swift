@@ -59,7 +59,6 @@ extension MainViewDisplayModel {
     // which photo is the best quality (might be in the future)
     struct SimilarPhotosDisplayModel {
         let photos: [PhotoObject]
-
         init(photos: [PhotoObject]) {
             self.photos = photos
         }

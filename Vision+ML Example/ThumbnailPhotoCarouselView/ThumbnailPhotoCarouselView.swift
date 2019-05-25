@@ -9,9 +9,8 @@
 import UIKit
 
 final class ThumbnailPhotoCarouselView: NibInstantiableView {
-    
-    var thumbnailPhotoSwipeHandler: ((Int) -> Void)?
-    
+
+    var emitter = EventEmitter<BehaviorEvent>()
     private var dataSource = [PhotoObject]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -42,7 +41,6 @@ extension ThumbnailPhotoCarouselView: InputAppliable {
 
     func apply(input: Input) {
         self.dataSource = input.dataSource.photos
-        self.thumbnailPhotoSwipeHandler = input.thumbnailPhotoSwipeHandler
         self.collectionView.reloadData()
         self.collectionView.setContentOffset(.zero, animated: false)
     }
@@ -67,7 +65,7 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDataSource {
         let indexOfMajorCell = self.indexOfMajorCell()
         let indexPath = IndexPath(item: indexOfMajorCell, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        thumbnailPhotoSwipeHandler?(indexOfMajorCell)
+        emitter.emit(event: .thumbnailSwipe(index: indexOfMajorCell))
     }
     
     private func indexOfMajorCell() -> Int {
@@ -96,5 +94,13 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDelegateFlowLayout {
         let totalSpacingWidth: CGFloat = 10
         let leftInset = (collectionViewWidth - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
         return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: leftInset)
+    }
+}
+
+// MARK: Emittable
+
+extension ThumbnailPhotoCarouselView: BehaviorEventEmittable {
+    enum BehaviorEvent {
+        case thumbnailSwipe(index: Int)
     }
 }

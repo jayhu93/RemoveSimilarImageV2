@@ -11,10 +11,45 @@ import Swinject
 
 final class MainPhotoView: UICollectionViewCell, InputAppliable {
 
+    var emitter = EventEmitter<BehaviorEvent>()
+    private var indexPath: IndexPath?
+
     @IBOutlet private weak var myContentView: UIView!
     @IBOutlet private weak var cardContainerView: DropShadowView!
-    @IBOutlet private weak var previewPhotoCarouselView: PreviewPhotoCarouselView!
-    @IBOutlet private weak var thumbnailPhotoCarouselView: ThumbnailPhotoCarouselView!
+    @IBOutlet private weak var previewPhotoCarouselView: PreviewPhotoCarouselView! {
+        didSet {
+            previewPhotoCarouselView.observe { [weak self] in
+                guard let strongSelf = self else { return }
+                switch $0 {
+                case .photoSwipe(let index):
+                    strongSelf.thumbnailPhotoCarouselView.updatePhoto(to: index)
+                }
+            }
+        }
+    }
+    @IBOutlet private weak var thumbnailPhotoCarouselView: ThumbnailPhotoCarouselView! {
+        didSet {
+            thumbnailPhotoCarouselView.observe { [weak self] in
+                guard let strongSelf = self else { return }
+                switch $0 {
+                case .thumbnailSwipe(let index):
+                    strongSelf.previewPhotoCarouselView.updatePhoto(to: index)
+                }
+            }
+        }
+    }
+    @IBOutlet private weak var actionView: SimilarSetActionView! {
+        didSet {
+            actionView.observe { [weak self] in
+                guard let strongSelf = self, let indexPath = strongSelf.indexPath else { return }
+                switch $0 {
+                case .removeAll: strongSelf.emitter.emit(event: .removeAll(indexPath: indexPath))
+                case .removeSelected: strongSelf.emitter.emit(event: .removeSelected(indexPath: indexPath))
+                case .keepAll: strongSelf.emitter.emit(event: .keepAll(indexPath: indexPath))
+                }
+            }
+        }
+    }
 
     let cornerRadius : CGFloat = 25.0
     
@@ -34,10 +69,12 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
         myContentView.clipsToBounds = true
     }
     
-    typealias Input = MainViewDisplayModel.SimilarPhotosDisplayModel
+    typealias Input = (displayModel: MainViewDisplayModel.SimilarPhotosDisplayModel, indexPath: IndexPath)
     
     func apply(input: Input) {
-        
+
+        self.indexPath = input.indexPath
+
         let previewPhotoSwipeHandler: ((Int) -> Void)? = { [weak self] photoIndex  in
             self?.thumbnailPhotoCarouselView.updatePhoto(to: photoIndex)
         }
@@ -46,34 +83,16 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
             self?.previewPhotoCarouselView.updatePhoto(to: photoIndex)
         }
         
-        previewPhotoCarouselView.apply(input: (input, previewPhotoSwipeHandler))
-        thumbnailPhotoCarouselView.apply(input: (input, thumbnailPhotoSwipeHandler))
+        previewPhotoCarouselView.apply(input: (input.displayModel, previewPhotoSwipeHandler))
+        thumbnailPhotoCarouselView.apply(input: (input.displayModel, thumbnailPhotoSwipeHandler))
     }
 }
 
-
-class DropShadowView: UIView {
-    var presetCornerRadius : CGFloat = 25.0
-    
-    /*
-     once the bounds of the drop shadow view (container view) is initialized,
-     the bounds variable value will be set/updated and the
-     setupShadow method will run
-     */
-    override var bounds: CGRect {
-        didSet {
-            setupShadowPath()
-        }
+extension MainPhotoView: BehaviorEventEmittable {
+    enum BehaviorEvent {
+        case removeAll(indexPath: IndexPath)
+        case removeSelected(indexPath: IndexPath)
+        case keepAll(indexPath: IndexPath)
+        case markForDelete(indexPath: IndexPath, photoIndex: Int)
     }
-    
-    private func setupShadowPath() {
-        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: presetCornerRadius).cgPath
-        
-        // further optimization by rasterizing the container view and its shadow into bitmap instead of dynamically rendering it every time
-        // take note that the rasterized bitmap will be saved into memory and it might take quite some memory if you have many cells
-        
-        // self.layer.shouldRasterize = true
-        // self.layer.rasterizationScale = UIScreen.main.scale
-    }
-    
 }

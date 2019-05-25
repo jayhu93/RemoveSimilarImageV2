@@ -38,6 +38,10 @@ final class MainViewModel: SectionedDataSource {
         case printSimilarPhotoObjects
         case refreshControlAction
         case reachedPaginationOffsetY
+        case removeAll(indexPath: IndexPath)
+        case removeSelected(indexPath: IndexPath)
+        case keepAll(indexPath: IndexPath)
+        case markForDelete(indexPath: IndexPath, photoIndex: Int)
     }
 
     private let viewDidLoadIO = Signal<Void, NoError>.pipe()
@@ -45,6 +49,10 @@ final class MainViewModel: SectionedDataSource {
     private let printSimilarPhotoObjects = Signal<Void, NoError>.pipe()
     private let refreshControlActionIO = Signal<Void, NoError>.pipe()
     private let reachedPaginationOffsetY = Signal<Void, NoError>.pipe()
+    private let removeAllIO = Signal<IndexPath, NoError>.pipe()
+    private let removeSelectedIO = Signal<IndexPath, NoError>.pipe()
+    private let keepAllIO = Signal<IndexPath, NoError>.pipe()
+    private let markForDeleteIO = Signal<(IndexPath, Int), NoError>.pipe()
 
     func apply(input: Input) {
         switch input {
@@ -58,6 +66,14 @@ final class MainViewModel: SectionedDataSource {
             refreshControlActionIO.input.send(value: ())
         case .reachedPaginationOffsetY:
             reachedPaginationOffsetY.input.send(value: ())
+        case .removeAll(let indexPath):
+            removeAllIO.input.send(value: indexPath)
+        case .removeSelected(let indexPath):
+            removeSelectedIO.input.send(value: indexPath)
+        case .keepAll(let indexPath):
+            keepAllIO.input.send(value: indexPath)
+        case .markForDelete(let indexPath, let photoIndex):
+            markForDeleteIO.input.send(value: (indexPath, photoIndex))
         }
     }
 
