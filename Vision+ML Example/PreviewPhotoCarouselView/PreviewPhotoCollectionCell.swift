@@ -14,7 +14,8 @@ final class PreviewPhotoCollectionCell: UICollectionViewCell {
     var photoIndex: Int?
     let emitter = EventEmitter<BehaviorEvent>()
 
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var deleteSwitch: UISwitch!
 
     let switch1 = UISwitch()
 
@@ -27,11 +28,12 @@ final class PreviewPhotoCollectionCell: UICollectionViewCell {
 }
 
 extension PreviewPhotoCollectionCell: InputAppliable {
-    typealias Input = (photoObject: PhotoObject, photoIndex: Int)
+    typealias Input = (photoObject: MainViewDisplayModel.PhotoModel, photoIndex: Int)
 
     func apply(input: Input) {
-        let id = input.photoObject.id
+        let id = input.photoObject.photoObject.id
         photoIndex = input.photoIndex
+        deleteSwitch.setOn(input.photoObject.markDelete, animated: false)
         
         // TODO: Will most likely move this block our of this view
         let requestOptions = PHImageRequestOptions()

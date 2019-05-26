@@ -43,6 +43,7 @@
             <viewLayoutGuide key="safeArea" id="VA5-xo-pVJ"/>
             <size key="customSize" width="431" height="386"/>
             <connections>
+                <outlet property="deleteSwitch" destination="AgM-KS-bWE" id="XhB-pt-RQJ"/>
                 <outlet property="imageView" destination="ZdQ-f8-0f7" id="nRU-HX-deQ"/>
             </connections>
             <point key="canvasLocation" x="-381.60000000000002" y="-102.54872563718142"/>

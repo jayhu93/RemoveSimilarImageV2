@@ -11,7 +11,7 @@ import UIKit
 final class PreviewPhotoCarouselView: NibInstantiableView {
 
     var emitter = EventEmitter<BehaviorEvent>()
-    var dataSource = [PhotoObject]()
+    var dataSource = [MainViewDisplayModel.PhotoModel]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
 
@@ -41,7 +41,7 @@ extension PreviewPhotoCarouselView: InputAppliable {
     typealias Input = (dataSource: MainViewDisplayModel.SimilarPhotosDisplayModel, previewPhotoSwipeHandler: ((Int) -> Void)?)
 
     func apply(input: Input) {
-        self.dataSource = input.dataSource.photos
+        self.dataSource = input.dataSource.photoModels
         self.collectionView.reloadData()
         self.collectionView.setContentOffset(.zero, animated: false)
     }

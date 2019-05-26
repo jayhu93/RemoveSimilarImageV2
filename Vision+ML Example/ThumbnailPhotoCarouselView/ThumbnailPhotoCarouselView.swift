@@ -11,7 +11,7 @@ import UIKit
 final class ThumbnailPhotoCarouselView: NibInstantiableView {
 
     var emitter = EventEmitter<BehaviorEvent>()
-    private var dataSource = [PhotoObject]()
+    private var dataSource = [MainViewDisplayModel.PhotoModel]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var collectionViewLayout: UICollectionViewFlowLayout!
@@ -40,7 +40,7 @@ extension ThumbnailPhotoCarouselView: InputAppliable {
     typealias Input = (dataSource: MainViewDisplayModel.SimilarPhotosDisplayModel, thumbnailPhotoSwipeHandler: ((Int) -> Void)?)
 
     func apply(input: Input) {
-        self.dataSource = input.dataSource.photos
+        self.dataSource = input.dataSource.photoModels
         self.collectionView.reloadData()
         self.collectionView.setContentOffset(.zero, animated: false)
     }

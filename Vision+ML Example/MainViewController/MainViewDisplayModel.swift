@@ -28,10 +28,11 @@ struct MainViewDisplayModel {
         self.sections = sections
     }
 
-    mutating func appendNewSimilarGroup(_ photos: [[PhotoObject]]) {
+    mutating func appendNewSimilarGroup(_ similarSets: [[PhotoObject]]) {
         var newItems = [ItemType]()
-        for photo in photos {
-            let displayModel = SimilarPhotosDisplayModel(photos: photo)
+        for similarSet in similarSets {
+            let photoModels = similarSet.map { PhotoModel.init(photoObject: $0) }
+            let displayModel = SimilarPhotosDisplayModel(photoModels: photoModels)
             let itemType = ItemType.similarPhotos(displayModel)
             newItems.append(itemType)
         }
@@ -55,12 +56,23 @@ struct MainViewDisplayModel {
 }
 
 extension MainViewDisplayModel {
+
+    struct PhotoModel {
+        let photoObject: PhotoObject
+        let markDelete: Bool
+
+        init(photoObject: PhotoObject, markDelete: Bool = false) {
+            self.photoObject = photoObject
+            self.markDelete = markDelete
+        }
+    }
+
     // This class should contains all the similar photos
     // which photo is the best quality (might be in the future)
     struct SimilarPhotosDisplayModel {
-        let photos: [PhotoObject]
-        init(photos: [PhotoObject]) {
-            self.photos = photos
+        let photoModels: [PhotoModel]
+        init(photoModels: [PhotoModel]) {
+            self.photoModels = photoModels
         }
     }
 }

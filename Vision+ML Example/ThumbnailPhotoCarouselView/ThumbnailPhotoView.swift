@@ -17,10 +17,10 @@ final class ThumbnailPhotoView: NibInstantiableView {
 }
 
 extension ThumbnailPhotoView: InputAppliable {
-    typealias Input = PhotoObject
+    typealias Input = MainViewDisplayModel.PhotoModel
 
     func apply(input: Input) {
-        let id = input.id
+        let id = input.photoObject.id
         
         // TODO: Will most likely move this block our of this view
         let requestOptions = PHImageRequestOptions()
