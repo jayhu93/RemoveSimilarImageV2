@@ -80,7 +80,7 @@ extension MainViewController: UICollectionViewDelegate {
             }
         }
         return cell
-    }i
+    }
 }
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
