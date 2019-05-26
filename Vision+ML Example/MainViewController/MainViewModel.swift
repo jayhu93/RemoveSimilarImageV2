@@ -41,7 +41,7 @@ final class MainViewModel: SectionedDataSource {
         case removeAll(indexPath: IndexPath)
         case removeSelected(indexPath: IndexPath)
         case keepAll(indexPath: IndexPath)
-        case markForDelete(indexPath: IndexPath, photoIndex: Int)
+        case markDelete(indexPath: IndexPath, photoIndex: Int, isOn: Bool)
     }
 
     private let viewDidLoadIO = Signal<Void, NoError>.pipe()
@@ -52,7 +52,7 @@ final class MainViewModel: SectionedDataSource {
     private let removeAllIO = Signal<IndexPath, NoError>.pipe()
     private let removeSelectedIO = Signal<IndexPath, NoError>.pipe()
     private let keepAllIO = Signal<IndexPath, NoError>.pipe()
-    private let markForDeleteIO = Signal<(IndexPath, Int), NoError>.pipe()
+    private let markDeleteIO = Signal<(IndexPath, Int, Bool), NoError>.pipe()
 
     func apply(input: Input) {
         switch input {
@@ -72,8 +72,8 @@ final class MainViewModel: SectionedDataSource {
             removeSelectedIO.input.send(value: indexPath)
         case .keepAll(let indexPath):
             keepAllIO.input.send(value: indexPath)
-        case .markForDelete(let indexPath, let photoIndex):
-            markForDeleteIO.input.send(value: (indexPath, photoIndex))
+        case .markDelete(let indexPath, let photoIndex, let isOn):
+            markDeleteIO.input.send(value: (indexPath, photoIndex, isOn))
         }
     }
 
@@ -94,7 +94,7 @@ final class MainViewModel: SectionedDataSource {
         return displayModel.value.numberOfElements(inSection: section)
     }
 
-    func element(at indexPath: IndexPath) -> MainViewDisplayModel.ItemType {
+    func element(at indexPath: IndexPath) -> MainViewDisplayModel.SimilarPhotosDisplayModel {
         return displayModel.value.element(at: indexPath)
     }
 
@@ -134,6 +134,11 @@ final class MainViewModel: SectionedDataSource {
 
         displayModel.signal.observeValues { [weak self] _ in
             self?.outputIO.input.send(value: .reloadData)
+        }
+
+        markDeleteIO.output.observeValues { values in
+            let (indexPath, photoIndex, isOn) = values
+            self.displayModel.value.markDelete(indexPath, photoIndex, isOn)
         }
     }
 }

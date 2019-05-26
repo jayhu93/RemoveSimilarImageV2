@@ -56,8 +56,8 @@ extension PreviewPhotoCarouselView: UICollectionViewDataSource {
         cell.observe { [weak self] in
             guard let strongSelf = self else { return }
             switch $0 {
-            case .markDelete(let isOn ,let index):
-                strongSelf.emitter.emit(event: .markDelete(isOn: isOn, index: index))
+            case .markDelete(let index ,let isOn):
+                strongSelf.emitter.emit(event: .markDelete(index: index, isOn: isOn))
             }
         }
         return cell
@@ -101,6 +101,6 @@ extension PreviewPhotoCarouselView: UICollectionViewDelegateFlowLayout {
 extension PreviewPhotoCarouselView: BehaviorEventEmittable {
     enum BehaviorEvent {
         case photoSwipe(index: Int)
-        case markDelete(isOn: Bool, index: Int)
+        case markDelete(index: Int, isOn: Bool)
     }
 }

@@ -24,7 +24,8 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
                 case .photoSwipe(let index):
                     strongSelf.thumbnailPhotoCarouselView.updatePhoto(to: index)
                 case .markDelete(let index, let isOn):
-                    break
+                    guard let indexPath = strongSelf.indexPath else { return }
+                    strongSelf.emitter.emit(event: .markDelete(indexPath: indexPath, photoIndex: index, isOn: isOn))
                 }
             }
         }
@@ -95,6 +96,6 @@ extension MainPhotoView: BehaviorEventEmittable {
         case removeAll(indexPath: IndexPath)
         case removeSelected(indexPath: IndexPath)
         case keepAll(indexPath: IndexPath)
-        case markForDelete(indexPath: IndexPath, photoIndex: Int)
+        case markDelete(indexPath: IndexPath, photoIndex: Int, isOn: Bool)
     }
 }

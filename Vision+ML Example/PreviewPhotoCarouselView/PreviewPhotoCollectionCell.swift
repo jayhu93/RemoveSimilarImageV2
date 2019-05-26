@@ -22,7 +22,7 @@ final class PreviewPhotoCollectionCell: UICollectionViewCell {
     @IBAction func markDelete(_ sender: UISwitch) {
         guard let photoIndex = photoIndex else { return }
         CATransaction.setCompletionBlock { [weak self] in
-            self?.emitter.emit(event: .markDelete(isOn: sender.isOn, index: photoIndex))
+            self?.emitter.emit(event: .markDelete(index: photoIndex, isOn: sender.isOn))
         }
     }
 }
@@ -53,6 +53,6 @@ extension PreviewPhotoCollectionCell: InputAppliable {
 
 extension PreviewPhotoCollectionCell: BehaviorEventEmittable {
     enum BehaviorEvent {
-        case markDelete(isOn: Bool, index: Int)
+        case markDelete(index: Int, isOn: Bool)
     }
 }

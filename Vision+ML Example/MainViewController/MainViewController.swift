@@ -64,25 +64,23 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch viewModel.element(at: indexPath) {
-        case .similarPhotos(let displayModel):
-            let cell = collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: (displayModel, indexPath))
-            cell.observe { [weak self] in
-                guard let strongSelf = self else { return }
-                switch $0 {
-                case .removeAll(let indexPath):
-                    strongSelf.viewModel.apply(input: .removeAll(indexPath: indexPath))
-                case .removeSelected(let indexPath):
-                    strongSelf.viewModel.apply(input: .removeSelected(indexPath: indexPath))
-                case .keepAll(let indexPath):
-                    strongSelf.viewModel.apply(input: .keepAll(indexPath: indexPath))
-                case .markForDelete(let indexPath, let photoIndex):
-                    strongSelf.viewModel.apply(input: .markForDelete(indexPath: indexPath, photoIndex: photoIndex))
-                }
+        let displayModel = viewModel.element(at: indexPath)
+        let cell = collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: (displayModel, indexPath))
+        cell.observe { [weak self] in
+            guard let strongSelf = self else { return }
+            switch $0 {
+            case .removeAll(let indexPath):
+                strongSelf.viewModel.apply(input: .removeAll(indexPath: indexPath))
+            case .removeSelected(let indexPath):
+                strongSelf.viewModel.apply(input: .removeSelected(indexPath: indexPath))
+            case .keepAll(let indexPath):
+                strongSelf.viewModel.apply(input: .keepAll(indexPath: indexPath))
+            case .markDelete(let indexPath, let photoIndex, let isOn):
+                strongSelf.viewModel.apply(input: .markDelete(indexPath: indexPath, photoIndex: photoIndex, isOn: isOn))
             }
-            return cell
         }
-    }
+        return cell
+    }i
 }
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
