@@ -23,6 +23,8 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
                 switch $0 {
                 case .photoSwipe(let index):
                     strongSelf.thumbnailPhotoCarouselView.updatePhoto(to: index)
+                case .markDelete(let index, let isOn):
+                    break
                 }
             }
         }

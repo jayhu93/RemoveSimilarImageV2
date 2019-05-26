@@ -26,7 +26,7 @@ final class PreviewPhotoCarouselView: NibInstantiableView {
     }
 
     private func sharedInit() {
-        collectionView.registerClass(forCellType: ContainerCollectionViewCell<PreviewPhotoView>.self)
+        collectionView.registerNib(forCellType: PreviewPhotoCollectionCell.self)
     }
     
     func updatePhoto(to photoIndex: Int) {
@@ -52,7 +52,15 @@ extension PreviewPhotoCarouselView: InputAppliable {
 extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let data = dataSource[indexPath.row]
-        return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<PreviewPhotoView>.self, for: indexPath).applied(input: data)
+        let cell = collectionView.dequeueReusableCell(withType: PreviewPhotoCollectionCell.self, for: indexPath).applied(input: (data, indexPath.row))
+        cell.observe { [weak self] in
+            guard let strongSelf = self else { return }
+            switch $0 {
+            case .markDelete(let isOn ,let index):
+                strongSelf.emitter.emit(event: .markDelete(isOn: isOn, index: index))
+            }
+        }
+        return cell
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -93,5 +101,6 @@ extension PreviewPhotoCarouselView: UICollectionViewDelegateFlowLayout {
 extension PreviewPhotoCarouselView: BehaviorEventEmittable {
     enum BehaviorEvent {
         case photoSwipe(index: Int)
+        case markDelete(isOn: Bool, index: Int)
     }
 }
