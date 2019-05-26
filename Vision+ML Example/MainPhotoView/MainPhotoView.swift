@@ -22,7 +22,9 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
                 guard let strongSelf = self else { return }
                 switch $0 {
                 case .photoSwipe(let index):
+                    guard let indexPath = strongSelf.indexPath else { return }
                     strongSelf.thumbnailPhotoCarouselView.updatePhoto(to: index)
+                    strongSelf.emitter.emit(event: .swipePhoto(indexPath: indexPath, photoIndex: index))
                 case .markDelete(let index, let isOn):
                     guard let indexPath = strongSelf.indexPath else { return }
                     strongSelf.emitter.emit(event: .markDelete(indexPath: indexPath, photoIndex: index, isOn: isOn))
@@ -97,5 +99,6 @@ extension MainPhotoView: BehaviorEventEmittable {
         case removeSelected(indexPath: IndexPath)
         case keepAll(indexPath: IndexPath)
         case markDelete(indexPath: IndexPath, photoIndex: Int, isOn: Bool)
+        case swipePhoto(indexPath: IndexPath, photoIndex: Int)
     }
 }

@@ -29,6 +29,10 @@ struct MainViewDisplayModel {
         similarSets[indexPath.row].photoModels[photoIndex].markDelete = isOn
     }
 
+    mutating func swipePhoto(_ indexPath: IndexPath, _ photoIndex: Int) {
+        similarSets[indexPath.row].currentIndex = photoIndex
+    }
+
     // Data Source
     func numberOfSections() -> Int {
         return 1
@@ -60,6 +64,7 @@ extension MainViewDisplayModel {
     // which photo is the best quality (might be in the future)
     struct SimilarPhotosDisplayModel {
         var photoModels: [PhotoModel]
+        var currentIndex = 0
         init(photoModels: [PhotoModel]) {
             self.photoModels = photoModels
         }

@@ -77,6 +77,8 @@ extension MainViewController: UICollectionViewDelegate {
                 strongSelf.viewModel.apply(input: .keepAll(indexPath: indexPath))
             case .markDelete(let indexPath, let photoIndex, let isOn):
                 strongSelf.viewModel.apply(input: .markDelete(indexPath: indexPath, photoIndex: photoIndex, isOn: isOn))
+            case .swipePhoto(let indexPath, let photoIndex):
+                strongSelf.viewModel.apply(input: .swipePhoto(indexPath: indexPath, photoIndex: photoIndex))
             }
         }
         return cell

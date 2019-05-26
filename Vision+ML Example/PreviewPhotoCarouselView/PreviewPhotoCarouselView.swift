@@ -43,7 +43,8 @@ extension PreviewPhotoCarouselView: InputAppliable {
     func apply(input: Input) {
         self.dataSource = input.dataSource.photoModels
         self.collectionView.reloadData()
-        self.collectionView.setContentOffset(.zero, animated: false)
+        let indexPath = IndexPath(item: input.dataSource.currentIndex, section: 0)
+        self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
 }
 
