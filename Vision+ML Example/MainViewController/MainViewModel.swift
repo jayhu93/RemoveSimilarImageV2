@@ -116,24 +116,18 @@ final class MainViewModel: SectionedDataSource {
             self?.localDatabase.inputs.addPhotoObject(photoObject)
         }
 
-        photoLibraryService.outputs.photoSignal.observeValues { [weak self] rawPhoto in
-            self?.similarImageService.inputs.analyze(rawPhoto: rawPhoto)
-        }
+//        photoLibraryService.outputs.photoSignal.observeValues { [weak self] rawPhoto in
+//            self?.similarImageService.inputs.analyze(rawPhoto: rawPhoto)
+//        }
 
         viewDidLoadIO.output.observeValues { [weak self] in
             self?.photoLibraryService.inputs.fetchImage()
         }
 
-        removeAllObjcsIO.output.observeValues { [weak self] in
-            self?.localDatabase.inputs.deleteAllObjects()
-        }
-
-        printSimilarPhotoObjects.output.observeValues { [weak self] _ in
-            self?.localDatabase.inputs.getSimilarObjectGroups()
-        }
-
         localDatabase.outputs.similarPhotoGroupsSignal.observeValues { [weak self] in
-            self?.displayModel.value.appendNewSimilarGroup($0)
+//            self?.displayModel.value.appendNewSimilarGroup($0)
+            // similar photo group signal will change as elements in the database change
+            self?.displayModel.value.updatedSimilarSets($0)
         }
 
         displayModel.signal.observeValues { [weak self] _ in
@@ -148,5 +142,24 @@ final class MainViewModel: SectionedDataSource {
         swipePhotoIO.output.observeValues { indexPath, photoIndex in
             self.displayModel.value.swipePhoto(indexPath, photoIndex)
         }
+
+        // Database action
+
+        removeAllIO.output.observeValues { indexPath in
+            let element = self.displayModel.value.element(at: indexPath)
+            let ids = element.photoModels.map { $0.photoObject.id }
+            localDatabase.inputs.deletePhotoObject(withIds: ids)
+        }
+
+        // DEBUG
+
+        removeAllObjcsIO.output.observeValues { [weak self] in
+            self?.localDatabase.inputs.deleteAllObjects()
+        }
+
+        printSimilarPhotoObjects.output.observeValues { [weak self] _ in
+            self?.localDatabase.inputs.getSimilarObjectGroups()
+        }
+
     }
 }

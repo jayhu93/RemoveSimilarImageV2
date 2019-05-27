@@ -9,6 +9,11 @@
 import Foundation
 import RealmSwift
 
+
+class SimilarSetObject: Object {
+    let photoObjects = List<PhotoObject>()
+}
+
 class PhotoObject: Object {
     @objc dynamic var id: String = ""
     var grouped: Bool = false

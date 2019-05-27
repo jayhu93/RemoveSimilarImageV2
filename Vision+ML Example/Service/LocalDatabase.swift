@@ -17,6 +17,7 @@ protocol LocalDatabaseInputs {
     func addPhotoObject(_ photoObject: PhotoObject)
     func updatePhotoObject(withId id: String, photoObject: PhotoObject)
     func deletePhotoObject(withId id: String)
+    func deletePhotoObject(withIds ids: [String])
 
     func getSimilarObjectGroups()
 
@@ -104,6 +105,13 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         }
     }
 
+    func deletePhotoObject(withIds ids: [String]) {
+        let photoObjects = realm.objects(PhotoObject.self).filter("'id' IN $ids")
+        write {
+            self.realm.delete(photoObjects)
+        }
+    }
+
     // MARK: LocalDatabaseOutputs
     
     let similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError>
@@ -158,6 +166,11 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             return realm.object(ofType: O.self, forPrimaryKey: id)
         }
         return DispatchQueue.mainSyncSafe(execute: returnObject)
+    }
+
+    private let getSimilarSetsObjectIO = Signal<SimilarSetsObject, NoError>.pipe()
+    func getSimilarSetsObject() {
+        let similarSetsObject = realm.objects(SimilarSetsObject.self)
     }
 
     private let getSimilarObjectGroupsIO = Signal<[[PhotoObject]], NoError>.pipe()
