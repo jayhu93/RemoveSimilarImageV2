@@ -40,9 +40,12 @@ protocol SimilarImageServiceType {
 final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInputs, SimilarImageServiceOutputs {
     
     typealias Dependency = ()
+
+    let queue = OperationQueue()
     
     // Init
     init(dependency: Dependency) {
+
         let model = try! VNCoreMLModel(for: MyImageSimilarityModel().model)
         
         let similarImgageResultIO = Signal<PhotoResult, NoError>.pipe()
@@ -73,7 +76,7 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
             }
             
             func processQuery(for request: VNRequest, error: Error?, k: Int = 10) {
-//                DispatchQueue.main.async {
+                DispatchQueue.main.async {
                     guard let results = request.results else {
                         print("Unable to rank image.\n\(error!.localizedDescription)")
                         return
@@ -96,7 +99,7 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                     let result = Array(knn)
                     let photoResult = PhotoResult(id: rawPhoto.id, results: result)
                     similarImgageResultIO.input.send(value: photoResult)
-//                }
+                }
             }
             
             let request = VNCoreMLRequest(model: model, completionHandler: { (requst, error) in

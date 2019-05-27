@@ -18,7 +18,6 @@ protocol LocalDatabaseInputs {
     func updatePhotoObject(withId id: String, photoObject: PhotoObject)
     func deletePhotoObject(withId id: String)
     func deletePhotoObject(withIds ids: [String])
-
     func getSimilarObjectGroups()
 
     #if !RELEASE
@@ -30,6 +29,7 @@ protocol LocalDatabaseInputs {
 
 protocol LocalDatabaseOutputs {
     var similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError> { get }
+    var getSimilarSetObjectsSignal: Signal<[SimilarSetObject], NoError> { get }
 }
 
 // MARK: LocalDatabaseType
@@ -43,6 +43,8 @@ protocol LocalDatabaseType {
 
 final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabaseOutputs {
 
+    var notificationToken: NotificationToken? = nil
+    
     private lazy var realm: Realm = {
         func initRealm() -> Realm {
             do {
@@ -63,7 +65,28 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     typealias Dependency = ()
 
     init(dependency: Dependency) {
+
         similarPhotoGroupsSignal = getSimilarObjectGroupsIO.output
+
+        // MARK: Observe SimilarSetObject groups
+        let getSimilarSetObjectsIO = Signal<[SimilarSetObject], NoError>.pipe()
+        getSimilarSetObjectsSignal = getSimilarSetObjectsIO.output
+        
+        let similarSetObjects = realm.objects(SimilarSetObject.self)
+        self.notificationToken = similarSetObjects.observe { (changes: RealmCollectionChange) in
+            switch changes {
+            case .initial(let collectionType):
+                getSimilarSetObjectsIO.input.send(value: Array(collectionType))
+            case .update(let collectionType, _, _, _):
+                getSimilarSetObjectsIO.input.send(value: Array(collectionType))
+            case .error:
+                fatalError()
+            }
+        }
+    }
+    
+    deinit {
+        notificationToken?.invalidate()
     }
 
     // MARK: LocalDatabaseType
@@ -83,6 +106,35 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             // object doesn't exist
             write {
                 self.add(photoObject)
+            }
+        }
+        
+        // after the photo object is stored in the databse
+        // fetch all the similar set, and check if the photoObject
+        // should be group within the same set
+        
+        let similarSetObjects = Array(realm.objects(SimilarSetObject.self).reversed())
+        var inserted = false
+        for similarSet in similarSetObjects {
+            let newSimilarSet = similarSet
+            if newSimilarSet.insertObject(photoObject) {
+                write {
+                    newSimilarSet.photoObjects.append(photoObject)
+                    self.realm.add(newSimilarSet, update: true)
+                }
+                inserted = true
+                break // End the loop immediately
+            } else {
+               continue // end current loop and start from beginning again
+            }
+        }
+        if !inserted {
+            // cretae a new simiarSet
+            let new = SimilarSetObject()
+            new.photoObjects.append(photoObject)
+            new.id = photoObject.id // set id is the id of the first photo object
+            write {
+                self.realm.add(new, update: true)
             }
         }
     }
@@ -115,6 +167,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     // MARK: LocalDatabaseOutputs
     
     let similarPhotoGroupsSignal: Signal<[[PhotoObject]], NoError>
+    let getSimilarSetObjectsSignal: Signal<[SimilarSetObject], NoError>
 
     // MARK: Methods should be declared as private but public for test
 
@@ -166,11 +219,6 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             return realm.object(ofType: O.self, forPrimaryKey: id)
         }
         return DispatchQueue.mainSyncSafe(execute: returnObject)
-    }
-
-    private let getSimilarSetsObjectIO = Signal<SimilarSetsObject, NoError>.pipe()
-    func getSimilarSetsObject() {
-        let similarSetsObject = realm.objects(SimilarSetsObject.self)
     }
 
     private let getSimilarObjectGroupsIO = Signal<[[PhotoObject]], NoError>.pipe()

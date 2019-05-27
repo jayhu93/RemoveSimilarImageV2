@@ -33,6 +33,15 @@ struct MainViewDisplayModel {
         similarSets[indexPath.row].currentIndex = photoIndex
     }
 
+    mutating func updateSimilarSetObjects(_ simialrSetObjects: [SimilarSetObject]) {
+        let newSimilarSets = simialrSetObjects.map {
+            SimilarPhotosDisplayModel(
+                photoModels: $0.photoObjects.map { PhotoModel(photoObject: $0) }
+            )
+        }
+        similarSets = newSimilarSets
+    }
+    
     // Data Source
     func numberOfSections() -> Int {
         return 1

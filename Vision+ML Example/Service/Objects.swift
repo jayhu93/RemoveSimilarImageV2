@@ -11,7 +11,17 @@ import RealmSwift
 
 
 class SimilarSetObject: Object {
+    @objc dynamic var id: String = ""
     let photoObjects = List<PhotoObject>()
+    
+    func insertObject(_ photoObject: PhotoObject) -> Bool {
+        guard !photoObjects.contains(photoObject) else { return false }
+        return photoObjects[0].containsElementsFrom(anotherArray: Array(photoObject.similarArray))
+    }
+    
+    override static func primaryKey() -> String {
+        return "id"
+    }
 }
 
 class PhotoObject: Object {

@@ -116,18 +116,16 @@ final class MainViewModel: SectionedDataSource {
             self?.localDatabase.inputs.addPhotoObject(photoObject)
         }
 
-//        photoLibraryService.outputs.photoSignal.observeValues { [weak self] rawPhoto in
-//            self?.similarImageService.inputs.analyze(rawPhoto: rawPhoto)
-//        }
+        photoLibraryService.outputs.photoSignal.observeValues { [weak self] rawPhoto in
+            self?.similarImageService.inputs.analyze(rawPhoto: rawPhoto)
+        }
 
         viewDidLoadIO.output.observeValues { [weak self] in
             self?.photoLibraryService.inputs.fetchImage()
         }
-
-        localDatabase.outputs.similarPhotoGroupsSignal.observeValues { [weak self] in
-//            self?.displayModel.value.appendNewSimilarGroup($0)
-            // similar photo group signal will change as elements in the database change
-            self?.displayModel.value.updatedSimilarSets($0)
+        
+        localDatabase.outputs.getSimilarSetObjectsSignal.observeValues { [weak self] similarSetObjects in
+            self?.displayModel.value.updateSimilarSetObjects(similarSetObjects)
         }
 
         displayModel.signal.observeValues { [weak self] _ in
@@ -145,10 +143,10 @@ final class MainViewModel: SectionedDataSource {
 
         // Database action
 
-        removeAllIO.output.observeValues { indexPath in
-            let element = self.displayModel.value.element(at: indexPath)
+        removeAllIO.output.observeValues { [weak self] indexPath in
+            guard let element = self?.displayModel.value.element(at: indexPath) else { return }
             let ids = element.photoModels.map { $0.photoObject.id }
-            localDatabase.inputs.deletePhotoObject(withIds: ids)
+            self?.localDatabase.inputs.deletePhotoObject(withIds: ids)
         }
 
         // DEBUG
@@ -159,6 +157,7 @@ final class MainViewModel: SectionedDataSource {
 
         printSimilarPhotoObjects.output.observeValues { [weak self] _ in
             self?.localDatabase.inputs.getSimilarObjectGroups()
+//            self?.localDatabase.inputs.getSimilarSetsObject()
         }
 
     }
