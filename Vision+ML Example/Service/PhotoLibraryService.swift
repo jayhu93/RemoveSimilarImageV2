@@ -118,11 +118,15 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             for asset in assets {
                 counter += 1
                 strongSelf.dispatchGroup.enter()
-                strongSelf.dispatchGroup.enter()
                 print("counter: \(counter)")
-                strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, _ in
+                strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, info in
                     // UIKit may have recycled this cell by the handler's activation time.
                     // Set the cell's thumbnail image only if it's still showing the same asset.
+                    guard let isThumbnailInt = info?["PHImageResultIsDegradedKey"] as? Int else { return }
+                    guard let isThunbmail = Bool(exactly: isThumbnailInt as NSNumber) else { return }
+                    guard isThunbmail else { return }
+
+                    print("print: \(String(describing: info))")
                     guard let innerStrongSelf = self else { return }
                     guard let img = image else { return }
                     let id = asset.localIdentifier
