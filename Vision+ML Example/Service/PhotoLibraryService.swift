@@ -138,11 +138,12 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     // MARK: PHPhotoLibraryChangeObserver
 
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        guard let changes = changeInstance.changeDetails(for: fetchResultProperty.value ?? PHFetchResult<PHAsset>())
-            else { return }
-        DispatchQueue.main.sync {
-            fetchResultProperty.value = changes.fetchResultAfterChanges
-        }
+        // TODO: Do something here
+//        guard let changes = changeInstance.changeDetails(for: fetchResultProperty.value ?? PHFetchResult<PHAsset>())
+//            else { return }
+//        DispatchQueue.main.sync {
+//            fetchResultProperty.value = changes.fetchResultAfterChanges
+//        }
     }
 
     // MARK: PhotoLibraryServiceType

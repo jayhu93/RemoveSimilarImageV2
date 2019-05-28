@@ -53,14 +53,16 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
         let similarImgageResultIO = Signal<PhotoResult, NoError>.pipe()
         similarImageResultSignal = similarImgageResultIO.output
         
+        // TODO: Make this reactive
+
         analyzeIO.output.observeValues { rawPhotos in
             var photoResults = [PhotoResult]()
             // analyze image here
             // PerformRequests
+
             for rawPhoto in rawPhotos {
                 let request = VNCoreMLRequest(model: model, completionHandler: { (requst, error) in
                     self.dispatchGroup.enter()
-                    //                processQuery(for: requst, error: error)
                     let k = 10
                     let request = requst
 //                    DispatchQueue.main.async {
@@ -92,7 +94,6 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                 })
                 request.imageCropAndScaleOption = .centerCrop
 
-                print("Classifying...")
                 let image = rawPhoto.image
                 let orientation = CGImagePropertyOrientation(image.imageOrientation)
                 guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self) from \(image).") }
