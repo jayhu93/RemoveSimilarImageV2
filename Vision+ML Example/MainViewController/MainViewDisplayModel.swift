@@ -17,6 +17,15 @@ struct MainViewDisplayModel {
         self.similarSets = similarSets
     }
 
+    init(_ simialrSetObjects: [SimilarSetObject]) {
+        let newSimilarSets = simialrSetObjects.map {
+            SimilarPhotosDisplayModel(
+                photoModels: $0.photoObjects.map { PhotoModel(photoObject: $0) }
+            )
+        }
+        self.similarSets = newSimilarSets
+    }
+
     mutating func appendNewSimilarGroup(_ similarSets: [[PhotoObject]]) {
         let newSimilarSets: [SimilarPhotosDisplayModel] = similarSets.map { similarSet -> SimilarPhotosDisplayModel in
             let photoModels = similarSet.map { photoObject in PhotoModel(photoObject: photoObject) }

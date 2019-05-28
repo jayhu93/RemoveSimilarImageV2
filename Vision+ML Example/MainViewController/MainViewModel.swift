@@ -21,12 +21,17 @@ final class MainViewModel: SectionedDataSource {
     private let similarImageService: SimilarImageServiceType
     private let photoLibraryService: PhotoLibraryServiceType
     private let localDatabase: LocalDatabaseType
-    private lazy var displayModel: MutableProperty<MainViewDisplayModel> = {
-        return MutableProperty.init(MainViewDisplayModel())
-    }()
+    private let displayModel: Property<MainViewDisplayModel>
 
     init(dependency: Dependency) {
         (similarImageService, photoLibraryService, localDatabase) = dependency
+
+        displayModel = Property(
+            initial: MainViewDisplayModel(),
+            then: localDatabase.outputs.getSimilarSetObjectsSignal
+                .map { MainViewDisplayModel($0) }
+        )
+
         bind()
     }
 
@@ -108,57 +113,74 @@ final class MainViewModel: SectionedDataSource {
     }
 
     private func bindIO() {
-        similarImageService.outputs.similarImageResultSignal.observeValues { [weak self] photoResult in
-            let photoObject = PhotoObject()
-            photoObject.id = photoResult.id
-            let similarArray = photoResult.results.map { $0.offset }
-            photoObject.similarArray.append(objectsIn: similarArray)
-            self?.localDatabase.inputs.addPhotoObject(photoObject)
-        }
 
-        photoLibraryService.outputs.photoSignal.observeValues { [weak self] rawPhoto in
-            self?.similarImageService.inputs.analyze(rawPhoto: rawPhoto)
-        }
+        // MARK: Reload
 
-        viewDidLoadIO.output.observeValues { [weak self] in
-            self?.photoLibraryService.inputs.fetchImage()
-        }
-        
-        localDatabase.outputs.getSimilarSetObjectsSignal.observeValues { [weak self] similarSetObjects in
-            self?.displayModel.value.updateSimilarSetObjects(similarSetObjects)
-        }
+        displayModel.signal
+            .map { _ in
+            Output.reloadData
+        }.observeValues(outputIO.input.send)
 
-        displayModel.signal.observeValues { [weak self] _ in
-            self?.outputIO.input.send(value: .reloadData)
-        }
+        // MARK:
 
-        markDeleteIO.output.observeValues { values in
-            let (indexPath, photoIndex, isOn) = values
-            self.displayModel.value.markDelete(indexPath, photoIndex, isOn)
-        }
+//        similarImageService.outputs.similarSetObjects.observeValues { similarSetObjects in
+            // update display model
+            // MainViewModel only needs to work with one service
+            // Do i even need realm database
+//            displayModel.value.updateSimilarSetObjects(similarSetObjects)
+//        }
 
-        swipePhotoIO.output.observeValues { indexPath, photoIndex in
-            self.displayModel.value.swipePhoto(indexPath, photoIndex)
-        }
-
-        // Database action
-
-        removeAllIO.output.observeValues { [weak self] indexPath in
-            guard let element = self?.displayModel.value.element(at: indexPath) else { return }
-            let ids = element.photoModels.map { $0.photoObject.id }
-            self?.localDatabase.inputs.deletePhotoObject(withIds: ids)
-        }
-
-        // DEBUG
-
-        removeAllObjcsIO.output.observeValues { [weak self] in
-            self?.localDatabase.inputs.deleteAllObjects()
-        }
-
-        printSimilarPhotoObjects.output.observeValues { [weak self] _ in
-            self?.localDatabase.inputs.getSimilarObjectGroups()
-//            self?.localDatabase.inputs.getSimilarSetsObject()
-        }
+//        similarImageService.outputs.similarImageResultSignal.observeValues { [weak self] photoResult in
+//            let photoObject = PhotoObject()
+//            photoObject.id = photoResult.id
+//            let similarArray = photoResult.results.map { $0.offset }
+//            photoObject.similarArray.append(objectsIn: similarArray)
+//            self?.localDatabase.inputs.addPhotoObject(photoObject)
+//        }
+//
+//        photoLibraryService.outputs.photoSignal.observeValues { [weak self] rawPhoto in
+//            self?.similarImageService.inputs.analyze(rawPhoto: rawPhoto)
+//        }
+//
+//        viewDidLoadIO.output.observeValues { [weak self] in
+//            self?.photoLibraryService.inputs.fetchImage()
+//        }
+//
+//        localDatabase.outputs.getSimilarSetObjectsSignal.observeValues { [weak self] similarSetObjects in
+//            self?.displayModel.value.updateSimilarSetObjects(similarSetObjects)
+//        }
+//
+//        displayModel.signal.observeValues { [weak self] _ in
+//            self?.outputIO.input.send(value: .reloadData)
+//        }
+//
+//        markDeleteIO.output.observeValues { values in
+//            let (indexPath, photoIndex, isOn) = values
+//            self.displayModel.value.markDelete(indexPath, photoIndex, isOn)
+//        }
+//
+//        swipePhotoIO.output.observeValues { indexPath, photoIndex in
+//            self.displayModel.value.swipePhoto(indexPath, photoIndex)
+//        }
+//
+//        // Database action
+//
+//        removeAllIO.output.observeValues { [weak self] indexPath in
+//            guard let element = self?.displayModel.value.element(at: indexPath) else { return }
+//            let ids = element.photoModels.map { $0.photoObject.id }
+//            self?.localDatabase.inputs.deletePhotoObject(withIds: ids)
+//        }
+//
+//        // DEBUG
+//
+//        removeAllObjcsIO.output.observeValues { [weak self] in
+//            self?.localDatabase.inputs.deleteAllObjects()
+//        }
+//
+//        printSimilarPhotoObjects.output.observeValues { [weak self] _ in
+//            self?.localDatabase.inputs.getSimilarObjectGroups()
+////            self?.localDatabase.inputs.getSimilarSetsObject()
+//        }
 
     }
 }
