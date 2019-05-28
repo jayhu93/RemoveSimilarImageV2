@@ -15,6 +15,7 @@ import Result
 
 protocol LocalDatabaseInputs {
     func addPhotoObject(_ photoObject: PhotoObject)
+    func addPhotoObjects(_ photoObjects: [PhotoObject])
     func updatePhotoObject(withId id: String, photoObject: PhotoObject)
     func deletePhotoObject(withId id: String)
     func deletePhotoObject(withIds ids: [String])
@@ -135,6 +136,14 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             new.id = photoObject.id // set id is the id of the first photo object
             write {
                 self.realm.add(new, update: true)
+            }
+        }
+    }
+
+    func addPhotoObjects(_ photoObjects: [PhotoObject]) {
+        DispatchQueue.main.async {
+            for photoObject in photoObjects {
+                self.addPhotoObject(photoObject)
             }
         }
     }

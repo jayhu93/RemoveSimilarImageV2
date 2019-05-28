@@ -21,7 +21,7 @@ struct PhotoResult {
 // MARK: SimilarImageServiceInputs
 
 protocol SimilarImageServiceInputs {
-    func analyze(rawPhoto: RawPhoto)
+    func analyze(rawPhotos: [RawPhoto])
 }
 
 // MARK: SimilarImageServiceOutputs
@@ -39,27 +39,64 @@ protocol SimilarImageServiceType {
 
 final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInputs, SimilarImageServiceOutputs {
     
-    typealias Dependency = ()
+    typealias Dependency = (LocalDatabaseType)
 
-    let queue = OperationQueue()
+    let dispatchGroup = DispatchGroup()
     
     // Init
     init(dependency: Dependency) {
+
+        let (localDatabase) = dependency
 
         let model = try! VNCoreMLModel(for: MyImageSimilarityModel().model)
         
         let similarImgageResultIO = Signal<PhotoResult, NoError>.pipe()
         similarImageResultSignal = similarImgageResultIO.output
         
-        analyzeIO.output.observeValues { rawPhoto in
+        analyzeIO.output.observeValues { rawPhotos in
+            var photoResults = [PhotoResult]()
             // analyze image here
             // PerformRequests
-            func updateImageSimilarity(for rawPhoto: RawPhoto, request: VNCoreMLRequest) {
+            for rawPhoto in rawPhotos {
+                let request = VNCoreMLRequest(model: model, completionHandler: { (requst, error) in
+                    self.dispatchGroup.enter()
+                    //                processQuery(for: requst, error: error)
+                    let k = 10
+                    let request = requst
+//                    DispatchQueue.main.async {
+                        guard let results = request.results else {
+                            print("Unable to rank image.\n\(error!.localizedDescription)")
+                            return
+                        }
+
+                        let queryResults = results as! [VNCoreMLFeatureValueObservation]
+                        let distances = queryResults.first!.featureValue.multiArrayValue!
+
+                        // Create an array of distances to sort
+                        let numReferenceImages = distances.shape[0].intValue
+                        var distanceArray = [Double]()
+                        for r in 0..<numReferenceImages {
+                            distanceArray.append(Double(truncating: distances[r]))
+                        }
+
+                        let sorted = distanceArray.enumerated().sorted(by: {$0.element < $1.element})
+                        let knn = sorted[..<min(k, numReferenceImages)]
+
+                        print(knn)
+                        let result = Array(knn)
+                        let photoResult = PhotoResult(id: rawPhoto.id, results: result)
+                        //                    similarImgageResultIO.input.send(value: photoResult)
+                        photoResults.append(photoResult)
+                        self.dispatchGroup.leave()
+//                    }
+                })
+                request.imageCropAndScaleOption = .centerCrop
+
                 print("Classifying...")
                 let image = rawPhoto.image
                 let orientation = CGImagePropertyOrientation(image.imageOrientation)
                 guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self) from \(image).") }
-                
+
 //                DispatchQueue.global(qos: .background).async {
                     let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
                     do {
@@ -74,40 +111,19 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                     }
 //                }
             }
-            
-            func processQuery(for request: VNRequest, error: Error?, k: Int = 10) {
-                DispatchQueue.main.async {
-                    guard let results = request.results else {
-                        print("Unable to rank image.\n\(error!.localizedDescription)")
-                        return
-                    }
-                    
-                    let queryResults = results as! [VNCoreMLFeatureValueObservation]
-                    let distances = queryResults.first!.featureValue.multiArrayValue!
-                    
-                    // Create an array of distances to sort
-                    let numReferenceImages = distances.shape[0].intValue
-                    var distanceArray = [Double]()
-                    for r in 0..<numReferenceImages {
-                        distanceArray.append(Double(truncating: distances[r]))
-                    }
 
-                    let sorted = distanceArray.enumerated().sorted(by: {$0.element < $1.element})
-                    let knn = sorted[..<min(k, numReferenceImages)]
-                    
-                    print(knn)
-                    let result = Array(knn)
-                    let photoResult = PhotoResult(id: rawPhoto.id, results: result)
-                    similarImgageResultIO.input.send(value: photoResult)
+            self.dispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+//                print("print: similar image performed finished")
+                let photoObjects = photoResults.map { photoResult -> PhotoObject in
+                    let photoObject = PhotoObject()
+                    photoObject.id = photoResult.id
+                    let similarArray = photoResult.results.map { $0.offset }
+                    photoObject.similarArray.append(objectsIn: similarArray)
+                    return photoObject
                 }
+                localDatabase.inputs.addPhotoObjects(photoObjects)
             }
-            
-            let request = VNCoreMLRequest(model: model, completionHandler: { (requst, error) in
-                processQuery(for: requst, error: error)
-            })
-            request.imageCropAndScaleOption = .centerCrop
-            
-            updateImageSimilarity(for: rawPhoto, request: request)
+
         }
     }
     
@@ -118,9 +134,9 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
     
     // MARK: SimilarImageServiceInputs
     
-    private let analyzeIO = Signal<RawPhoto, NoError>.pipe()
-    func analyze(rawPhoto: RawPhoto) {
-        analyzeIO.input.send(value: rawPhoto)
+    private let analyzeIO = Signal<[RawPhoto], NoError>.pipe()
+    func analyze(rawPhotos: [RawPhoto]) {
+        analyzeIO.input.send(value: rawPhotos)
     }
     
     // MARK: SimilarImageServiceOutputs

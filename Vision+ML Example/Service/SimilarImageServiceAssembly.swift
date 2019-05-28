@@ -12,6 +12,7 @@ final class SimilarImageServiceAssembly: Assembly {
     func assemble(container: Container) {
         container.register(SimilarImageServiceType.self) { resolver in
             let dependency = (
+                resolver.resolve(LocalDatabaseType.self)!
             )
             return SimilarImageService(dependency: dependency)
             }.inObjectScope(.container)

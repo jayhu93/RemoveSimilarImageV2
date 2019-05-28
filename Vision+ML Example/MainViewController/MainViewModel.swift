@@ -54,7 +54,7 @@ final class MainViewModel: SectionedDataSource {
     private let removeAllObjcsIO = Signal<Void, NoError>.pipe()
     private let printSimilarPhotoObjects = Signal<Void, NoError>.pipe()
     private let refreshControlActionIO = Signal<Void, NoError>.pipe()
-    private let reachedPaginationOffsetY = Signal<Void, NoError>.pipe()
+    private let reachedPaginationOffsetYIO = Signal<Void, NoError>.pipe()
     private let removeAllIO = Signal<IndexPath, NoError>.pipe()
     private let removeSelectedIO = Signal<IndexPath, NoError>.pipe()
     private let keepAllIO = Signal<IndexPath, NoError>.pipe()
@@ -72,7 +72,7 @@ final class MainViewModel: SectionedDataSource {
         case .refreshControlAction:
             refreshControlActionIO.input.send(value: ())
         case .reachedPaginationOffsetY:
-            reachedPaginationOffsetY.input.send(value: ())
+            reachedPaginationOffsetYIO.input.send(value: ())
         case .removeAll(let indexPath):
             removeAllIO.input.send(value: indexPath)
         case .removeSelected(let indexPath):
@@ -121,7 +121,16 @@ final class MainViewModel: SectionedDataSource {
             Output.reloadData
         }.observeValues(outputIO.input.send)
 
-        // MARK:
+        // MARK: Paginate here, load 50 images at a time
+
+        Signal.merge(
+            viewDidLoadIO.output,
+            reachedPaginationOffsetYIO.output
+            ).observeValues { [photoLibraryService] in
+                // Fetch 50 photos and send them to similar photos service
+                // if similar photo still process preview batch, then cancel the request
+                photoLibraryService.inputs.fetchImage()
+        }
 
 //        similarImageService.outputs.similarSetObjects.observeValues { similarSetObjects in
             // update display model

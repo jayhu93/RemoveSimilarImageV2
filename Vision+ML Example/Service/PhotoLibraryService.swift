@@ -46,7 +46,7 @@ protocol PhotoLibraryServiceType {
 
 final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLibraryServiceType, PhotoLibraryServiceInputs, PhotoLibraryServiceOutputs {
 
-    typealias Dependency = SchedulerProviderType
+    typealias Dependency = (SchedulerProviderType, SimilarImageServiceType)
 
     private let isRunningProperty = MutableProperty(false)
 
@@ -55,11 +55,14 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     private let assetCollectionProperty = MutableProperty<PHAssetCollection?>(nil)
     fileprivate let imageManager = PHCachingImageManager()
     let thumbnailSize = CGSize.init(width: 30, height: 30)
+    private let similarImageService: SimilarImageServiceType
 
+    let dispatchGroup = DispatchGroup()
     // Init
 
     init(dependency: Dependency) {
-        let schedulerProvider = dependency
+        let (schedulerProvider, similarImageService) = dependency
+        self.similarImageService = similarImageService
         let (photoSignal, photoObserver) = Signal<RawPhoto, NoError>.pipe()
         self.photoSignal = photoSignal.observe(on: schedulerProvider.scheduler(with: .ui))
         self.photoObserver = photoObserver
@@ -96,6 +99,8 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
 //        let scheduler = schedulerProvider.scheduler(with: .queue(.init(name: "com.poeticsyntax.Photo")))
 
         fetchImagesIO.output.observeValues { [weak self] in
+            // Fetch 50 photos and send them to similar photos service
+            // if similar photo still process preview batch, then cancel the request
                 guard let strongSelf = self else { return }
                 let allPhotoOptions = PHFetchOptions()
                 allPhotoOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
@@ -104,6 +109,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
         }
 
         fetchResultProperty.signal.observeValues { [weak self] assets in
+            var rawPhotos = [RawPhoto]()
             let totalAssetCount = assets?.count ?? 0
             let indexSet = IndexSet(0..<totalAssetCount)
             guard let assets = assets?.objects(at: indexSet) else { return }
@@ -111,15 +117,25 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             var counter = 0
             for asset in assets {
                 counter += 1
+                strongSelf.dispatchGroup.enter()
+                strongSelf.dispatchGroup.enter()
                 print("counter: \(counter)")
-                strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+                strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, _ in
                     // UIKit may have recycled this cell by the handler's activation time.
                     // Set the cell's thumbnail image only if it's still showing the same asset.
+                    guard let innerStrongSelf = self else { return }
                     guard let img = image else { return }
                     let id = asset.localIdentifier
                     let rawPhoto = RawPhoto(id: id, image: img)
-                    photoObserver.send(value: rawPhoto)
+//                    photoObserver.send(value: rawPhoto)
+                    rawPhotos.append(rawPhoto)
+                    innerStrongSelf.dispatchGroup.leave()
                 })
+            }
+            strongSelf.dispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+                print("all async calls complteted")
+                // send it to similar image service
+                similarImageService.inputs.analyze(rawPhotos: rawPhotos)
             }
         }
     }
