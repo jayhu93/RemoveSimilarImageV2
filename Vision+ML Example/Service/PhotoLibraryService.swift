@@ -114,31 +114,22 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             let indexSet = IndexSet(0..<totalAssetCount)
             guard let assets = assets?.objects(at: indexSet) else { return }
             guard let strongSelf = self else { return }
-            var counter = 0
             for asset in assets {
-                counter += 1
                 strongSelf.dispatchGroup.enter()
-                print("counter: \(counter)")
                 strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, info in
-                    // UIKit may have recycled this cell by the handler's activation time.
-                    // Set the cell's thumbnail image only if it's still showing the same asset.
                     guard let isThumbnailInt = info?["PHImageResultIsDegradedKey"] as? Int else { return }
                     guard let isThunbmail = Bool(exactly: isThumbnailInt as NSNumber) else { return }
                     guard isThunbmail else { return }
 
-                    print("print: \(String(describing: info))")
                     guard let innerStrongSelf = self else { return }
                     guard let img = image else { return }
                     let id = asset.localIdentifier
                     let rawPhoto = RawPhoto(id: id, image: img)
-//                    photoObserver.send(value: rawPhoto)
                     rawPhotos.append(rawPhoto)
                     innerStrongSelf.dispatchGroup.leave()
                 })
             }
             strongSelf.dispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) {
-                print("all async calls complteted")
-                // send it to similar image service
                 similarImageService.inputs.analyze(rawPhotos: rawPhotos)
             }
         }
@@ -171,6 +162,8 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     let photoSignal: Signal<RawPhoto, NoError>
 
 }
+
+// MARK: Request access extension
 
 private extension Reactive where Base: PHPhotoLibrary {
     static func requestAccess() -> SignalProducer<Bool, NoError> {

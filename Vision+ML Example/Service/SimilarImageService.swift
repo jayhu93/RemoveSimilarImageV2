@@ -113,7 +113,6 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
             }
 
             self.dispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) {
-//                print("print: similar image performed finished")
                 let photoObjects = photoResults.map { photoResult -> PhotoObject in
                     let photoObject = PhotoObject()
                     photoObject.id = photoResult.id
