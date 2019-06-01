@@ -182,9 +182,9 @@ final class MainViewModel: SectionedDataSource {
 //
 //        // DEBUG
 //
-//        removeAllObjcsIO.output.observeValues { [weak self] in
-//            self?.localDatabase.inputs.deleteAllObjects()
-//        }
+        removeAllObjcsIO.output.observeValues { [weak self] in
+            self?.localDatabase.inputs.deleteAllObjects()
+        }
 //
 //        printSimilarPhotoObjects.output.observeValues { [weak self] _ in
 //            self?.localDatabase.inputs.getSimilarObjectGroups()

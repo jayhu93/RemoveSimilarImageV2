@@ -47,7 +47,7 @@ protocol PhotoLibraryServiceType {
 
 final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLibraryServiceType, PhotoLibraryServiceInputs, PhotoLibraryServiceOutputs {
 
-    typealias Dependency = (SchedulerProviderType, SimilarImageServiceType)
+    typealias Dependency = (SchedulerProviderType, SimilarImageServiceType, LocalDatabaseType)
 
     private let isRunningProperty = MutableProperty(false)
 
@@ -62,7 +62,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     // Init
 
     init(dependency: Dependency) {
-        let (schedulerProvider, similarImageService) = dependency
+        let (schedulerProvider, similarImageService, localDatabase) = dependency
         self.similarImageService = similarImageService
         let (photoSignal, photoObserver) = Signal<RawPhoto, NoError>.pipe()
         self.photoSignal = photoSignal.observe(on: schedulerProvider.scheduler(with: .ui))
@@ -116,6 +116,8 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             guard let assets = assets?.objects(at: indexSet) else { return }
             guard let strongSelf = self else { return }
             for asset in assets {
+                // make sure the asset is not yet in the database
+                guard !localDatabase.inputs.existInDatabase(asset.localIdentifier) else { break }
                 strongSelf.dispatchGroup.enter()
                 strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, info in
                     guard let isThumbnailInt = info?["PHImageResultIsDegradedKey"] as? Int else { return }

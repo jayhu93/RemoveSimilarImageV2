@@ -13,7 +13,8 @@ final class PhotoLibraryServiceAssembly: Assembly {
         container.register(PhotoLibraryServiceType.self) { resolver in
             let dependency = (
                 resolver.resolve(SchedulerProviderType.self)!,
-                resolver.resolve(SimilarImageServiceType.self)!
+                resolver.resolve(SimilarImageServiceType.self)!,
+                resolver.resolve(LocalDatabaseType.self)!
             )
             return PhotoLibraryService(dependency: dependency)
             }.inObjectScope(.container)

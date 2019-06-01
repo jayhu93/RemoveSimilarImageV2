@@ -66,7 +66,7 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                     self.dispatchGroup.enter()
                     let k = 10
                     let request = requst
-//                    DispatchQueue.main.async {
+                    DispatchQueue.main.async {
                         guard let results = request.results else {
                             print("Unable to rank image.\n\(error!.localizedDescription)")
                             return
@@ -88,10 +88,9 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                         print(knn)
                         let result = Array(knn)
                         let photoResult = PhotoResult(id: rawPhoto.id, results: result, timestamp: rawPhoto.timestamp)
-                        //                    similarImgageResultIO.input.send(value: photoResult)
                         photoResults.append(photoResult)
                         self.dispatchGroup.leave()
-//                    }
+                    }
                 })
                 request.imageCropAndScaleOption = .centerCrop
 

@@ -16,6 +16,7 @@ import Result
 protocol LocalDatabaseInputs {
     func addPhotoObjects(_ photoObjects: [PhotoObject])
     func deletePhotoObjects(withIds ids: [String])
+    func existInDatabase(_ id: String) -> Bool
 
     #if !RELEASE
     func deleteAllObjects()
@@ -92,21 +93,52 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
 
     func addPhotoObjects(_ photoObjects: [PhotoObject]) {
         // I dont need to write Photo object saperately actually, so skip
+        DispatchQueue.main.sync {
+            struct TempDataStore {
+                var similarSetObjects: [SimilarSetObject]
 
-        try! realm.write {
+                mutating func appendNewSimilarSetObject(_ obj: SimilarSetObject) {
+                    similarSetObjects.append(obj)
+                }
+
+                mutating func sameDaySet(_ photoObject: PhotoObject) -> [SimilarSetObject] {
+                    var sameDaySets = [SimilarSetObject]()
+                    for similarSet in similarSetObjects {
+                        if Calendar.current.isDate(similarSet.timestamp, inSameDayAs: photoObject.timestamp) {
+                            sameDaySets.append(similarSet)
+                        }
+                    }
+                    return Array(sameDaySets.reversed())
+                }
+
+                mutating func add(_ similarSet: SimilarSetObject) {
+                    if let existing = similarSetObjects.first(where: { $0.id == similarSet.id }) {
+                        if let index = similarSetObjects.firstIndex(of: existing) {
+                            similarSetObjects.remove(at: index)
+                            similarSetObjects.insert(similarSet, at: index)
+                        }
+                    } else {
+                        similarSetObjects.append(similarSet)
+                    }
+
+                }
+            }
+            // first fetch all similarsetobject in memory
+            let similarSetObjects = realm.objects(SimilarSetObject.self)
+            var tempDataStore = TempDataStore(similarSetObjects: Array(similarSetObjects))
+
+
+            // have an temp array to hold all of those, and append new one in them
+            // after the loops are done, update those objects
             for photoObject in photoObjects {
-                let startDate = photoObject.timestamp
-                let endDate = Calendar.current.nextDate(after: startDate, matching: DateComponents(day: 0), matchingPolicy: .nextTime)!
 
-                let similarSetObjects = realm.objects(SimilarSetObject.self)
-                    .filter("timestamp BETWEEN {%@, %@}", startDate, endDate)
-                    .sorted(byKeyPath: "timestamp", ascending: false)
+                let similarSetObjects = tempDataStore.sameDaySet(photoObject)
 
                 var inserted = false
                 for similarSetObject in similarSetObjects {
                     if similarSetObject.ableInsertObject(photoObject) {
                         similarSetObject.photoObjects.append(photoObject)
-                        realm.add(similarSetObject, update: true)
+                        tempDataStore.add(similarSetObject)
                         inserted = true
                         break // End the loop immediately
                     } else {
@@ -117,19 +149,34 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                     let new = SimilarSetObject()
                     new.photoObjects.append(photoObject)
                     new.id = photoObject.id
-                    self.realm.add(new, update: false)
+                    new.timestamp = photoObject.timestamp
+                    //                        self.realm.add(new, update: false)
+                    tempDataStore.add(new)
                 }
+            }
+
+            try! realm.write {
+                realm.add(tempDataStore.similarSetObjects, update: true)
             }
         }
     }
 
     func deletePhotoObjects(withIds ids: [String]) {
         let photoObjects = realm.objects(PhotoObject.self).filter("'id' IN $ids")
-        realm.delete(photoObjects)
+        try! realm.write {
+            realm.delete(photoObjects)
+        }
     }
 
     func deleteAllObjects() {
-        realm.deleteAll()
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
+
+    func existInDatabase(_ id: String) -> Bool {
+        let objects = realm.objects(PhotoObject.self).filter("id == %@", id)
+        return objects.count > 0
     }
 
     // MARK: LocalDatabaseOutputs
