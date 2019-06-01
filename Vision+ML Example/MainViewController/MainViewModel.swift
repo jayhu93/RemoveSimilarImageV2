@@ -129,7 +129,8 @@ final class MainViewModel: SectionedDataSource {
             ).observeValues { [photoLibraryService] in
                 // Fetch 50 photos and send them to similar photos service
                 // if similar photo still process preview batch, then cancel the request
-                photoLibraryService.inputs.fetchImage()
+                let currentCount = self.displayModel.value.numberOfElements(inSection: 0)
+                photoLibraryService.inputs.fetchImage(currentCount)
         }
 
 //        similarImageService.outputs.similarSetObjects.observeValues { similarSetObjects in

@@ -28,7 +28,7 @@ enum PhotoServiceAlbumAvailability {
 // MARK: PhotoLibraryServiceInputs
 
 protocol PhotoLibraryServiceInputs {
-    func fetchImage()
+    func fetchImage(_ currentCount: Int)
 }
 
 // MARK: PhotoLibraryServiceOutputs
@@ -51,7 +51,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
 
     private let isRunningProperty = MutableProperty(false)
 
-    private let fetchResultProperty = MutableProperty<PHFetchResult<PHAsset>?>(nil)
+    private let fetchResultProperty = MutableProperty<[PHAsset]>([])
     private let photoObserver: Signal<RawPhoto, NoError>.Observer
     private let assetCollectionProperty = MutableProperty<PHAssetCollection?>(nil)
     fileprivate let imageManager = PHCachingImageManager()
@@ -99,21 +99,28 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
 
 //        let scheduler = schedulerProvider.scheduler(with: .queue(.init(name: "com.poeticsyntax.Photo")))
 
-        fetchImagesIO.output.observeValues { [weak self] in
+        fetchImagesIO.output.skipRepeats()
+            .observeValues { [weak self] currentCount in
             // Fetch 50 photos and send them to similar photos service
             // if similar photo still process preview batch, then cancel the request
                 guard let strongSelf = self else { return }
                 let allPhotoOptions = PHFetchOptions()
                 allPhotoOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
                 let fetch = PHAsset.fetchAssets(with: allPhotoOptions)
-                strongSelf.fetchResultProperty.value = fetch
+
+                let begin = currentCount - 1
+                let possibleEnd = begin + 50
+                let lastIndex = fetch.count - 1
+                let end = lastIndex > possibleEnd ? possibleEnd : lastIndex
+                let indexSet = IndexSet(currentCount...end)
+
+                let assets = fetch.objects(at: indexSet)
+
+                strongSelf.fetchResultProperty.value = assets
         }
 
         fetchResultProperty.signal.observeValues { [weak self] assets in
             var rawPhotos = [RawPhoto]()
-            let totalAssetCount = assets?.count ?? 0
-            let indexSet = IndexSet(0..<totalAssetCount)
-            guard let assets = assets?.objects(at: indexSet) else { return }
             guard let strongSelf = self else { return }
             for asset in assets {
                 // make sure the asset is not yet in the database
@@ -156,9 +163,9 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
 
     // MARK: PhotoLibraryServiceInputs
 
-    private let fetchImagesIO = Signal<Void, NoError>.pipe()
-    func fetchImage() {
-        fetchImagesIO.input.send(value: ())
+    private let fetchImagesIO = Signal<Int, NoError>.pipe()
+    func fetchImage(_ currentCount: Int) {
+        fetchImagesIO.input.send(value: currentCount)
     }
 
     // MARK: PhotoLibraryServiceOutputs
