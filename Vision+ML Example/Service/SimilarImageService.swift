@@ -16,6 +16,7 @@ import Result
 struct PhotoResult {
     var id: String
     var results: [(offset: Int, element: Double)]
+    var timestamp: Date
 }
 
 // MARK: SimilarImageServiceInputs
@@ -86,7 +87,7 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
 
                         print(knn)
                         let result = Array(knn)
-                        let photoResult = PhotoResult(id: rawPhoto.id, results: result)
+                        let photoResult = PhotoResult(id: rawPhoto.id, results: result, timestamp: rawPhoto.timestamp)
                         //                    similarImgageResultIO.input.send(value: photoResult)
                         photoResults.append(photoResult)
                         self.dispatchGroup.leave()
@@ -117,6 +118,7 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                 let photoObjects = photoResults.map { photoResult -> PhotoObject in
                     let photoObject = PhotoObject()
                     photoObject.id = photoResult.id
+                    photoObject.timestamp = photoResult.timestamp
                     let similarArray = photoResult.results.map { $0.offset }
                     photoObject.similarArray.append(objectsIn: similarArray)
                     return photoObject

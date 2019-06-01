@@ -12,9 +12,12 @@ import RealmSwift
 
 class SimilarSetObject: Object {
     @objc dynamic var id: String = ""
+    var timestamp: Date? {
+        return photoObjects.first?.timestamp
+    }
     let photoObjects = List<PhotoObject>()
     
-    func insertObject(_ photoObject: PhotoObject) -> Bool {
+    func ableInsertObject(_ photoObject: PhotoObject) -> Bool {
         guard !photoObjects.contains(photoObject) else { return false }
         return photoObjects[0].containsElementsFrom(anotherArray: Array(photoObject.similarArray))
     }
@@ -26,6 +29,7 @@ class SimilarSetObject: Object {
 
 class PhotoObject: Object {
     @objc dynamic var id: String = ""
+    @objc dynamic var timestamp = Date()
     var grouped: Bool = false
     let similarArray = List<Int>()
 

@@ -16,6 +16,7 @@ import ReactiveCocoa
 struct RawPhoto {
     var id: String
     var image: UIImage
+    var timestamp: Date
 }
 
 enum PhotoServiceAlbumAvailability {
@@ -124,7 +125,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
                     guard let innerStrongSelf = self else { return }
                     guard let img = image else { return }
                     let id = asset.localIdentifier
-                    let rawPhoto = RawPhoto(id: id, image: img)
+                    let rawPhoto = RawPhoto(id: id, image: img, timestamp: asset.creationDate!)
                     rawPhotos.append(rawPhoto)
                     innerStrongSelf.dispatchGroup.leave()
                 })
