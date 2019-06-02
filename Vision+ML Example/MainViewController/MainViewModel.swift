@@ -90,6 +90,7 @@ final class MainViewModel: SectionedDataSource {
 
     enum Output: Equatable {
         case reloadData
+        case isRefreshing(isRefreshing: Bool)
     }
 
     private let outputIO = Signal<Output, NoError>.pipe()
@@ -132,6 +133,12 @@ final class MainViewModel: SectionedDataSource {
                 let currentCount = self.displayModel.value.numberOfElements(inSection: 0)
                 photoLibraryService.inputs.fetchImage(currentCount)
         }
+
+        refreshControlActionIO.output.observeValues { [weak self] in
+            self?.photoLibraryService.inputs.fetchImage(0)
+            self?.outputIO.input.send(value: .isRefreshing(isRefreshing: false))
+        }
+
 
 //        similarImageService.outputs.similarSetObjects.observeValues { similarSetObjects in
             // update display model

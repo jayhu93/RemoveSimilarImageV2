@@ -97,10 +97,6 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             struct TempDataStore {
                 var similarSetObjects: [SimilarSetObject]
 
-                mutating func appendNewSimilarSetObject(_ obj: SimilarSetObject) {
-                    similarSetObjects.append(obj)
-                }
-
                 mutating func sameDaySet(_ photoObject: PhotoObject) -> [SimilarSetObject] {
                     var sameDaySets = [SimilarSetObject]()
                     for similarSet in similarSetObjects {
@@ -108,7 +104,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                             sameDaySets.append(similarSet)
                         }
                     }
-                    return Array(sameDaySets.reversed())
+                    return sameDaySets
                 }
 
                 mutating func add(_ similarSet: SimilarSetObject) {
@@ -127,7 +123,6 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             let similarSetObjects = realm.objects(SimilarSetObject.self)
             var tempDataStore = TempDataStore(similarSetObjects: Array(similarSetObjects))
 
-
             // have an temp array to hold all of those, and append new one in them
             // after the loops are done, update those objects
             for photoObject in photoObjects {
@@ -137,12 +132,11 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                 var inserted = false
                 for similarSetObject in similarSetObjects {
                     if similarSetObject.ableInsertObject(photoObject) {
-                        similarSetObject.photoObjects.append(photoObject)
-                        tempDataStore.add(similarSetObject)
+                        let dupSimilarObject = similarSetObject
+                        dupSimilarObject.photoObjects.append(photoObject)
+                        tempDataStore.add(dupSimilarObject)
                         inserted = true
                         break // End the loop immediately
-                    } else {
-                        continue // end current loop and start from beginning
                     }
                 }
                 if !inserted {
@@ -150,7 +144,6 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                     new.photoObjects.append(photoObject)
                     new.id = photoObject.id
                     new.timestamp = photoObject.timestamp
-                    //                        self.realm.add(new, update: false)
                     tempDataStore.add(new)
                 }
             }

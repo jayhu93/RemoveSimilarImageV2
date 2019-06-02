@@ -21,7 +21,6 @@
 		B7EDF3672299E7E4006E0093 /* DropShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EDF3662299E7E4006E0093 /* DropShadowView.swift */; };
 		D14344C52280022C00331606 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C42276644400CED5A1 /* Realm.framework */; };
 		D14344C62280022C00331606 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C52276644400CED5A1 /* RealmSwift.framework */; };
-		D14344C7228002D100331606 /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8007E227812450074F7CC /* Objects.swift */; };
 		D14BC390227AB39C00277293 /* LocalDatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BC38F227AB39C00277293 /* LocalDatabaseAssembly.swift */; };
 		D14BC398227FDF6100277293 /* RemoveSimilarImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BC397227FDF6100277293 /* RemoveSimilarImagesTests.swift */; };
 		D14BC3A1227FF1AF00277293 /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8007E227812450074F7CC /* Objects.swift */; };
@@ -520,7 +519,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D14344C7228002D100331606 /* Objects.swift in Sources */,
 				D14BC398227FDF6100277293 /* RemoveSimilarImagesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,7 +667,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COREML_CODEGEN_LANGUAGE = Swift;
-				DEVELOPMENT_TEAM = 77ACHR8J5P;
+				DEVELOPMENT_TEAM = C7L7KU246T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -690,7 +688,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COREML_CODEGEN_LANGUAGE = Swift;
-				DEVELOPMENT_TEAM = 77ACHR8J5P;
+				DEVELOPMENT_TEAM = C7L7KU246T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

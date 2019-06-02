@@ -17,8 +17,6 @@ final class PreviewPhotoCollectionCell: UICollectionViewCell {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var deleteSwitch: UISwitch!
 
-    let switch1 = UISwitch()
-
     @IBAction func markDelete(_ sender: UISwitch) {
         guard let photoIndex = photoIndex else { return }
         CATransaction.setCompletionBlock { [weak self] in
@@ -42,7 +40,6 @@ extension PreviewPhotoCollectionCell: InputAppliable {
         
         let thumbnailSize = CGSize(width: 300, height: 300)
 
-        self.imageView.image = UIImage(named: "image.jpg")
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: .none) { (image, info) in
             self.imageView.image = image
         }

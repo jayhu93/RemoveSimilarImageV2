@@ -42,6 +42,12 @@ class MainViewController: UIViewController {
             guard let strongSelf = self else { return }
             switch output {
             case .reloadData: strongSelf.collectionView.reloadData()
+            case .isRefreshing(let isRefreshing):
+                if isRefreshing {
+                    self?.refreshControl.beginRefreshing()
+                } else {
+                    self?.refreshControl.endRefreshing()
+                }
             }
         }
     }

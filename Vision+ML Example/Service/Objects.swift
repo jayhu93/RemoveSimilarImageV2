@@ -17,7 +17,8 @@ class SimilarSetObject: Object {
     
     func ableInsertObject(_ photoObject: PhotoObject) -> Bool {
         guard !photoObjects.contains(photoObject) else { return false }
-        return photoObjects[0].containsElementsFrom(anotherArray: Array(photoObject.similarArray))
+        guard let firstObject = photoObjects.first else { return false }
+        return firstObject.containsElementsFrom(anotherArray: Array(photoObject.similarArray))
     }
     
     override static func primaryKey() -> String {
