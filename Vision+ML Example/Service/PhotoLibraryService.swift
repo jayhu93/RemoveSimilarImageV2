@@ -108,6 +108,8 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
                 allPhotoOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
                 let fetch = PHAsset.fetchAssets(with: allPhotoOptions)
 
+                guard fetch.count > 0 else { return }
+
                 let begin = currentCount - 1
                 let possibleEnd = begin + 50
                 let lastIndex = fetch.count - 1
