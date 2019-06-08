@@ -44,6 +44,7 @@ extension PreviewPhotoCarouselView: InputAppliable {
     func apply(input: Input) {
         self.dataSource = input.dataSource.photoModels
         self.pageControl.numberOfPages = input.dataSource.photoModels.count
+        self.pageControl.currentPage = 0
         self.collectionView.reloadData()
         let indexPath = IndexPath(item: input.dataSource.currentIndex, section: 0)
         self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)

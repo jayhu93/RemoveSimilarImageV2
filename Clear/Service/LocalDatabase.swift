@@ -67,7 +67,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         let getSimilarSetObjectsIO = Signal<[SimilarSetObject], NoError>.pipe()
         getSimilarSetObjectsSignal = getSimilarSetObjectsIO.output
         
-        let similarSetObjects = realm.objects(SimilarSetObject.self)
+        let similarSetObjects = realm.objects(SimilarSetObject.self).filter("photoObjects.@count > 1")
         self.notificationToken = similarSetObjects.observe { (changes: RealmCollectionChange) in
             switch changes {
             case .initial(let collectionType):
@@ -127,7 +127,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             // after the loops are done, update those objects
             for photoObject in photoObjects {
 
-                let similarSetObjects = tempDataStore.sameDaySet(photoObject)
+                let similarSetObjects = tempDataStore.similarSetObjects
 
                 var inserted = false
                 for similarSetObject in similarSetObjects {

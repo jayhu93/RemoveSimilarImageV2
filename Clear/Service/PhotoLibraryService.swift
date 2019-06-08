@@ -58,8 +58,8 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     private let fetchResultProperty = MutableProperty<[PHAsset]>([])
     private let photoObserver: Signal<RawPhoto, NoError>.Observer
     private let assetCollectionProperty = MutableProperty<PHAssetCollection?>(nil)
-    fileprivate let imageManager = PHCachingImageManager()
-    let thumbnailSize = CGSize.init(width: 30, height: 30)
+    private let imageManager = PHCachingImageManager()
+    private let thumbnailSize = CGSize.init(width: 30, height: 30)
     private let similarImageService: SimilarImageServiceType
 
     let dispatchGroup = DispatchGroup()
@@ -135,7 +135,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
                 strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, info in
                     guard let isThumbnailInt = info?["PHImageResultIsDegradedKey"] as? Int else { return }
                     guard let isThunbmail = Bool(exactly: isThumbnailInt as NSNumber) else { return }
-                    guard isThunbmail else { return }
+                    guard !isThunbmail else { return }
 
                     guard let innerStrongSelf = self else { return }
                     guard let img = image else { return }
