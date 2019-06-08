@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainPhotoView" customModule="RemoveSimilarImages" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainPhotoView" customModule="Clear" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Sc3-EE-V2F" customClass="MainPhotoView" customModule="RemoveSimilarImages" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Sc3-EE-V2F" customClass="MainPhotoView" customModule="Clear" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="439" height="674"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                 <rect key="frame" x="0.0" y="0.0" width="439" height="674"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CD5-af-H3T" customClass="DropShadowView" customModule="RemoveSimilarImages" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CD5-af-H3T" customClass="DropShadowView" customModule="Clear" customModuleProvider="target">
                         <rect key="frame" x="30" y="30" width="379" height="614"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HV7-Om-Hv8" userLabel="myContentView">
                                 <rect key="frame" x="0.0" y="0.0" width="379" height="614"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zaz-qv-ar5" customClass="ThumbnailPhotoCarouselView" customModule="RemoveSimilarImages" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="399" width="379" height="61.5"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v5i-ZB-Dg5" customClass="PreviewPhotoCarouselView" customModule="Clear" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="379" height="399"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRU-SN-BSU" customClass="SimilarSetActionView" customModule="Clear" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="399" width="379" height="153.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zaz-qv-ar5" customClass="ThumbnailPhotoCarouselView" customModule="Clear" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="552.5" width="379" height="61.5"/>
                                         <subviews>
                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nkv-pv-FjH">
                                                 <rect key="frame" x="188" y="3" width="3" height="55"/>
@@ -43,29 +51,21 @@
                                             <constraint firstItem="nkv-pv-FjH" firstAttribute="centerX" secondItem="zaz-qv-ar5" secondAttribute="centerX" id="rtN-Rb-w3z"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v5i-ZB-Dg5" customClass="PreviewPhotoCarouselView" customModule="RemoveSimilarImages" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="379" height="399"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRU-SN-BSU" customClass="SimilarSetActionView" customModule="RemoveSimilarImages" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="460.5" width="379" height="153.5"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="TRU-SN-BSU" firstAttribute="height" secondItem="HV7-Om-Hv8" secondAttribute="height" multiplier="0.25" id="6d7-3c-PTu"/>
+                                    <constraint firstItem="TRU-SN-BSU" firstAttribute="top" secondItem="v5i-ZB-Dg5" secondAttribute="bottom" id="BVA-qk-she"/>
                                     <constraint firstAttribute="trailing" secondItem="v5i-ZB-Dg5" secondAttribute="trailing" id="DAJ-ph-2Yx"/>
                                     <constraint firstItem="TRU-SN-BSU" firstAttribute="leading" secondItem="HV7-Om-Hv8" secondAttribute="leading" id="DZ8-7q-3J7"/>
+                                    <constraint firstItem="zaz-qv-ar5" firstAttribute="top" secondItem="TRU-SN-BSU" secondAttribute="bottom" id="Dqf-Xo-iaZ"/>
                                     <constraint firstAttribute="trailing" secondItem="zaz-qv-ar5" secondAttribute="trailing" id="G6f-qL-Wi0"/>
                                     <constraint firstAttribute="trailing" secondItem="TRU-SN-BSU" secondAttribute="trailing" id="NPQ-CM-cvi"/>
                                     <constraint firstItem="zaz-qv-ar5" firstAttribute="leading" secondItem="HV7-Om-Hv8" secondAttribute="leading" id="UHW-AA-ZF9"/>
-                                    <constraint firstItem="zaz-qv-ar5" firstAttribute="top" secondItem="v5i-ZB-Dg5" secondAttribute="bottom" id="UiH-CH-Svo"/>
                                     <constraint firstItem="v5i-ZB-Dg5" firstAttribute="leading" secondItem="HV7-Om-Hv8" secondAttribute="leading" id="XYA-bI-bNm"/>
                                     <constraint firstItem="v5i-ZB-Dg5" firstAttribute="top" secondItem="HV7-Om-Hv8" secondAttribute="top" id="eZ4-pX-80a"/>
                                     <constraint firstItem="zaz-qv-ar5" firstAttribute="height" secondItem="HV7-Om-Hv8" secondAttribute="height" multiplier="0.1" id="hPV-Db-ZOX"/>
                                     <constraint firstItem="v5i-ZB-Dg5" firstAttribute="height" secondItem="HV7-Om-Hv8" secondAttribute="height" multiplier="0.65" id="taz-dm-fCN"/>
-                                    <constraint firstItem="TRU-SN-BSU" firstAttribute="top" secondItem="zaz-qv-ar5" secondAttribute="bottom" id="vSp-Bm-qYa"/>
                                 </constraints>
                             </view>
                         </subviews>
