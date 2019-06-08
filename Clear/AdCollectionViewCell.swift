@@ -43,7 +43,7 @@ final class AdCollectionViewCell: UICollectionViewCell, InputAppliable {
     var nativeAdView: GADUnifiedNativeAdView!
 
     /// The ad unit ID.
-    let adUnitID = "ca-app-pub-3940256099942544/3986624511"
+    let adUnitID = "ca-app-pub-9309051447775957/4023871969"
 
     override func awakeFromNib() {
         super.awakeFromNib()
