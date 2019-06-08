@@ -55,7 +55,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
 
     private let isRunningProperty = MutableProperty(false)
 
-    private let fetchResultProperty = MutableProperty<[PHAsset]>([])
+    private let fetchResultProperty = MutableProperty<PHFetchResult<PHAsset>?>(nil)
     private let photoObserver: Signal<RawPhoto, NoError>.Observer
     private let assetCollectionProperty = MutableProperty<PHAssetCollection?>(nil)
     private let imageManager = PHCachingImageManager()
@@ -108,26 +108,34 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             // Fetch 50 photos and send them to similar photos service
             // if similar photo still process preview batch, then cancel the request
                 guard let strongSelf = self else { return }
+
+                let begin = currentCount - 1
+                let possibleEnd = begin + Constants.pageSize
+
                 let allPhotoOptions = PHFetchOptions()
-                allPhotoOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+                allPhotoOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                allPhotoOptions.fetchLimit = possibleEnd
                 let fetch = PHAsset.fetchAssets(with: allPhotoOptions)
 
                 guard fetch.count > 0 else { return }
 
-                let begin = currentCount - 1
-                let possibleEnd = begin + Constants.pageSize
-                let lastIndex = fetch.count - 1
-                let end = lastIndex > possibleEnd ? possibleEnd : lastIndex
-                let indexSet = IndexSet(currentCount...end)
+//                let begin = currentCount - 1
+//                let possibleEnd = begin + Constants.pageSize
+//                let lastIndex = fetch.count - 1
+//                let end = lastIndex > possibleEnd ? possibleEnd : lastIndex
+//                let indexSet = IndexSet(currentCount...end)
 
-                let assets = fetch.objects(at: indexSet)
+//                let assets = fetch.objects(at: indexSet)
 
-                strongSelf.fetchResultProperty.value = assets
+                strongSelf.fetchResultProperty.value = fetch
         }
 
-        fetchResultProperty.signal.observeValues { [weak self] assets in
+        fetchResultProperty.signal.observeValues { [weak self] fetch in
             var rawPhotos = [RawPhoto]()
             guard let strongSelf = self else { return }
+            guard let fetch = fetch else { return }
+            let indexSet = IndexSet(0..<fetch.count)
+            let assets = fetch.objects(at: indexSet)
             for asset in assets {
                 // make sure the asset is not yet in the database
                 guard !localDatabase.inputs.existInDatabase(asset.localIdentifier) else { break }
