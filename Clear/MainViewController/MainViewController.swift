@@ -13,6 +13,7 @@ import Swinject
 import ReactiveSwift
 import Result
 import ReactiveCocoa
+import Crashlytics
 
 class MainViewController: UIViewController {
     
@@ -121,9 +122,13 @@ extension MainViewController {
             let printSimilar = UIAlertAction(title: "Print Simialr PhotoObjects", style: .default) { [weak self] (_) in
                 self?.viewModel.apply(input: .printSimilarPhotoObjects)
             }
+            let crash = UIAlertAction(title: "crash", style: .destructive) { _ in
+                Crashlytics.sharedInstance().crash()
+            }
             sheet.addAction(removeAllObjects)
             sheet.addAction(dismiss)
             sheet.addAction(printSimilar)
+            sheet.addAction(crash)
             self.present(sheet, animated: true, completion: nil)
         }
     }
