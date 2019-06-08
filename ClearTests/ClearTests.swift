@@ -1,6 +1,6 @@
 //
-//  RemoveSimilarImagesTests.swift
-//  RemoveSimilarImagesTests
+//  ClearTests.swift
+//  ClearTests
 //
 //  Created by YupinHuPro on 5/5/19.
 //  Copyright © 2019 Apple. All rights reserved.
@@ -11,7 +11,7 @@ import XCTest
 import RealmSwift
 @testable import Clear
 
-class RemoveSimilarImagesTests: XCTestCase {
+class ClearTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

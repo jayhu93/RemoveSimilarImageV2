@@ -25,7 +25,7 @@
 		D14344C52280022C00331606 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C42276644400CED5A1 /* Realm.framework */; };
 		D14344C62280022C00331606 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C52276644400CED5A1 /* RealmSwift.framework */; };
 		D14BC390227AB39C00277293 /* LocalDatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BC38F227AB39C00277293 /* LocalDatabaseAssembly.swift */; };
-		D14BC398227FDF6100277293 /* RemoveSimilarImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BC397227FDF6100277293 /* RemoveSimilarImagesTests.swift */; };
+		D14BC398227FDF6100277293 /* ClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BC397227FDF6100277293 /* ClearTests.swift */; };
 		D14BC3A1227FF1AF00277293 /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8007E227812450074F7CC /* Objects.swift */; };
 		D157D93E226F6F7100C593CB /* PhotoLibraryServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D157D93D226F6F7100C593CB /* PhotoLibraryServiceAssembly.swift */; };
 		D157D940226F708300C593CB /* SchedulerProviderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D157D93F226F708300C593CB /* SchedulerProviderAssembly.swift */; };
@@ -103,7 +103,7 @@
 		D13750EE22323307006DB588 /* SwinjectStoryboard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwinjectStoryboard.framework; path = Carthage/Build/iOS/SwinjectStoryboard.framework; sourceTree = "<group>"; };
 		D14BC38F227AB39C00277293 /* LocalDatabaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDatabaseAssembly.swift; sourceTree = "<group>"; };
 		D14BC395227FDF6100277293 /* ClearTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D14BC397227FDF6100277293 /* RemoveSimilarImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveSimilarImagesTests.swift; sourceTree = "<group>"; };
+		D14BC397227FDF6100277293 /* ClearTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTests.swift; sourceTree = "<group>"; };
 		D14BC399227FDF6100277293 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D157D93D226F6F7100C593CB /* PhotoLibraryServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryServiceAssembly.swift; sourceTree = "<group>"; };
 		D157D93F226F708300C593CB /* SchedulerProviderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerProviderAssembly.swift; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			children = (
 				C858E5CC1ECA99CC006C5CAA /* README.md */,
 				11063F601EC0EECC0033EE6D /* Clear */,
-				D14BC396227FDF6100277293 /* RemoveSimilarImagesTests */,
+				D14BC396227FDF6100277293 /* ClearTests */,
 				11063F5F1EC0EECC0033EE6D /* Products */,
 				A9563AD0A9557D1000000001 /* Configuration */,
 				A96664E0A96664B000000001 /* LICENSE */,
@@ -204,9 +204,7 @@
 				D17658B72262AB42006AA7D4 /* HelperClasses */,
 				C82A1C951F1809F5005996F6 /* Supporting Files */,
 				B7EDF3632299DA76006E0093 /* SimilarSetActionView */,
-				D18E708922AC604A00441E42 /* UnifiedNativeAdView.xib */,
-				D18E708B22AC63A700441E42 /* AdCollectionViewCell.xib */,
-				D18E708D22AC640800441E42 /* AdCollectionViewCell.swift */,
+				D18E708F22AC71EE00441E42 /* Advertisement */,
 			);
 			path = Clear;
 			sourceTree = "<group>";
@@ -266,13 +264,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D14BC396227FDF6100277293 /* RemoveSimilarImagesTests */ = {
+		D14BC396227FDF6100277293 /* ClearTests */ = {
 			isa = PBXGroup;
 			children = (
-				D14BC397227FDF6100277293 /* RemoveSimilarImagesTests.swift */,
+				D14BC397227FDF6100277293 /* ClearTests.swift */,
 				D14BC399227FDF6100277293 /* Info.plist */,
 			);
-			path = RemoveSimilarImagesTests;
+			path = ClearTests;
 			sourceTree = "<group>";
 		};
 		D172D26E22618276002E7B38 /* PreviewPhotoCarouselView */ = {
@@ -344,6 +342,16 @@
 				D1816C9B2235E54600EF3892 /* AppDelegateViewModel.swift */,
 			);
 			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		D18E708F22AC71EE00441E42 /* Advertisement */ = {
+			isa = PBXGroup;
+			children = (
+				D18E708922AC604A00441E42 /* UnifiedNativeAdView.xib */,
+				D18E708B22AC63A700441E42 /* AdCollectionViewCell.xib */,
+				D18E708D22AC640800441E42 /* AdCollectionViewCell.swift */,
+			);
+			path = Advertisement;
 			sourceTree = "<group>";
 		};
 		D19A452E2233702C00046F1F /* Service */ = {
@@ -645,7 +653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D14BC398227FDF6100277293 /* RemoveSimilarImagesTests.swift in Sources */,
+				D14BC398227FDF6100277293 /* ClearTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,12 +851,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = RemoveSimilarImagesTests/Info.plist;
+				INFOPLIST_FILE = clearTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = fd.RemoveSimilarImagesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = fd.ClearTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -868,11 +876,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = RemoveSimilarImagesTests/Info.plist;
+				INFOPLIST_FILE = clearTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = fd.RemoveSimilarImagesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = fd.ClearTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
