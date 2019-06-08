@@ -9,6 +9,8 @@ target 'Clear' do
   pod 'Firebase/Core'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/AdMob'
 
   target 'ClearTests' do
     inherit! :search_paths

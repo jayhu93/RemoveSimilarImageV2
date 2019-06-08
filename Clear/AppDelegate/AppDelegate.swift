@@ -19,8 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         bindViewModel()
         viewModel.inputs.application(application, didFinishLaunchingWithOptions: launchOptions)
+
+        // Use Firebase library to configure APIs.
         FirebaseApp.configure()
+
         Fabric.sharedSDK().debug = true
+
+        // Initialize the Google Mobile Ads SDK.
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+
         return true
     }
     
