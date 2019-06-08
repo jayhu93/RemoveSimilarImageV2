@@ -47,6 +47,10 @@ protocol PhotoLibraryServiceType {
 
 final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLibraryServiceType, PhotoLibraryServiceInputs, PhotoLibraryServiceOutputs {
 
+    private struct Constants {
+        static let pageSize = 50
+    }
+
     typealias Dependency = (SchedulerProviderType, SimilarImageServiceType, LocalDatabaseType)
 
     private let isRunningProperty = MutableProperty(false)
@@ -111,7 +115,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
                 guard fetch.count > 0 else { return }
 
                 let begin = currentCount - 1
-                let possibleEnd = begin + 50
+                let possibleEnd = begin + Constants.pageSize
                 let lastIndex = fetch.count - 1
                 let end = lastIndex > possibleEnd ? possibleEnd : lastIndex
                 let indexSet = IndexSet(currentCount...end)

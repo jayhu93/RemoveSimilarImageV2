@@ -14,6 +14,7 @@ final class PreviewPhotoCarouselView: NibInstantiableView {
     var dataSource = [MainViewDisplayModel.PhotoModel]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var pageControl: UIPageControl!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,6 +43,7 @@ extension PreviewPhotoCarouselView: InputAppliable {
 
     func apply(input: Input) {
         self.dataSource = input.dataSource.photoModels
+        self.pageControl.numberOfPages = input.dataSource.photoModels.count
         self.collectionView.reloadData()
         let indexPath = IndexPath(item: input.dataSource.currentIndex, section: 0)
         self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
@@ -75,6 +77,7 @@ extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = Int(round(scrollView.contentOffset.x / scrollView.bounds.width))
         emitter.emit(event: .photoSwipe(index: index))
+        pageControl.currentPage = index
     }
 }
 
