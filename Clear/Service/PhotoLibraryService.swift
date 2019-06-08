@@ -128,7 +128,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             let assets = fetch.objects(at: indexSet)
             for asset in assets {
                 // make sure the asset is not yet in the database
-                guard !localDatabase.inputs.existInDatabase(asset.localIdentifier) else { break }
+                guard !localDatabase.inputs.existInDatabase(asset.localIdentifier) else { continue }
                 strongSelf.dispatchGroup.enter()
                 strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, info in
                     guard let isThumbnailInt = info?["PHImageResultIsDegradedKey"] as? Int else { return }
