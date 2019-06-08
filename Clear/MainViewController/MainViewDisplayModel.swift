@@ -10,11 +10,25 @@ import Foundation
 
 struct MainViewDisplayModel {
 
-    var similarSets = [SimilarPhotosDisplayModel]()
+    enum Element {
+        case similarSet(SimilarPhotosDisplayModel)
+        case ad
+    }
+
+    var elements = [Element]()
 
 
     init(similarSets: [SimilarPhotosDisplayModel] = []) {
-        self.similarSets = similarSets
+        var elements = similarSets.map { Element.similarSet($0) }
+
+        for (index, _) in elements.enumerated() {
+            guard index != 0 else { continue }
+            if index % 4 == 0 {
+                elements.insert(Element.ad, at: index)
+            }
+        }
+
+        self.elements = elements
     }
 
     init(_ simialrSetObjects: [SimilarSetObject]) {
@@ -23,7 +37,14 @@ struct MainViewDisplayModel {
                 photoModels: $0.photoObjects.map { PhotoModel(photoObject: $0) }
             )
         }
-        self.similarSets = newSimilarSets
+        var elements = newSimilarSets.map { Element.similarSet($0) }
+        for (index, _) in elements.enumerated() {
+            guard index != 0 else { continue }
+            if index % 4 == 0 {
+                elements.insert(Element.ad, at: index)
+            }
+        }
+        self.elements = elements
     }
 
     mutating func appendNewSimilarGroup(_ similarSets: [[PhotoObject]]) {
@@ -31,24 +52,22 @@ struct MainViewDisplayModel {
             let photoModels = similarSet.map { photoObject in PhotoModel(photoObject: photoObject) }
             return SimilarPhotosDisplayModel(photoModels: photoModels)
         }
-        self.similarSets.append(contentsOf: newSimilarSets)
+        var elements = newSimilarSets.map { Element.similarSet($0) }
+        for (index, _) in elements.enumerated() {
+            guard index != 0 else { continue }
+            if index % 4 == 0 {
+                elements.insert(Element.ad, at: index)
+            }
+        }
+        self.elements.append(contentsOf: elements)
     }
 
     mutating func markDelete(_ indexPath: IndexPath, _ photoIndex: Int, _ isOn: Bool) {
-        similarSets[indexPath.row].photoModels[photoIndex].markDelete = isOn
+//        similarSets[indexPath.row].photoModels[photoIndex].markDelete = isOn
     }
 
     mutating func swipePhoto(_ indexPath: IndexPath, _ photoIndex: Int) {
-        similarSets[indexPath.row].currentIndex = photoIndex
-    }
-
-    mutating func updateSimilarSetObjects(_ simialrSetObjects: [SimilarSetObject]) {
-        let newSimilarSets = simialrSetObjects.map {
-            SimilarPhotosDisplayModel(
-                photoModels: $0.photoObjects.map { PhotoModel(photoObject: $0) }
-            )
-        }
-        similarSets = newSimilarSets
+//        similarSets[indexPath.row].currentIndex = photoIndex
     }
     
     // Data Source
@@ -57,11 +76,11 @@ struct MainViewDisplayModel {
     }
 
     func numberOfElements(inSection section: Int) -> Int {
-        return similarSets.count
+        return elements.count
     }
 
-    func element(at indexPath: IndexPath) -> SimilarPhotosDisplayModel {
-        return similarSets[indexPath.row]
+    func element(at indexPath: IndexPath) -> Element {
+        return elements[indexPath.row]
     }
 
 }

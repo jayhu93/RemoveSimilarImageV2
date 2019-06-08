@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RGY-6b-Vov" customClass="AdCollectionViewCell" customModule="Clear" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="428" height="625"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="428" height="625"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AzB-Dd-g6Z">
+                        <rect key="frame" x="8" y="8" width="412" height="317"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="AzB-Dd-g6Z" secondAttribute="height" multiplier="1.3" id="HCn-Ke-JgF"/>
+                        </constraints>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="mhK-EI-8Gg">
+                        <rect key="frame" x="128" y="333" width="119" height="144"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSA-Ul-qeQ">
+                                <rect key="frame" x="0.0" y="0.0" width="119" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="QyQ-QF-zBB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n8Y-nt-CjZ" userLabel="Inner Content View">
+                                <rect key="frame" x="0.0" y="30.5" width="119" height="40"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JY8-JT-JPf" userLabel="Divider View">
+                                        <rect key="frame" x="59" y="0.0" width="1" height="40"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1" id="adK-wm-Nh7"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Start Videos Muted" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Mc-3w-0eR">
+                                        <rect key="frame" x="-105.5" y="10" width="156.5" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rYt-bB-7kD" userLabel="Start Videos Muted Switch">
+                                        <rect key="frame" x="75" y="5" width="51" height="31"/>
+                                    </switch>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="JY8-JT-JPf" firstAttribute="centerX" secondItem="n8Y-nt-CjZ" secondAttribute="centerX" id="5nV-FQ-jTu"/>
+                                    <constraint firstItem="JY8-JT-JPf" firstAttribute="leading" secondItem="9Mc-3w-0eR" secondAttribute="trailing" constant="8" id="7M4-dU-l0X"/>
+                                    <constraint firstItem="JY8-JT-JPf" firstAttribute="top" secondItem="n8Y-nt-CjZ" secondAttribute="top" id="7ci-dD-q6r"/>
+                                    <constraint firstItem="rYt-bB-7kD" firstAttribute="centerY" secondItem="9Mc-3w-0eR" secondAttribute="centerY" id="FZC-6T-tcF"/>
+                                    <constraint firstAttribute="height" constant="40" id="UlP-9X-eYV"/>
+                                    <constraint firstItem="9Mc-3w-0eR" firstAttribute="top" secondItem="n8Y-nt-CjZ" secondAttribute="top" constant="10" id="YlT-RW-enR"/>
+                                    <constraint firstAttribute="bottom" secondItem="JY8-JT-JPf" secondAttribute="bottom" id="w2E-Om-sm6"/>
+                                    <constraint firstItem="rYt-bB-7kD" firstAttribute="leading" secondItem="JY8-JT-JPf" secondAttribute="trailing" constant="15" id="xiE-s9-BoM"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hny-MN-0RX">
+                                <rect key="frame" x="0.0" y="80.5" width="119" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Refresh Ad"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SDK Version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8oh-xC-tXt">
+                                <rect key="frame" x="0.0" y="123.5" width="119" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="mhK-EI-8Gg" secondAttribute="trailing" constant="181" id="8zi-Dg-qPx"/>
+                <constraint firstItem="AzB-Dd-g6Z" firstAttribute="leading" secondItem="RGY-6b-Vov" secondAttribute="leading" constant="8" id="AmG-JT-KKa"/>
+                <constraint firstItem="AzB-Dd-g6Z" firstAttribute="top" secondItem="RGY-6b-Vov" secondAttribute="top" constant="8" id="RTg-gW-LnO"/>
+                <constraint firstItem="mhK-EI-8Gg" firstAttribute="top" secondItem="AzB-Dd-g6Z" secondAttribute="bottom" constant="8" id="Uh7-Lw-BND"/>
+                <constraint firstAttribute="trailing" secondItem="AzB-Dd-g6Z" secondAttribute="trailing" constant="8" id="V7S-hL-HzQ"/>
+                <constraint firstItem="mhK-EI-8Gg" firstAttribute="leading" secondItem="RGY-6b-Vov" secondAttribute="leading" constant="128" id="cLl-ej-za5"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="RnD-oX-P3J"/>
+            <size key="customSize" width="428" height="625"/>
+            <connections>
+                <outlet property="nativeAdPlaceholder" destination="AzB-Dd-g6Z" id="oes-FX-J8o"/>
+                <outlet property="refreshAdButton" destination="Hny-MN-0RX" id="mnf-2q-4Hh"/>
+                <outlet property="startMutedSwitch" destination="rYt-bB-7kD" id="eu2-oa-Ni6"/>
+                <outlet property="versionLabel" destination="8oh-xC-tXt" id="0Rg-M2-r9e"/>
+                <outlet property="videoStatusLabel" destination="eSA-Ul-qeQ" id="z6Z-VG-QKh"/>
+            </connections>
+            <point key="canvasLocation" x="-236.23188405797103" y="437.61160714285711"/>
+        </collectionViewCell>
+    </objects>
+</document>

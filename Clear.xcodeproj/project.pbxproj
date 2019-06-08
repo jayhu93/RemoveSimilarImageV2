@@ -43,6 +43,9 @@
 		D1816C9A2235E50600EF3892 /* AppDelegateAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1816C992235E50600EF3892 /* AppDelegateAssembly.swift */; };
 		D1816C9C2235E54600EF3892 /* AppDelegateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1816C9B2235E54600EF3892 /* AppDelegateViewModel.swift */; };
 		D185325D225FA12B0059F6AB /* InputAppliable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D185325C225FA12B0059F6AB /* InputAppliable.swift */; };
+		D18E708A22AC604A00441E42 /* UnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D18E708922AC604A00441E42 /* UnifiedNativeAdView.xib */; };
+		D18E708C22AC63A700441E42 /* AdCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D18E708B22AC63A700441E42 /* AdCollectionViewCell.xib */; };
+		D18E708E22AC640800441E42 /* AdCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18E708D22AC640800441E42 /* AdCollectionViewCell.swift */; };
 		D1915D6522699F400004D005 /* image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D1915D6422699F400004D005 /* image.jpg */; };
 		D1915D67226BAED70004D005 /* SchedulerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1915D66226BAED70004D005 /* SchedulerProvider.swift */; };
 		D19A452B22336CFC00046F1F /* MainViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D19A452A22336CFC00046F1F /* MainViewController.storyboard */; };
@@ -120,6 +123,9 @@
 		D185325C225FA12B0059F6AB /* InputAppliable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAppliable.swift; sourceTree = "<group>"; };
 		D18B36C42276644400CED5A1 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		D18B36C52276644400CED5A1 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		D18E708922AC604A00441E42 /* UnifiedNativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnifiedNativeAdView.xib; sourceTree = "<group>"; };
+		D18E708B22AC63A700441E42 /* AdCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdCollectionViewCell.xib; sourceTree = "<group>"; };
+		D18E708D22AC640800441E42 /* AdCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdCollectionViewCell.swift; sourceTree = "<group>"; };
 		D1915D6422699F400004D005 /* image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image.jpg; sourceTree = "<group>"; };
 		D1915D66226BAED70004D005 /* SchedulerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerProvider.swift; sourceTree = "<group>"; };
 		D1915D68226D81140004D005 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
@@ -198,6 +204,9 @@
 				D17658B72262AB42006AA7D4 /* HelperClasses */,
 				C82A1C951F1809F5005996F6 /* Supporting Files */,
 				B7EDF3632299DA76006E0093 /* SimilarSetActionView */,
+				D18E708922AC604A00441E42 /* UnifiedNativeAdView.xib */,
+				D18E708B22AC63A700441E42 /* AdCollectionViewCell.xib */,
+				D18E708D22AC640800441E42 /* AdCollectionViewCell.swift */,
 			);
 			path = Clear;
 			sourceTree = "<group>";
@@ -457,10 +466,12 @@
 				D17658B622620509006AA7D4 /* ThumbnailPhotoView.xib in Resources */,
 				D17658AD226185C5006AA7D4 /* PreviewPhotoCollectionCell.xib in Resources */,
 				113695D81EC1151400CA6C43 /* LaunchScreen.storyboard in Resources */,
+				D18E708A22AC604A00441E42 /* UnifiedNativeAdView.xib in Resources */,
 				D172D267225FA50A002E7B38 /* MainPhotoView.xib in Resources */,
 				B7EDF3622299DA6E006E0093 /* SimilarSetActionView.xib in Resources */,
 				11063F691EC0EECC0033EE6D /* Assets.xcassets in Resources */,
 				D172D26D2261826E002E7B38 /* PreviewPhotoCarouselView.xib in Resources */,
+				D18E708C22AC63A700441E42 /* AdCollectionViewCell.xib in Resources */,
 				D132DF5222AC48B600DAEF75 /* GoogleService-Info.plist in Resources */,
 				D17658B122620470006AA7D4 /* ThumbnailPhotoCarouselView.xib in Resources */,
 				D1915D6522699F400004D005 /* image.jpg in Resources */,
@@ -591,6 +602,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D18E708E22AC640800441E42 /* AdCollectionViewCell.swift in Sources */,
 				D1816C9C2235E54600EF3892 /* AppDelegateViewModel.swift in Sources */,
 				B784DDEF228A8BD300C9D798 /* SectionDataSource.swift in Sources */,
 				D1816C952235D87500EF3892 /* SimilarImageServiceAssembly.swift in Sources */,

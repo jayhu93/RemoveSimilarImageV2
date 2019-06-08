@@ -104,7 +104,7 @@ final class MainViewModel: SectionedDataSource {
         return displayModel.value.numberOfElements(inSection: section)
     }
 
-    func element(at indexPath: IndexPath) -> MainViewDisplayModel.SimilarPhotosDisplayModel {
+    func element(at indexPath: IndexPath) -> MainViewDisplayModel.Element {
         return displayModel.value.element(at: indexPath)
     }
 

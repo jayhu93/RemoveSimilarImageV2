@@ -14,6 +14,7 @@ import ReactiveSwift
 import Result
 import ReactiveCocoa
 import Crashlytics
+import Firebase
 
 class MainViewController: UIViewController {
     
@@ -24,6 +25,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.registerNib(forCellType: MainPhotoView.self)
+            collectionView.registerNib(forCellType: AdCollectionViewCell.self)
             collectionView.refreshControl = refreshControl
         }
     }
@@ -71,24 +73,29 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let displayModel = viewModel.element(at: indexPath)
-        let cell = collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: (displayModel, indexPath))
-        cell.observe { [weak self] in
-            guard let strongSelf = self else { return }
-            switch $0 {
-            case .removeAll(let indexPath):
-                strongSelf.viewModel.apply(input: .removeAll(indexPath: indexPath))
-            case .removeSelected(let indexPath):
-                strongSelf.viewModel.apply(input: .removeSelected(indexPath: indexPath))
-            case .keepAll(let indexPath):
-                strongSelf.viewModel.apply(input: .keepAll(indexPath: indexPath))
-            case .markDelete(let indexPath, let photoIndex, let isOn):
-                strongSelf.viewModel.apply(input: .markDelete(indexPath: indexPath, photoIndex: photoIndex, isOn: isOn))
-            case .swipePhoto(let indexPath, let photoIndex):
-                strongSelf.viewModel.apply(input: .swipePhoto(indexPath: indexPath, photoIndex: photoIndex))
+        switch viewModel.element(at: indexPath) {
+        case .similarSet(let displayModel):
+            let cell = collectionView.dequeueReusableCell(withType: MainPhotoView.self, for: indexPath).applied(input: (displayModel, indexPath))
+            cell.observe { [weak self] in
+                guard let strongSelf = self else { return }
+                switch $0 {
+                case .removeAll(let indexPath):
+                    strongSelf.viewModel.apply(input: .removeAll(indexPath: indexPath))
+                case .removeSelected(let indexPath):
+                    strongSelf.viewModel.apply(input: .removeSelected(indexPath: indexPath))
+                case .keepAll(let indexPath):
+                    strongSelf.viewModel.apply(input: .keepAll(indexPath: indexPath))
+                case .markDelete(let indexPath, let photoIndex, let isOn):
+                    strongSelf.viewModel.apply(input: .markDelete(indexPath: indexPath, photoIndex: photoIndex, isOn: isOn))
+                case .swipePhoto(let indexPath, let photoIndex):
+                    strongSelf.viewModel.apply(input: .swipePhoto(indexPath: indexPath, photoIndex: photoIndex))
+                }
             }
+            return cell
+        case .ad:
+            let cell = collectionView.dequeueReusableCell(withType: AdCollectionViewCell.self, for: indexPath)
+            return cell
         }
-        return cell
     }
 }
 
