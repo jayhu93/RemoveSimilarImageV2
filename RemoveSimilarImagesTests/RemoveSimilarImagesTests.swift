@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 import RealmSwift
-@testable import RemoveSimilarImages
+@testable import Clear
 
 class RemoveSimilarImagesTests: XCTestCase {
 

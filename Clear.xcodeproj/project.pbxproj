@@ -68,7 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		11063F5E1EC0EECC0033EE6D /* RemoveSimilarImages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoveSimilarImages.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		11063F5E1EC0EECC0033EE6D /* Clear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11063F611EC0EECC0033EE6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11063F631EC0EECC0033EE6D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		11063F681EC0EECC0033EE6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -90,7 +90,7 @@
 		D13750ED22323307006DB588 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		D13750EE22323307006DB588 /* SwinjectStoryboard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwinjectStoryboard.framework; path = Carthage/Build/iOS/SwinjectStoryboard.framework; sourceTree = "<group>"; };
 		D14BC38F227AB39C00277293 /* LocalDatabaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDatabaseAssembly.swift; sourceTree = "<group>"; };
-		D14BC395227FDF6100277293 /* RemoveSimilarImagesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoveSimilarImagesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D14BC395227FDF6100277293 /* ClearTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D14BC397227FDF6100277293 /* RemoveSimilarImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveSimilarImagesTests.swift; sourceTree = "<group>"; };
 		D14BC399227FDF6100277293 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D157D93D226F6F7100C593CB /* PhotoLibraryServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryServiceAssembly.swift; sourceTree = "<group>"; };
@@ -155,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				C858E5CC1ECA99CC006C5CAA /* README.md */,
-				11063F601EC0EECC0033EE6D /* Vision+ML Example */,
+				11063F601EC0EECC0033EE6D /* Clear */,
 				D14BC396227FDF6100277293 /* RemoveSimilarImagesTests */,
 				11063F5F1EC0EECC0033EE6D /* Products */,
 				A9563AD0A9557D1000000001 /* Configuration */,
@@ -167,13 +167,13 @@
 		11063F5F1EC0EECC0033EE6D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				11063F5E1EC0EECC0033EE6D /* RemoveSimilarImages.app */,
-				D14BC395227FDF6100277293 /* RemoveSimilarImagesTests.xctest */,
+				11063F5E1EC0EECC0033EE6D /* Clear.app */,
+				D14BC395227FDF6100277293 /* ClearTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		11063F601EC0EECC0033EE6D /* Vision+ML Example */ = {
+		11063F601EC0EECC0033EE6D /* Clear */ = {
 			isa = PBXGroup;
 			children = (
 				D17658B92262ABC1006AA7D4 /* AppDelegate */,
@@ -186,7 +186,7 @@
 				C82A1C951F1809F5005996F6 /* Supporting Files */,
 				B7EDF3632299DA76006E0093 /* SimilarSetActionView */,
 			);
-			path = "Vision+ML Example";
+			path = Clear;
 			sourceTree = "<group>";
 		};
 		A9563AD0A9557D1000000001 /* Configuration */ = {
@@ -341,9 +341,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		11063F5D1EC0EECC0033EE6D /* RemoveSimilarImages */ = {
+		11063F5D1EC0EECC0033EE6D /* Clear */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 11063F701EC0EECC0033EE6D /* Build configuration list for PBXNativeTarget "RemoveSimilarImages" */;
+			buildConfigurationList = 11063F701EC0EECC0033EE6D /* Build configuration list for PBXNativeTarget "Clear" */;
 			buildPhases = (
 				11063F5A1EC0EECC0033EE6D /* Sources */,
 				11063F5B1EC0EECC0033EE6D /* Frameworks */,
@@ -354,14 +354,14 @@
 			);
 			dependencies = (
 			);
-			name = RemoveSimilarImages;
+			name = Clear;
 			productName = "Vision+ML Example";
-			productReference = 11063F5E1EC0EECC0033EE6D /* RemoveSimilarImages.app */;
+			productReference = 11063F5E1EC0EECC0033EE6D /* Clear.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D14BC394227FDF6100277293 /* RemoveSimilarImagesTests */ = {
+		D14BC394227FDF6100277293 /* ClearTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D14BC39E227FDF6100277293 /* Build configuration list for PBXNativeTarget "RemoveSimilarImagesTests" */;
+			buildConfigurationList = D14BC39E227FDF6100277293 /* Build configuration list for PBXNativeTarget "ClearTests" */;
 			buildPhases = (
 				D14BC391227FDF6100277293 /* Sources */,
 				D14BC392227FDF6100277293 /* Frameworks */,
@@ -372,9 +372,9 @@
 			dependencies = (
 				D14BC39B227FDF6100277293 /* PBXTargetDependency */,
 			);
-			name = RemoveSimilarImagesTests;
+			name = ClearTests;
 			productName = RemoveSimilarImagesTests;
-			productReference = D14BC395227FDF6100277293 /* RemoveSimilarImagesTests.xctest */;
+			productReference = D14BC395227FDF6100277293 /* ClearTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -398,7 +398,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 11063F591EC0EECC0033EE6D /* Build configuration list for PBXProject "RemoveSimilarImages" */;
+			buildConfigurationList = 11063F591EC0EECC0033EE6D /* Build configuration list for PBXProject "Clear" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -411,8 +411,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				11063F5D1EC0EECC0033EE6D /* RemoveSimilarImages */,
-				D14BC394227FDF6100277293 /* RemoveSimilarImagesTests */,
+				11063F5D1EC0EECC0033EE6D /* Clear */,
+				D14BC394227FDF6100277293 /* ClearTests */,
 			);
 		};
 /* End PBXProject section */
@@ -528,7 +528,7 @@
 /* Begin PBXTargetDependency section */
 		D14BC39B227FDF6100277293 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 11063F5D1EC0EECC0033EE6D /* RemoveSimilarImages */;
+			target = 11063F5D1EC0EECC0033EE6D /* Clear */;
 			targetProxy = D14BC39A227FDF6100277293 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -672,7 +672,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "Vision+ML Example/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "Clear/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.poeticsyntax.RemoveSimilarImages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -693,7 +693,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "Vision+ML Example/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "Clear/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.poeticsyntax.RemoveSimilarImages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -723,7 +723,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RemoveSimilarImages.app/RemoveSimilarImages";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clear.app/Clear";
 			};
 			name = Debug;
 		};
@@ -746,14 +746,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RemoveSimilarImages.app/RemoveSimilarImages";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clear.app/Clear";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		11063F591EC0EECC0033EE6D /* Build configuration list for PBXProject "RemoveSimilarImages" */ = {
+		11063F591EC0EECC0033EE6D /* Build configuration list for PBXProject "Clear" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				11063F6E1EC0EECC0033EE6D /* Debug */,
@@ -762,7 +762,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		11063F701EC0EECC0033EE6D /* Build configuration list for PBXNativeTarget "RemoveSimilarImages" */ = {
+		11063F701EC0EECC0033EE6D /* Build configuration list for PBXNativeTarget "Clear" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				11063F711EC0EECC0033EE6D /* Debug */,
@@ -771,7 +771,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D14BC39E227FDF6100277293 /* Build configuration list for PBXNativeTarget "RemoveSimilarImagesTests" */ = {
+		D14BC39E227FDF6100277293 /* Build configuration list for PBXNativeTarget "ClearTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D14BC39C227FDF6100277293 /* Debug */,

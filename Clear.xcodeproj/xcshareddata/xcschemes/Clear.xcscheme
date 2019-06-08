@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "11063F5D1EC0EECC0033EE6D"
-               BuildableName = "RemoveSimilarImages.app"
-               BlueprintName = "RemoveSimilarImages"
-               ReferencedContainer = "container:RemoveSimilarImages.xcodeproj">
+               BuildableName = "Clear.app"
+               BlueprintName = "Clear"
+               ReferencedContainer = "container:Clear.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D14BC394227FDF6100277293"
-               BuildableName = "RemoveSimilarImagesTests.xctest"
-               BlueprintName = "RemoveSimilarImagesTests"
-               ReferencedContainer = "container:RemoveSimilarImages.xcodeproj">
+               BuildableName = "ClearTests.xctest"
+               BlueprintName = "ClearTests"
+               ReferencedContainer = "container:Clear.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "11063F5D1EC0EECC0033EE6D"
-            BuildableName = "RemoveSimilarImages.app"
-            BlueprintName = "RemoveSimilarImages"
-            ReferencedContainer = "container:RemoveSimilarImages.xcodeproj">
+            BuildableName = "Clear.app"
+            BlueprintName = "Clear"
+            ReferencedContainer = "container:Clear.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,9 +66,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "11063F5D1EC0EECC0033EE6D"
-            BuildableName = "RemoveSimilarImages.app"
-            BlueprintName = "RemoveSimilarImages"
-            ReferencedContainer = "container:RemoveSimilarImages.xcodeproj">
+            BuildableName = "Clear.app"
+            BlueprintName = "Clear"
+            ReferencedContainer = "container:Clear.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "11063F5D1EC0EECC0033EE6D"
-            BuildableName = "RemoveSimilarImages.app"
-            BlueprintName = "RemoveSimilarImages"
-            ReferencedContainer = "container:RemoveSimilarImages.xcodeproj">
+            BuildableName = "Clear.app"
+            BlueprintName = "Clear"
+            ReferencedContainer = "container:Clear.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
