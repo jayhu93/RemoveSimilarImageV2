@@ -21,7 +21,6 @@
 		B7EDF3672299E7E4006E0093 /* DropShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EDF3662299E7E4006E0093 /* DropShadowView.swift */; };
 		BA5BB1C6D9A6FB80437F4272 /* Pods_ClearTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4DF914373F466E0C1105B4 /* Pods_ClearTests.framework */; };
 		C01FCE09B76720E2BA39FBEC /* Pods_Clear.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F67B80B35D44196C1BDDF8 /* Pods_Clear.framework */; };
-		D132DF5222AC48B600DAEF75 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D132DF5122AC48B600DAEF75 /* GoogleService-Info.plist */; };
 		D14344C52280022C00331606 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C42276644400CED5A1 /* Realm.framework */; };
 		D14344C62280022C00331606 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18B36C52276644400CED5A1 /* RealmSwift.framework */; };
 		D14BC390227AB39C00277293 /* LocalDatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BC38F227AB39C00277293 /* LocalDatabaseAssembly.swift */; };
@@ -55,6 +54,7 @@
 		D19A4534223374D600046F1F /* UIStoryboard+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19A4533223374D600046F1F /* UIStoryboard+Extensions.swift */; };
 		D19A4536223375E400046F1F /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19A4535223375E400046F1F /* Container+Extension.swift */; };
 		D19A453822337A0E00046F1F /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19A453722337A0E00046F1F /* PhotoLibraryService.swift */; };
+		D1B031B422AD94CD0014DECD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1B031B322AD94CD0014DECD /* GoogleService-Info.plist */; };
 		D1C0528C225F245A006EB22A /* MainPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C0528B225F245A006EB22A /* MainPhotoView.swift */; };
 		D1C05290225F25A2006EB22A /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C0528F225F25A2006EB22A /* UICollectionView+ReusableCell.swift */; };
 		D1C05292225F260A006EB22A /* ContainerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C05291225F260A006EB22A /* ContainerCollectionViewCell.swift */; };
@@ -96,7 +96,6 @@
 		BC01FC65C4082ADB78D1AB64 /* Pods-Clear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clear.debug.xcconfig"; path = "Target Support Files/Pods-Clear/Pods-Clear.debug.xcconfig"; sourceTree = "<group>"; };
 		C858E5CC1ECA99CC006C5CAA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CB4DF914373F466E0C1105B4 /* Pods_ClearTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D132DF5122AC48B600DAEF75 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D13750EB22323307006DB588 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		D13750EC22323307006DB588 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
 		D13750ED22323307006DB588 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -137,6 +136,7 @@
 		D19A4533223374D600046F1F /* UIStoryboard+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extensions.swift"; sourceTree = "<group>"; };
 		D19A4535223375E400046F1F /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
 		D19A453722337A0E00046F1F /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		D1B031B322AD94CD0014DECD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D1C0528B225F245A006EB22A /* MainPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPhotoView.swift; sourceTree = "<group>"; };
 		D1C0528F225F25A2006EB22A /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
 		D1C05291225F260A006EB22A /* ContainerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 		C82A1C951F1809F5005996F6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D132DF5122AC48B600DAEF75 /* GoogleService-Info.plist */,
+				D1B031B322AD94CD0014DECD /* GoogleService-Info.plist */,
 				11063F6D1EC0EECC0033EE6D /* Info.plist */,
 				D1915D6422699F400004D005 /* image.jpg */,
 				D1C2A9822223E12000325B98 /* MyImageSimilarityModel.mlmodel */,
@@ -474,13 +474,13 @@
 				D17658B622620509006AA7D4 /* ThumbnailPhotoView.xib in Resources */,
 				D17658AD226185C5006AA7D4 /* PreviewPhotoCollectionCell.xib in Resources */,
 				113695D81EC1151400CA6C43 /* LaunchScreen.storyboard in Resources */,
+				D1B031B422AD94CD0014DECD /* GoogleService-Info.plist in Resources */,
 				D18E708A22AC604A00441E42 /* UnifiedNativeAdView.xib in Resources */,
 				D172D267225FA50A002E7B38 /* MainPhotoView.xib in Resources */,
 				B7EDF3622299DA6E006E0093 /* SimilarSetActionView.xib in Resources */,
 				11063F691EC0EECC0033EE6D /* Assets.xcassets in Resources */,
 				D172D26D2261826E002E7B38 /* PreviewPhotoCarouselView.xib in Resources */,
 				D18E708C22AC63A700441E42 /* AdCollectionViewCell.xib in Resources */,
-				D132DF5222AC48B600DAEF75 /* GoogleService-Info.plist in Resources */,
 				D17658B122620470006AA7D4 /* ThumbnailPhotoCarouselView.xib in Resources */,
 				D1915D6522699F400004D005 /* image.jpg in Resources */,
 			);
