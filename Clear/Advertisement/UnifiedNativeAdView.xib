@@ -17,14 +17,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydQ-d4-fcN" customClass="GADMediaView">
-                    <rect key="frame" x="12" y="128" width="351" height="351"/>
+                    <rect key="frame" x="12" y="116" width="351" height="351"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ydQ-d4-fcN" secondAttribute="height" id="1aw-rv-Rba"/>
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="6Vv-J1-maZ">
-                    <rect key="frame" x="168" y="491" width="195" height="30"/>
+                    <rect key="frame" x="168" y="479" width="195" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Lc-v1-qCp">
                             <rect key="frame" x="0.0" y="0.0" width="39" height="30"/>
@@ -45,7 +45,7 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Dn-rT-Bcd">
-                    <rect key="frame" x="12" y="12" width="351" height="108"/>
+                    <rect key="frame" x="12" y="0.0" width="351" height="108"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="T9G-Rb-xUd">
                             <rect key="frame" x="0.0" y="0.0" width="351" height="50"/>
@@ -103,7 +103,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ydQ-d4-fcN" secondAttribute="trailing" constant="12" id="SHs-0H-YOq"/>
                 <constraint firstItem="ydQ-d4-fcN" firstAttribute="top" secondItem="9Dn-rT-Bcd" secondAttribute="bottom" constant="8" id="TS0-m3-jeW"/>
                 <constraint firstItem="6Vv-J1-maZ" firstAttribute="top" secondItem="ydQ-d4-fcN" secondAttribute="bottom" constant="12" id="Vgf-tD-FMp"/>
-                <constraint firstItem="9Dn-rT-Bcd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="YgO-BP-Xzx"/>
+                <constraint firstItem="9Dn-rT-Bcd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YgO-BP-Xzx"/>
                 <constraint firstItem="9Dn-rT-Bcd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="mYy-O7-pbs"/>
                 <constraint firstAttribute="trailing" secondItem="9Dn-rT-Bcd" secondAttribute="trailing" constant="12" id="qwY-Fn-FGL"/>
             </constraints>
