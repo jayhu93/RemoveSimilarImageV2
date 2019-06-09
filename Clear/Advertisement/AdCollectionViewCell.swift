@@ -14,8 +14,13 @@ final class AdCollectionViewCell: UICollectionViewCell, InputAppliable {
     typealias Input = Void
 
     func apply(input: AdCollectionViewCell.Input) {
-
+        print("print: applied")
     }
+
+    @IBOutlet weak var cardContainerView: DropShadowView!
+    @IBOutlet weak var myContentView: UIView!
+
+    let cornerRadius : CGFloat = 25.0
 
     /// The view that holds the native ad.
     @IBOutlet weak var nativeAdPlaceholder: UIView!
@@ -53,6 +58,22 @@ final class AdCollectionViewCell: UICollectionViewCell, InputAppliable {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        // MARK: Corner Radius and shadow
+        cardContainerView.layer.cornerRadius = cornerRadius
+        cardContainerView.layer.shadowColor = UIColor.gray.cgColor
+        cardContainerView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        cardContainerView.layer.shadowRadius = 15.0
+        cardContainerView.layer.shadowOpacity = 0.9
+
+        // setting shadow path in awakeFromNib doesn't work as the bounds / frames of the views haven't got initialized yet
+        // at this point the cell layout position isn't known yet
+
+        myContentView.layer.cornerRadius = cornerRadius
+        myContentView.clipsToBounds = true
+
+        // MARK: Ads setup
+
         versionLabel.text = GADRequest.sdkVersion()
         guard let nibObjects = Bundle.main.loadNibNamed("UnifiedNativeAdView", owner: nil, options: nil),
             let adView = nibObjects.first as? GADUnifiedNativeAdView else {
