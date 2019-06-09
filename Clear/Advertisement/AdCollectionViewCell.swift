@@ -43,7 +43,13 @@ final class AdCollectionViewCell: UICollectionViewCell, InputAppliable {
     var nativeAdView: GADUnifiedNativeAdView!
 
     /// The ad unit ID.
-    let adUnitID = "ca-app-pub-9309051447775957/4023871969"
+    var adUnitID: String {
+        #if DEBUG
+            return  "ca-app-pub-3940256099942544/3986624511"
+        #else
+            return "ca-app-pub-9309051447775957/4023871969"
+        #endif
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -75,12 +81,12 @@ final class AdCollectionViewCell: UICollectionViewCell, InputAppliable {
 
     /// Refreshes the native ad.
     @IBAction func refreshAd(_ sender: AnyObject!) {
-//        refreshAdButton.isEnabled = false
-//        videoStatusLabel.text = ""
-//        adLoader = GADAdLoader(adUnitID: adUnitID, rootViewController: self,
-//                               adTypes: [ .unifiedNative ], options: nil)
-//        adLoader.delegate = self
-//        adLoader.load(GADRequest())
+        refreshAdButton.isEnabled = false
+        videoStatusLabel.text = ""
+        adLoader = GADAdLoader(adUnitID: adUnitID, rootViewController: nil,
+                               adTypes: [ .unifiedNative ], options: nil)
+        adLoader.delegate = self
+        adLoader.load(GADRequest())
     }
 
     /// Returns a `UIImage` representing the number of stars from the given star rating; returns `nil`

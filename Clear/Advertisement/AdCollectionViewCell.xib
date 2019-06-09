@@ -74,6 +74,9 @@
                                 <rect key="frame" x="0.0" y="80.5" width="119" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Refresh Ad"/>
+                                <connections>
+                                    <action selector="refreshAd:" destination="RGY-6b-Vov" eventType="touchUpInside" id="n1l-L4-nkz"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SDK Version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8oh-xC-tXt">
                                 <rect key="frame" x="0.0" y="123.5" width="119" height="20.5"/>

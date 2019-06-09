@@ -93,7 +93,7 @@ extension MainViewController: UICollectionViewDelegate {
             }
             return cell
         case .ad:
-            let cell = collectionView.dequeueReusableCell(withType: AdCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withType: AdCollectionViewCell.self, for: indexPath).applied(input: ())
             return cell
         }
     }
