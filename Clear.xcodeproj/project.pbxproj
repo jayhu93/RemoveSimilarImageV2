@@ -55,6 +55,7 @@
 		D19A4536223375E400046F1F /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19A4535223375E400046F1F /* Container+Extension.swift */; };
 		D19A453822337A0E00046F1F /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19A453722337A0E00046F1F /* PhotoLibraryService.swift */; };
 		D1B031B422AD94CD0014DECD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1B031B322AD94CD0014DECD /* GoogleService-Info.plist */; };
+		D1B031BA22ADC4F60014DECD /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B031B922ADC4F60014DECD /* CustomButton.swift */; };
 		D1C0528C225F245A006EB22A /* MainPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C0528B225F245A006EB22A /* MainPhotoView.swift */; };
 		D1C05290225F25A2006EB22A /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C0528F225F25A2006EB22A /* UICollectionView+ReusableCell.swift */; };
 		D1C05292225F260A006EB22A /* ContainerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C05291225F260A006EB22A /* ContainerCollectionViewCell.swift */; };
@@ -137,6 +138,7 @@
 		D19A4535223375E400046F1F /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
 		D19A453722337A0E00046F1F /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
 		D1B031B322AD94CD0014DECD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D1B031B922ADC4F60014DECD /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		D1C0528B225F245A006EB22A /* MainPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPhotoView.swift; sourceTree = "<group>"; };
 		D1C0528F225F25A2006EB22A /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
 		D1C05291225F260A006EB22A /* ContainerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				B784DDEE228A8BD300C9D798 /* SectionDataSource.swift */,
 				B7EDF3642299DBEA006E0093 /* BehaviorEventEmittable.swift */,
 				B7EDF3662299E7E4006E0093 /* DropShadowView.swift */,
+				D1B031B922ADC4F60014DECD /* CustomButton.swift */,
 			);
 			path = HelperClasses;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 				D172D26922603A02002E7B38 /* MainPhotoViewModel.swift in Sources */,
 				D1915D67226BAED70004D005 /* SchedulerProvider.swift in Sources */,
 				D17658AB226185BC006AA7D4 /* PreviewPhotoCollectionCell.swift in Sources */,
+				D1B031BA22ADC4F60014DECD /* CustomButton.swift in Sources */,
 				D1C05292225F260A006EB22A /* ContainerCollectionViewCell.swift in Sources */,
 				B7EDF3602299DA63006E0093 /* SimilarSetActionView.swift in Sources */,
 				D17658AF22620446006AA7D4 /* ThumbnailPhotoCarouselView.swift in Sources */,
