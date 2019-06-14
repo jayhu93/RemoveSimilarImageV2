@@ -27,6 +27,7 @@ protocol LocalDatabaseInputs {
 
 protocol LocalDatabaseOutputs {
     var getSimilarSetObjectsSignal: Signal<[SimilarSetObject], NoError> { get }
+    func numberOfPhotoObjects() -> Int
 }
 
 // MARK: LocalDatabaseType
@@ -97,6 +98,10 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             struct TempDataStore {
                 var similarSetObjects: [SimilarSetObject]
 
+                init(similarSetObjects: [SimilarSetObject]) {
+                    self.similarSetObjects = similarSetObjects.sorted(by: { $0.timestamp > $1.timestamp })
+                }
+
                 mutating func sameDaySet(_ photoObject: PhotoObject) -> [SimilarSetObject] {
                     var sameDaySets = [SimilarSetObject]()
                     for similarSet in similarSetObjects {
@@ -114,9 +119,10 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                             similarSetObjects.insert(similarSet, at: index)
                         }
                     } else {
-                        similarSetObjects.append(similarSet)
+                        var copy = similarSetObjects
+                        copy.append(similarSet)
+                        similarSetObjects = copy.sorted(by: { $0.timestamp > $1.timestamp })
                     }
-
                 }
             }
             // first fetch all similarsetobject in memory
@@ -170,6 +176,11 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     func existInDatabase(_ id: String) -> Bool {
         let objects = realm.objects(PhotoObject.self).filter("id == %@", id)
         return objects.count > 0
+    }
+
+    func numberOfPhotoObjects() -> Int {
+        let photoObjects = realm.objects(PhotoObject.self)
+        return photoObjects.count
     }
 
     // MARK: LocalDatabaseOutputs

@@ -127,10 +127,11 @@ final class MainViewModel: SectionedDataSource {
         Signal.merge(
             viewDidLoadIO.output,
             reachedPaginationOffsetYIO.output
-            ).observeValues { [photoLibraryService] in
+            ).observeValues { [photoLibraryService, localDatabase] in
                 // Fetch 50 photos and send them to similar photos service
                 // if similar photo still process preview batch, then cancel the request
-                let currentCount = self.displayModel.value.numberOfElements(inSection: 0)
+//                let currentCount = self.displayModel.value.numberOfElements(inSection: 0)
+                let currentCount = localDatabase.outputs.numberOfPhotoObjects()
                 photoLibraryService.inputs.fetchImage(currentCount)
         }
 
