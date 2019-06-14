@@ -29,6 +29,7 @@ protocol SimilarImageServiceInputs {
 
 protocol SimilarImageServiceOutputs {
     var similarImageResultSignal: Signal<PhotoResult, NoError> { get }
+    var isRefreshing: Signal<Bool, NoError> { get }
 }
 
 // MARK: SimiliarImageServiceType
@@ -43,9 +44,15 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
     typealias Dependency = (LocalDatabaseType)
 
     let dispatchGroup = DispatchGroup()
-    
+
+    var isRefreshing: Signal<Bool, NoError>
+
     // Init
     init(dependency: Dependency) {
+
+        let isRefreshingIO = Signal<Bool, NoError>.pipe()
+
+        isRefreshing = isRefreshingIO.output
 
         let (localDatabase) = dependency
 
@@ -57,6 +64,11 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
         // TODO: Make this reactive
 
         analyzeIO.output.observeValues { rawPhotos in
+
+            DispatchQueue.main.async {
+                isRefreshingIO.input.send(value: true)
+            }
+
             var photoResults = [PhotoResult]()
             // analyze image here
             // PerformRequests
@@ -123,8 +135,10 @@ final class SimilarImageService: SimilarImageServiceType, SimilarImageServiceInp
                     return photoObject
                 }
                 localDatabase.inputs.addPhotoObjects(photoObjects)
+                DispatchQueue.main.async {
+                    isRefreshingIO.input.send(value: false)
+                }
             }
-
         }
     }
     
