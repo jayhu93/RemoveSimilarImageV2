@@ -59,6 +59,9 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - NVActivityIndicatorView (4.7.0):
+    - NVActivityIndicatorView/Presenter (= 4.7.0)
+  - NVActivityIndicatorView/Presenter (4.7.0)
 
 DEPENDENCIES:
   - Crashlytics
@@ -66,6 +69,7 @@ DEPENDENCIES:
   - Firebase/AdMob
   - Firebase/Analytics
   - Firebase/Core
+  - NVActivityIndicatorView
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -79,6 +83,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleUtilities
     - nanopb
+    - NVActivityIndicatorView
 
 SPEC CHECKSUMS:
   Crashlytics: 5aa8e90dcbf2f34898b4f5a0037787531246cca0
@@ -91,7 +96,8 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
   GoogleUtilities: 996e0db07153674fd1b54b220fda3a3dc3547cba
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
 
-PODFILE CHECKSUM: 4c9de3f40707978362aee362451c1bba5a35d6d4
+PODFILE CHECKSUM: d283bd6171b0a26eb477dcd5c96d2fc560bea719
 
 COCOAPODS: 1.7.1

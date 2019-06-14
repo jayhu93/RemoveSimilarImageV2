@@ -15,14 +15,15 @@ import Result
 import ReactiveCocoa
 import Crashlytics
 import Firebase
+import NVActivityIndicatorView
 
 class MainViewController: UIViewController {
     
     var viewModel: MainViewModel!
 
     private var refreshControl = UIRefreshControl()
-    
-    @IBOutlet weak var collectionView: UICollectionView! {
+    @IBOutlet private weak var customActivityIndicatorView: NVActivityIndicatorView!
+    @IBOutlet private weak var collectionView: UICollectionView! {
         didSet {
             collectionView.registerNib(forCellType: MainPhotoView.self)
             collectionView.registerNib(forCellType: AdCollectionViewCell.self)
@@ -48,8 +49,10 @@ class MainViewController: UIViewController {
             case .isRefreshing(let isRefreshing):
                 if isRefreshing {
                     self?.refreshControl.beginRefreshing()
+                    self?.customActivityIndicatorView.startAnimating()
                 } else {
                     self?.refreshControl.endRefreshing()
+                    self?.customActivityIndicatorView.stopAnimating()
                 }
             }
         }

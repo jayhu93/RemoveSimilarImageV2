@@ -11,6 +11,7 @@ target 'Clear' do
   pod 'Crashlytics'
   pod 'Firebase/Analytics'
   pod 'Firebase/AdMob'
+  pod 'NVActivityIndicatorView'
 
   target 'ClearTests' do
     inherit! :search_paths
