@@ -102,6 +102,9 @@ extension MainViewDisplayModel {
     struct SimilarPhotosDisplayModel {
         var photoModels: [PhotoModel]
         var currentIndex = 0
+        var setID: String {
+            return photoModels[0].photoObject.id
+        }
         init(photoModels: [PhotoModel]) {
             self.photoModels = photoModels
         }

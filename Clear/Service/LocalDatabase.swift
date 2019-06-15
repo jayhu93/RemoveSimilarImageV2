@@ -17,6 +17,7 @@ protocol LocalDatabaseInputs {
     func addPhotoObjects(_ photoObjects: [PhotoObject])
     func deletePhotoObjects(withIds ids: [String])
     func existInDatabase(_ id: String) -> Bool
+    func markKeepAll(_ setID: String)
 
     #if !RELEASE
     func deleteAllObjects()
@@ -68,7 +69,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         let getSimilarSetObjectsIO = Signal<[SimilarSetObject], NoError>.pipe()
         getSimilarSetObjectsSignal = getSimilarSetObjectsIO.output
         
-        let similarSetObjects = realm.objects(SimilarSetObject.self).filter("photoObjects.@count > 1")
+        let similarSetObjects = realm.objects(SimilarSetObject.self).filter("photoObjects.@count > 1 && showSet == true")
         self.notificationToken = similarSetObjects.observe { (changes: RealmCollectionChange) in
             switch changes {
             case .initial(let collectionType):
@@ -181,6 +182,13 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     func numberOfPhotoObjects() -> Int {
         let photoObjects = realm.objects(PhotoObject.self)
         return photoObjects.count
+    }
+
+    func markKeepAll(_ setID: String) {
+        guard let object = realm.object(ofType: SimilarSetObject.self, forPrimaryKey: setID) else { return }
+        try! realm.write {
+            object.showSet = false
+        }
     }
 
     // MARK: LocalDatabaseOutputs

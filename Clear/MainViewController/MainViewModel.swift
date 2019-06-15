@@ -145,5 +145,14 @@ final class MainViewModel: SectionedDataSource {
         removeAllObjcsIO.output.observeValues { [weak self] in
             self?.localDatabase.inputs.deleteAllObjects()
         }
+
+        keepAllIO.output.observeValues { [weak self] indexPath in
+            guard let strongSelf = self else { return }
+            switch strongSelf.displayModel.value.element(at: indexPath) {
+            case .similarSet(let model):
+                strongSelf.localDatabase.inputs.markKeepAll(model.setID)
+            default: break
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import RealmSwift
 class SimilarSetObject: Object {
     @objc dynamic var id: String = ""
     @objc dynamic var timestamp: Date = Date()
+    @objc dynamic var showSet: Bool = true
     let photoObjects = List<PhotoObject>()
     
     func ableInsertObject(_ photoObject: PhotoObject) -> Bool {
