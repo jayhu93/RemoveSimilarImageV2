@@ -67,6 +67,11 @@
                                     <constraint firstAttribute="bottom" secondItem="AzB-Dd-g6Z" secondAttribute="bottom" id="ku1-Dj-5J8"/>
                                     <constraint firstItem="mhK-EI-8Gg" firstAttribute="leading" secondItem="3Cm-MQ-weC" secondAttribute="leading" constant="12" id="v15-3o-xTI"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="mhK-EI-8Gg"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

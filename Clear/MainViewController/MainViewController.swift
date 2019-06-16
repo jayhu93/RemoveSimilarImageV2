@@ -104,9 +104,16 @@ extension MainViewController: UICollectionViewDelegate {
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width
-        let height = width * 1.8
-        return CGSize(width: width, height: height)
+        switch viewModel.element(at: indexPath) {
+        case .similarSet:
+            let width = collectionView.frame.width
+            let height = width * 1.8
+            return CGSize(width: width, height: height)
+        case .ad:
+            let width = collectionView.frame.width
+            let height = width * 1.2
+            return CGSize(width: width, height: height)
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
