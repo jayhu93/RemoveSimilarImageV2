@@ -30,7 +30,7 @@ extension ThumbnailPhotoView: InputAppliable {
         // TODO: Will most likely move this block our of this view
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = false
-        let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: .none).firstObject!
+        guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: .none).firstObject else { return }
         
         let thumbnailSize = CGSize(width: 300, height: 300)
         

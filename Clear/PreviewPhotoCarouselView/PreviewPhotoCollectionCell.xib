@@ -28,6 +28,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6Z-Nj-A2M">
                                 <rect key="frame" x="6.5" y="0.0" width="51" height="31"/>
                                 <color key="onTintColor" red="0.7321555018" green="0.20017883180000001" blue="0.18812984229999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="markDelete:" destination="Ugu-5G-21q" eventType="valueChanged" id="csj-zg-4M4"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remove" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCe-AO-8EH">
                                 <rect key="frame" x="0.0" y="35" width="61.5" height="20.5"/>

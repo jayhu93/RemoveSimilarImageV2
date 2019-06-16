@@ -10,6 +10,7 @@ import Foundation
 import RealmSwift
 import ReactiveSwift
 import Result
+import Photos
 
 // MARK: LocalDatabaseInputs
 
@@ -18,7 +19,8 @@ protocol LocalDatabaseInputs {
     func deletePhotoObjects(withIds ids: [String])
     func existInDatabase(_ id: String) -> Bool
     func markKeepAll(_ setID: String)
-
+    func removeAll(_ setID: String)
+    func removeSelected(_ setID: String, selectedIndices: [Int])
     #if !RELEASE
     func deleteAllObjects()
     #endif
@@ -189,6 +191,37 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         try! realm.write {
             object.showSet = false
         }
+    }
+
+    func removeAll(_ setID: String) {
+        guard  let object = realm.object(ofType: SimilarSetObject.self, forPrimaryKey: setID) else { return }
+        let photoIDs = Array(object.photoObjects.map { $0.id })
+        try! realm.write {
+            realm.delete(object)
+        }
+//        photoLibraryService.inputs.removePhotos(photoIDs)
+        PHPhotoLibrary.shared().performChanges({
+            let imageAssetToDelete = PHAsset.fetchAssets(withLocalIdentifiers: photoIDs, options: nil)
+            PHAssetChangeRequest.deleteAssets(imageAssetToDelete)
+        }, completionHandler: {success, error in
+            print(success ? "Success" : error as Any )
+        })
+    }
+
+    func removeSelected(_ setID: String, selectedIndices: [Int]) {
+        guard let object = realm.object(ofType: SimilarSetObject.self, forPrimaryKey: setID) else { return }
+        let elements =  selectedIndices.map { object.photoObjects[$0] }
+        try! realm.write {
+            selectedIndices.forEach { object.photoObjects.remove(at: $0) }
+        }
+//        photoLibraryService.inputs.removePhotos(elements.map { $0.id })
+        let photoIDs = elements.map { $0.id }
+        PHPhotoLibrary.shared().performChanges({
+            let imageAssetToDelete = PHAsset.fetchAssets(withLocalIdentifiers: photoIDs, options: nil)
+            PHAssetChangeRequest.deleteAssets(imageAssetToDelete)
+        }, completionHandler: {success, error in
+            print(success ? "Success" : error as Any )
+        })
     }
 
     // MARK: LocalDatabaseOutputs

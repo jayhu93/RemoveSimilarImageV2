@@ -84,14 +84,10 @@ extension MainViewController: UICollectionViewDelegate {
                 switch $0 {
                 case .removeAll(let indexPath):
                     strongSelf.viewModel.apply(input: .removeAll(indexPath: indexPath))
-                case .removeSelected(let indexPath):
-                    strongSelf.viewModel.apply(input: .removeSelected(indexPath: indexPath))
+                case .removeSelected(let indexPath, let selectedIndices):
+                    strongSelf.viewModel.apply(input: .removeSelected(indexPath: indexPath, selectedIndices: selectedIndices))
                 case .keepAll(let indexPath):
                     strongSelf.viewModel.apply(input: .keepAll(indexPath: indexPath))
-                case .markDelete(let indexPath, let photoIndex, let isOn):
-                    strongSelf.viewModel.apply(input: .markDelete(indexPath: indexPath, photoIndex: photoIndex, isOn: isOn))
-                case .swipePhoto(let indexPath, let photoIndex):
-                    strongSelf.viewModel.apply(input: .swipePhoto(indexPath: indexPath, photoIndex: photoIndex))
                 }
             }
             return cell

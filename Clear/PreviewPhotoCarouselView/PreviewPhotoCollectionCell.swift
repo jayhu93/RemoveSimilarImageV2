@@ -19,19 +19,17 @@ final class PreviewPhotoCollectionCell: UICollectionViewCell {
 
     @IBAction func markDelete(_ sender: UISwitch) {
         guard let photoIndex = photoIndex else { return }
-        CATransaction.setCompletionBlock { [weak self] in
-            self?.emitter.emit(event: .markDelete(index: photoIndex, isOn: sender.isOn))
-        }
+        emitter.emit(event: .markDelete(index: photoIndex, isOn: sender.isOn))
     }
 }
 
 extension PreviewPhotoCollectionCell: InputAppliable {
-    typealias Input = (photoObject: MainViewDisplayModel.PhotoModel, photoIndex: Int)
+    typealias Input = (photoObject: MainViewDisplayModel.PhotoModel, photoIndex: Int, isOn: Bool)
 
     func apply(input: Input) {
         let id = input.photoObject.photoObject.id
         photoIndex = input.photoIndex
-        deleteSwitch.setOn(input.photoObject.markDelete, animated: false)
+        deleteSwitch.setOn(input.isOn, animated: false)
 
         // TODO: Will most likely move this block our of this view
         let requestOptions = PHImageRequestOptions()

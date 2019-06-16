@@ -29,6 +29,7 @@ enum PhotoServiceAlbumAvailability {
 
 protocol PhotoLibraryServiceInputs {
     func fetchImage(_ currentCount: Int)
+    func removePhotos(_ photoIDs: [String])
 }
 
 // MARK: PhotoLibraryServiceOutputs
@@ -147,6 +148,15 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
                 similarImageService.inputs.analyze(rawPhotos: rawPhotos)
             }
         }
+
+        removePhotosIO.output.observeValues { photoIDs in
+            PHPhotoLibrary.shared().performChanges({
+                let imageAssetToDelete = PHAsset.fetchAssets(withLocalIdentifiers: photoIDs, options: nil)
+                PHAssetChangeRequest.deleteAssets(imageAssetToDelete)
+            }, completionHandler: {success, error in
+                print(success ? "Success" : error as Any )
+            })
+        }
     }
 
     // MARK: PHPhotoLibraryChangeObserver
@@ -199,6 +209,11 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     private let fetchImagesIO = Signal<Int, NoError>.pipe()
     func fetchImage(_ currentCount: Int) {
         fetchImagesIO.input.send(value: currentCount)
+    }
+
+    private let removePhotosIO = Signal<[String], NoError>.pipe()
+    func removePhotos(_ photoIDs: [String]) {
+        removePhotosIO.input.send(value: photoIDs)
     }
 
     // MARK: PhotoLibraryServiceOutputs

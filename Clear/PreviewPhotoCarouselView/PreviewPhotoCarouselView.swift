@@ -12,6 +12,7 @@ final class PreviewPhotoCarouselView: NibInstantiableView {
 
     var emitter = EventEmitter<BehaviorEvent>()
     var dataSource = [MainViewDisplayModel.PhotoModel]()
+    var selectedIndices = [Int]()
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var pageControl: UIPageControl!
@@ -48,6 +49,7 @@ extension PreviewPhotoCarouselView: InputAppliable {
         self.collectionView.reloadData()
         let indexPath = IndexPath(item: input.dataSource.currentIndex, section: 0)
         self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+        selectedIndices = []
     }
 }
 
@@ -56,12 +58,20 @@ extension PreviewPhotoCarouselView: InputAppliable {
 extension PreviewPhotoCarouselView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let data = dataSource[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withType: PreviewPhotoCollectionCell.self, for: indexPath).applied(input: (data, indexPath.row))
+        let cell = collectionView
+            .dequeueReusableCell(withType: PreviewPhotoCollectionCell.self,
+                                 for: indexPath)
+            .applied(input: (data, indexPath.row, selectedIndices.contains(indexPath.row)))
         cell.observe { [weak self] in
             guard let strongSelf = self else { return }
             switch $0 {
             case .markDelete(let index ,let isOn):
-                strongSelf.emitter.emit(event: .markDelete(index: index, isOn: isOn))
+                if isOn {
+                    strongSelf.selectedIndices.append(index)
+                } else {
+                    guard let ind = strongSelf.selectedIndices.index(of: index) else { return }
+                    strongSelf.selectedIndices.remove(at: ind)
+                }
             }
         }
         return cell
@@ -98,6 +108,5 @@ extension PreviewPhotoCarouselView: UICollectionViewDelegateFlowLayout {
 extension PreviewPhotoCarouselView: BehaviorEventEmittable {
     enum BehaviorEvent {
         case photoSwipe(index: Int)
-        case markDelete(index: Int, isOn: Bool)
     }
 }

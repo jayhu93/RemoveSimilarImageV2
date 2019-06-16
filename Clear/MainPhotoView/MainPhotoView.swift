@@ -22,12 +22,7 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
                 guard let strongSelf = self else { return }
                 switch $0 {
                 case .photoSwipe(let index):
-                    guard let indexPath = strongSelf.indexPath else { return }
                     strongSelf.thumbnailPhotoCarouselView.updatePhoto(to: index)
-                    strongSelf.emitter.emit(event: .swipePhoto(indexPath: indexPath, photoIndex: index))
-                case .markDelete(let index, let isOn):
-                    guard let indexPath = strongSelf.indexPath else { return }
-                    strongSelf.emitter.emit(event: .markDelete(indexPath: indexPath, photoIndex: index, isOn: isOn))
                 }
             }
         }
@@ -49,7 +44,10 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
                 guard let strongSelf = self, let indexPath = strongSelf.indexPath else { return }
                 switch $0 {
                 case .removeAll: strongSelf.emitter.emit(event: .removeAll(indexPath: indexPath))
-                case .removeSelected: strongSelf.emitter.emit(event: .removeSelected(indexPath: indexPath))
+                case .removeSelected:
+                    guard !strongSelf.previewPhotoCarouselView.selectedIndices.isEmpty else { return }
+                    let selectedIndices = strongSelf.previewPhotoCarouselView.selectedIndices
+                    strongSelf.emitter.emit(event: .removeSelected(indexPath: indexPath, selectedIndices: selectedIndices))
                 case .keepAll: strongSelf.emitter.emit(event: .keepAll(indexPath: indexPath))
                 }
             }
@@ -96,9 +94,7 @@ final class MainPhotoView: UICollectionViewCell, InputAppliable {
 extension MainPhotoView: BehaviorEventEmittable {
     enum BehaviorEvent {
         case removeAll(indexPath: IndexPath)
-        case removeSelected(indexPath: IndexPath)
+        case removeSelected(indexPath: IndexPath, selectedIndices: [Int])
         case keepAll(indexPath: IndexPath)
-        case markDelete(indexPath: IndexPath, photoIndex: Int, isOn: Bool)
-        case swipePhoto(indexPath: IndexPath, photoIndex: Int)
     }
 }

@@ -44,7 +44,7 @@ final class MainViewModel: SectionedDataSource {
         case refreshControlAction
         case reachedPaginationOffsetY
         case removeAll(indexPath: IndexPath)
-        case removeSelected(indexPath: IndexPath)
+        case removeSelected(indexPath: IndexPath, selectedIndices: [Int])
         case keepAll(indexPath: IndexPath)
         case markDelete(indexPath: IndexPath, photoIndex: Int, isOn: Bool)
         case swipePhoto(indexPath: IndexPath, photoIndex: Int)
@@ -56,7 +56,7 @@ final class MainViewModel: SectionedDataSource {
     private let refreshControlActionIO = Signal<Void, NoError>.pipe()
     private let reachedPaginationOffsetYIO = Signal<Void, NoError>.pipe()
     private let removeAllIO = Signal<IndexPath, NoError>.pipe()
-    private let removeSelectedIO = Signal<IndexPath, NoError>.pipe()
+    private let removeSelectedIO = Signal<(IndexPath, [Int]), NoError>.pipe()
     private let keepAllIO = Signal<IndexPath, NoError>.pipe()
     private let markDeleteIO = Signal<(IndexPath, Int, Bool), NoError>.pipe()
     private let swipePhotoIO = Signal<(IndexPath, Int), NoError>.pipe()
@@ -75,8 +75,8 @@ final class MainViewModel: SectionedDataSource {
             reachedPaginationOffsetYIO.input.send(value: ())
         case .removeAll(let indexPath):
             removeAllIO.input.send(value: indexPath)
-        case .removeSelected(let indexPath):
-            removeSelectedIO.input.send(value: indexPath)
+        case .removeSelected(let indexPath, let selectedIndices):
+            removeSelectedIO.input.send(value: (indexPath, selectedIndices))
         case .keepAll(let indexPath):
             keepAllIO.input.send(value: indexPath)
         case .markDelete(let indexPath, let photoIndex, let isOn):
@@ -151,6 +151,24 @@ final class MainViewModel: SectionedDataSource {
             switch strongSelf.displayModel.value.element(at: indexPath) {
             case .similarSet(let model):
                 strongSelf.localDatabase.inputs.markKeepAll(model.setID)
+            default: break
+            }
+        }
+
+        removeAllIO.output.observeValues { [weak self] indexPath in
+            guard let strongSelf = self else { return }
+            switch strongSelf.displayModel.value.element(at: indexPath) {
+            case .similarSet(let model):
+                strongSelf.localDatabase.inputs.removeAll(model.setID)
+            default: break
+            }
+        }
+
+        removeSelectedIO.output.observeValues { [weak self] indexPath, selectedIndices in
+            guard let strongSelf = self else { return }
+            switch strongSelf.displayModel.value.element(at: indexPath) {
+            case .similarSet(let model):
+                strongSelf.localDatabase.inputs.removeSelected(model.setID, selectedIndices: selectedIndices)
             default: break
             }
         }
