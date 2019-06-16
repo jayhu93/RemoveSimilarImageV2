@@ -38,7 +38,7 @@ extension PreviewPhotoCollectionCell: InputAppliable {
         requestOptions.isSynchronous = false
         let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: .none).firstObject!
         
-        let thumbnailSize = CGSize(width: 300, height: 300)
+        let thumbnailSize = CGSize(width: 1080, height: 1080)
 
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: .none) { (image, info) in
             self.imageView.image = image
