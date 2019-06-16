@@ -12,7 +12,6 @@ target 'Clear' do
   pod 'Firebase/Analytics'
   pod 'Firebase/AdMob'
   pod 'NVActivityIndicatorView'
-  pod 'LabelSwitch'
 
   target 'ClearTests' do
     inherit! :search_paths

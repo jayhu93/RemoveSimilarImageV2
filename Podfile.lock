@@ -54,7 +54,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.2.0):
     - GoogleUtilities/Logger
-  - LabelSwitch (0.1.6)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -70,7 +69,6 @@ DEPENDENCIES:
   - Firebase/AdMob
   - Firebase/Analytics
   - Firebase/Core
-  - LabelSwitch
   - NVActivityIndicatorView
 
 SPEC REPOS:
@@ -84,7 +82,6 @@ SPEC REPOS:
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleUtilities
-    - LabelSwitch
     - nanopb
     - NVActivityIndicatorView
 
@@ -98,10 +95,9 @@ SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: 1e72b4f438d997ab0f2ee62b3a7b0cbcc87c47cb
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
   GoogleUtilities: 996e0db07153674fd1b54b220fda3a3dc3547cba
-  LabelSwitch: 7f2120e1a567c35daefbcdd509405b63af6661ec
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
 
-PODFILE CHECKSUM: 1ea168d6063163f02b6f418f7eb1f1e61f9140c7
+PODFILE CHECKSUM: d283bd6171b0a26eb477dcd5c96d2fc560bea719
 
 COCOAPODS: 1.7.1

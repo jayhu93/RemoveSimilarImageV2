@@ -31,8 +31,8 @@ extension PreviewPhotoCollectionCell: InputAppliable {
     func apply(input: Input) {
         let id = input.photoObject.photoObject.id
         photoIndex = input.photoIndex
-        // deleteSwitch.setOn(input.photoObject.markDelete, animated: false)
-        
+        deleteSwitch.setOn(input.photoObject.markDelete, animated: false)
+
         // TODO: Will most likely move this block our of this view
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = false

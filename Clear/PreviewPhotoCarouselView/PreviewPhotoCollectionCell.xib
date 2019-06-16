@@ -22,40 +22,35 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZdQ-f8-0f7">
                         <rect key="frame" x="0.0" y="0.0" width="431" height="386"/>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5f-Ig-6Io" customClass="LabelSwitch" customModule="LabelSwitch">
-                        <rect key="frame" x="299" y="314" width="120" height="60"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="60" id="8dO-iF-PPy"/>
-                            <constraint firstAttribute="width" constant="120" id="Jfh-zJ-BuP"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="lBackColor">
-                                <color key="value" red="0.7321555018" green="0.20017883180000001" blue="0.18812984229999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="rBackColor">
-                                <color key="value" red="0.29927182200000002" green="0.663880527" blue="0.90594214200000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="string" keyPath="lText" value="Remove"/>
-                            <userDefinedRuntimeAttribute type="string" keyPath="rText" value="Keep"/>
-                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
-                                <real key="value" value="17"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="h6R-VU-HRW">
+                        <rect key="frame" x="357.5" y="318.5" width="61.5" height="55.5"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6Z-Nj-A2M">
+                                <rect key="frame" x="6.5" y="0.0" width="51" height="31"/>
+                                <color key="onTintColor" red="0.7321555018" green="0.20017883180000001" blue="0.18812984229999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remove" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCe-AO-8EH">
+                                <rect key="frame" x="0.0" y="35" width="61.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="ZdQ-f8-0f7" firstAttribute="top" secondItem="Ugu-5G-21q" secondAttribute="top" id="D9R-qk-oa4"/>
+                <constraint firstAttribute="bottom" secondItem="h6R-VU-HRW" secondAttribute="bottom" constant="12" id="F4q-gO-jYA"/>
                 <constraint firstAttribute="trailing" secondItem="ZdQ-f8-0f7" secondAttribute="trailing" id="FRh-uf-rh1"/>
                 <constraint firstAttribute="bottom" secondItem="ZdQ-f8-0f7" secondAttribute="bottom" id="IV8-wb-98d"/>
-                <constraint firstAttribute="bottom" secondItem="K5f-Ig-6Io" secondAttribute="bottom" constant="36" id="Kzu-pa-iSa"/>
                 <constraint firstItem="ZdQ-f8-0f7" firstAttribute="leading" secondItem="Ugu-5G-21q" secondAttribute="leading" id="LjJ-ky-shY"/>
-                <constraint firstAttribute="trailing" secondItem="K5f-Ig-6Io" secondAttribute="trailing" constant="12" id="XFx-8i-9YI"/>
+                <constraint firstAttribute="trailing" secondItem="h6R-VU-HRW" secondAttribute="trailing" constant="12" id="Xln-T4-yCf"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="VA5-xo-pVJ"/>
             <size key="customSize" width="431" height="386"/>
             <connections>
+                <outlet property="deleteSwitch" destination="o6Z-Nj-A2M" id="czA-KG-bjY"/>
                 <outlet property="imageView" destination="ZdQ-f8-0f7" id="nRU-HX-deQ"/>
             </connections>
             <point key="canvasLocation" x="-381.60000000000002" y="-102.54872563718142"/>
