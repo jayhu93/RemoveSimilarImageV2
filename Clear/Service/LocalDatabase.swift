@@ -209,10 +209,11 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     }
 
     func removeSelected(_ setID: String, selectedIndices: [Int]) {
+        let sortedIndices = selectedIndices.sorted(by: >)
         guard let object = realm.object(ofType: SimilarSetObject.self, forPrimaryKey: setID) else { return }
-        let elements =  selectedIndices.map { object.photoObjects[$0] }
+        let elements =  sortedIndices.map { object.photoObjects[$0] }
         try! realm.write {
-            selectedIndices.forEach { object.photoObjects.remove(at: $0) }
+            sortedIndices.forEach { object.photoObjects.remove(at: $0) }
         }
 //        photoLibraryService.inputs.removePhotos(elements.map { $0.id })
         let photoIDs = elements.map { $0.id }
