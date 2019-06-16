@@ -13,37 +13,37 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimilarSetActionView" customModule="Clear" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="103"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ARR-sI-VGO">
-                    <rect key="frame" x="4" y="8" width="367" height="44"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ARR-sI-VGO">
+                    <rect key="frame" x="19" y="7.5" width="337.5" height="88"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ax2-5m-SQQ">
-                            <rect key="frame" x="0.0" y="0.0" width="203.5" height="44"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ES-Cm-NeA" customClass="CustomButton" customModule="Clear" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="337.5" height="41.5"/>
+                            <state key="normal" title="Keep all">
+                                <color key="titleColor" red="0.29927182200000002" green="0.663880527" blue="0.90594214200000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" red="0.29927182200000002" green="0.663880527" blue="0.90594214200000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="keepAll:" destination="-1" eventType="touchUpInside" id="1s6-TI-h4R"/>
+                            </connections>
+                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5Ks-Wr-6q6">
+                            <rect key="frame" x="0.0" y="45.5" width="337.5" height="42.5"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ES-Cm-NeA" customClass="CustomButton" customModule="Clear" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="100" height="44"/>
-                                    <state key="normal" title="Keep all">
-                                        <color key="titleColor" red="0.29927182200000002" green="0.663880527" blue="0.90594214200000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </state>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                            <color key="value" red="0.29927182200000002" green="0.663880527" blue="0.90594214200000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                            <real key="value" value="2"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="3"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="keepAll:" destination="-1" eventType="touchUpInside" id="1s6-TI-h4R"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyF-Vr-QUm" customClass="CustomButton" customModule="Clear" customModuleProvider="target">
-                                    <rect key="frame" x="104" y="0.0" width="99.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="166.5" height="42.5"/>
                                     <state key="normal" title="Remove all">
                                         <color key="titleColor" red="0.7321555018" green="0.20017883180000001" blue="0.18812984229999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </state>
@@ -55,45 +55,45 @@
                                             <real key="value" value="2"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="4"/>
+                                            <real key="value" value="8"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
                                         <action selector="removeAll:" destination="-1" eventType="touchUpInside" id="9ta-lr-dZI"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdR-gf-XXE" customClass="CustomButton" customModule="Clear" customModuleProvider="target">
+                                    <rect key="frame" x="170.5" y="0.0" width="167" height="42.5"/>
+                                    <color key="backgroundColor" red="0.7321555018" green="0.20017883180000001" blue="0.18812984229999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <state key="normal" title="Remove selected">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="8"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="removeSelected:" destination="-1" eventType="touchUpInside" id="unq-oq-NHf"/>
+                                    </connections>
+                                </button>
                             </subviews>
                         </stackView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdR-gf-XXE" customClass="CustomButton" customModule="Clear" customModuleProvider="target">
-                            <rect key="frame" x="207.5" y="0.0" width="159.5" height="44"/>
-                            <color key="backgroundColor" red="0.7321555018" green="0.20017883180000001" blue="0.18812984229999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <state key="normal" title="Remove selected">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="3"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="removeSelected:" destination="-1" eventType="touchUpInside" id="unq-oq-NHf"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="height" constant="44" id="8C2-2Y-UgK"/>
+                        <constraint firstAttribute="height" constant="88" id="8C2-2Y-UgK"/>
                     </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ARR-sI-VGO" secondAttribute="trailing" constant="4" id="MbS-Ej-fkJ"/>
-                <constraint firstItem="ARR-sI-VGO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="4" id="ZCj-zR-Tuz"/>
+                <constraint firstItem="ARR-sI-VGO" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="9:10" id="1Jr-us-Te0"/>
+                <constraint firstItem="ARR-sI-VGO" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Yii-g9-mZb"/>
                 <constraint firstItem="ARR-sI-VGO" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="jpR-9j-KmG"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <point key="canvasLocation" x="138.40000000000001" y="-94.902548725637189"/>
+            <point key="canvasLocation" x="138.40000000000001" y="-114.69265367316342"/>
         </view>
     </objects>
 </document>

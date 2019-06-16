@@ -12,7 +12,12 @@ import Photos
 final class ThumbnailPhotoView: NibInstantiableView {
     
     let imageManager = PHImageManager()
-    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView! {
+        didSet {
+            imageView.layer.cornerRadius = 4
+            imageView.clipsToBounds = true
+        }
+    }
     
 }
 

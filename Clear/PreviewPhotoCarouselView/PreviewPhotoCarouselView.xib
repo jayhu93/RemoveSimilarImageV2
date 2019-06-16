@@ -36,12 +36,12 @@
                     </connections>
                 </collectionView>
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="3Q3-gm-XAT">
-                    <rect key="frame" x="168" y="261" width="39" height="37"/>
+                    <rect key="frame" x="168" y="269" width="39" height="37"/>
                 </pageControl>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3Q3-gm-XAT" secondAttribute="bottom" constant="8" id="9Rh-eA-qbW"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3Q3-gm-XAT" secondAttribute="bottom" id="9Rh-eA-qbW"/>
                 <constraint firstItem="NFo-ql-fKP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="IPw-rj-loa"/>
                 <constraint firstItem="3Q3-gm-XAT" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="M8z-0G-yL9"/>
                 <constraint firstItem="NFo-ql-fKP" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="RLO-G2-TpA"/>
