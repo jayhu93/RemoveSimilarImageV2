@@ -128,15 +128,22 @@ final class MainViewModel: SectionedDataSource {
 
         // MARK: Paginate here, load 50 images at a time
 
+//        Signal.merge(
+//            viewDidLoadIO.output,
+//            reachedPaginationOffsetYIO.output
+//            ).observeValues { [photoLibraryService, localDatabase] in
+//                // Fetch 50 photos and send them to similar photos service
+//                // if similar photo still process preview batch, then cancel the request
+//                let currentCount = localDatabase.outputs.numberOfPhotoObjects()
+//                photoLibraryService.inputs.fetchImage(currentCount)
+//        }
         Signal.merge(
             viewDidLoadIO.output,
-            reachedPaginationOffsetYIO.output
-            ).observeValues { [photoLibraryService, localDatabase] in
-                // Fetch 50 photos and send them to similar photos service
-                // if similar photo still process preview batch, then cancel the request
-                let currentCount = localDatabase.outputs.numberOfPhotoObjects()
-                photoLibraryService.inputs.fetchImage(currentCount)
+            refreshControlActionIO.output
+            ).observeValues { [photoLibraryService, localDatabase] _ in
+                photoLibraryService.inputs.fetchImage()
         }
+
 
         refreshControlActionIO.output.observeValues { [weak self] in
             self?.photoLibraryService.inputs.fetchImage(0)
