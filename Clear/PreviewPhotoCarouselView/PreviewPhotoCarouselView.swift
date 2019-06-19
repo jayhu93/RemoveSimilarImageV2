@@ -51,6 +51,18 @@ extension PreviewPhotoCarouselView: InputAppliable {
         self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
         selectedIndices = []
     }
+
+    // MARK: - Lifecycle
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // WORKAROUND:
+        // http://stackoverflow.com/questions/18339030/uicollectionview-assertion-error-on-stale-data
+        // https://stackoverflow.com/questions/29023473/uicollectionview-invalidate-layout-on-bounds-changes
+        collectionView.layoutIfNeeded()
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
 }
 
 // MARK: UICollectionViewDataSource

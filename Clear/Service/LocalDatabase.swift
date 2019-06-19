@@ -138,32 +138,32 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
 
             // have an temp array to hold all of those, and append new one in them
             // after the loops are done, update those objects
-            try! realm.write {
-                for photoObject in photoObjects {
+            realm.beginWrite()
+            //            try! realm.write {
+            for photoObject in photoObjects {
 
-                    let similarSetObjects = tempDataStore.sameDayHourSet(photoObject)
+                let similarSetObjects = tempDataStore.sameDayHourSet(photoObject)
 
-                    var inserted = false
-                    for similarSetObject in similarSetObjects {
-                        if similarSetObject.ableInsertObject(photoObject) {
-                            let dupSimilarObject = similarSetObject
-                            dupSimilarObject.photoObjects.append(photoObject)
-                            tempDataStore.add(dupSimilarObject)
-                            inserted = true
-                            break // End the loop immediately
-                        }
-                    }
-                    if !inserted {
-                        let new = SimilarSetObject()
-                        new.photoObjects.append(photoObject)
-                        new.id = photoObject.id
-                        new.timestamp = photoObject.timestamp
-                        tempDataStore.add(new)
+                var inserted = false
+                for similarSetObject in similarSetObjects {
+                    if similarSetObject.ableInsertObject(photoObject) {
+                        let dupSimilarObject = similarSetObject
+                        dupSimilarObject.photoObjects.append(photoObject)
+                        tempDataStore.add(dupSimilarObject)
+                        inserted = true
+                        break // End the loop immediately
                     }
                 }
-
-                realm.add(tempDataStore.similarSetObjects, update: true)
+                if !inserted {
+                    let new = SimilarSetObject()
+                    new.photoObjects.append(photoObject)
+                    new.id = photoObject.id
+                    new.timestamp = photoObject.timestamp
+                    tempDataStore.add(new)
+                }
             }
+            realm.add(tempDataStore.similarSetObjects, update: true)
+            try! realm.commitWrite()
         }
     }
 
