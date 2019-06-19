@@ -105,14 +105,18 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
                     self.similarSetObjects = similarSetObjects.sorted(by: { $0.timestamp > $1.timestamp })
                 }
 
-                mutating func sameDaySet(_ photoObject: PhotoObject) -> [SimilarSetObject] {
-                    var sameDaySets = [SimilarSetObject]()
+                mutating func sameDayHourSet(_ photoObject: PhotoObject) -> [SimilarSetObject] {
+                    var sameDayHourSets = [SimilarSetObject]()
                     for similarSet in similarSetObjects {
                         if Calendar.current.isDate(similarSet.timestamp, inSameDayAs: photoObject.timestamp) {
-                            sameDaySets.append(similarSet)
+                            let hour = Calendar.current.component(.hour, from: photoObject.timestamp)
+                            let hour1 = Calendar.current.component(.hour, from: similarSet.timestamp)
+                            if hour == hour1 {
+                                sameDayHourSets.append(similarSet)
+                            }
                         }
                     }
-                    return sameDaySets
+                    return sameDayHourSets
                 }
 
                 mutating func add(_ similarSet: SimilarSetObject) {
@@ -137,7 +141,7 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
             try! realm.write {
                 for photoObject in photoObjects {
 
-                    let similarSetObjects = tempDataStore.sameDaySet(photoObject)
+                    let similarSetObjects = tempDataStore.sameDayHourSet(photoObject)
 
                     var inserted = false
                     for similarSetObject in similarSetObjects {
