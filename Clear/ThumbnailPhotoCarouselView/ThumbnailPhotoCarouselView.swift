@@ -60,7 +60,14 @@ extension ThumbnailPhotoCarouselView: UICollectionViewDataSource {
         return collectionView.dequeueReusableCell(withType: ContainerCollectionViewCell<ThumbnailPhotoView>.self, for: indexPath)
             .applied(input: data)
     }
-        
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let indexOfMajorCell = self.indexOfMajorCell()
+        let indexPath = IndexPath(item: indexOfMajorCell, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        emitter.emit(event: .thumbnailSwipe(index: indexOfMajorCell))
+    }
+
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let indexOfMajorCell = self.indexOfMajorCell()
         let indexPath = IndexPath(item: indexOfMajorCell, section: 0)

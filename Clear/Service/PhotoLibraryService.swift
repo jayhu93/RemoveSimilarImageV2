@@ -144,7 +144,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
                     innerStrongSelf.dispatchGroup.leave()
                 })
             }
-            strongSelf.dispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+            strongSelf.dispatchGroup.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
                 similarImageService.inputs.analyze(rawPhotos: rawPhotos)
             }
         }
