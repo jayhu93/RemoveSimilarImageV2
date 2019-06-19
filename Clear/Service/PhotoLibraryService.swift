@@ -13,15 +13,6 @@ import Result
 import ImageIO
 import ReactiveCocoa
 
-struct GroupPhoto {
-    var photos: [SinglePhoto]
-}
-
-struct SiglePhoto {
-    var id: String
-    var timeStamp: Date
-}
-
 struct RawPhoto {
     var id: String
     var image: UIImage
@@ -39,7 +30,6 @@ enum PhotoServiceAlbumAvailability {
 protocol PhotoLibraryServiceInputs {
     func fetchImage(_ currentCount: Int)
     func removePhotos(_ photoIDs: [String])
-    func fetchAllImages()
 }
 
 // MARK: PhotoLibraryServiceOutputs
@@ -167,20 +157,6 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
                 print(success ? "Success" : error as Any )
             })
         }
-
-        fetchAllImagesIO.output.observeValues { [weak self] in
-            guard let strongSelf = self else { return }
-            let allPhotoOptions = PHFetchOptions()
-            allPhotoOptions.sortDescriptions = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            let fetch = PHAsset.fetchAssets(with: allPhotoOptions)
-            let indexSet = IndexSet(0..<fetch.count)
-            let assets = fetch.objects(at: indexSet)
-
-            for asset in assets {
-                let singlePhoto = SinglePhoto(id: asset.localIdentifier, timestamp: creationDate)
-            }
-
-        }
     }
 
     // MARK: PHPhotoLibraryChangeObserver
@@ -233,11 +209,6 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
     private let fetchImagesIO = Signal<Int, NoError>.pipe()
     func fetchImage(_ currentCount: Int) {
         fetchImagesIO.input.send(value: currentCount)
-    }
-
-    private let fetchAllImagesIO = Signal<Void, NoError>.pipe()
-    func fetchAllImages() {
-        fetchAllImagesIO.input.send(value: ())
     }
 
     private let removePhotosIO = Signal<[String], NoError>.pipe()

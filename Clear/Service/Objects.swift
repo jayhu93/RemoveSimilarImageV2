@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 
+
 class SimilarSetObject: Object {
     @objc dynamic var id: String = ""
     @objc dynamic var timestamp: Date = Date()
