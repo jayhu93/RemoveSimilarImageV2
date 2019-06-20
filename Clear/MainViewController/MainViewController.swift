@@ -36,6 +36,11 @@ class MainViewController: UIViewController {
         viewModel.apply(input: .viewDidLoad)
         bindViewModel()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.apply(input: .viewDidAppear)
+    }
     
     private func bindViewModel() {
         refreshControl.reactive.controlEvents(.valueChanged).observeValues { [weak self] _ in

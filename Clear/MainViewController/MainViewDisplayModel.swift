@@ -62,12 +62,8 @@ struct MainViewDisplayModel {
         self.elements.append(contentsOf: elements)
     }
 
-    mutating func markDelete(_ indexPath: IndexPath, _ photoIndex: Int, _ isOn: Bool) {
-//        similarSets[indexPath.row].photoModels[photoIndex].markDelete = isOn
-    }
-
-    mutating func swipePhoto(_ indexPath: IndexPath, _ photoIndex: Int) {
-//        similarSets[indexPath.row].currentIndex = photoIndex
+    mutating func removeAll() {
+        elements.removeAll()
     }
     
     // Data Source

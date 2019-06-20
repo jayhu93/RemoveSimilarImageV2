@@ -21,16 +21,16 @@ final class MainViewModel: SectionedDataSource {
     private let similarImageService: SimilarImageServiceType
     private let photoLibraryService: PhotoLibraryServiceType
     private let localDatabase: LocalDatabaseType
-    private let displayModel: Property<MainViewDisplayModel>
+    private let displayModel: MutableProperty<MainViewDisplayModel>
 
     init(dependency: Dependency) {
         (similarImageService, photoLibraryService, localDatabase) = dependency
 
-        displayModel = Property(
-            initial: MainViewDisplayModel(),
-            then: localDatabase.outputs.getSimilarSetObjectsSignal
-                .map { MainViewDisplayModel($0) }
-        )
+        displayModel = MutableProperty(MainViewDisplayModel())
+
+        localDatabase.outputs.getSimilarSetObjectsSignal.observeValues { [displayModel] in
+            displayModel.value = MainViewDisplayModel($0)
+        }
 
         bind()
     }
@@ -48,6 +48,7 @@ final class MainViewModel: SectionedDataSource {
         case keepAll(indexPath: IndexPath)
         case markDelete(indexPath: IndexPath, photoIndex: Int, isOn: Bool)
         case swipePhoto(indexPath: IndexPath, photoIndex: Int)
+        case viewDidAppear
     }
 
     private let viewDidLoadIO = Signal<Void, NoError>.pipe()
@@ -60,6 +61,7 @@ final class MainViewModel: SectionedDataSource {
     private let keepAllIO = Signal<IndexPath, NoError>.pipe()
     private let markDeleteIO = Signal<(IndexPath, Int, Bool), NoError>.pipe()
     private let swipePhotoIO = Signal<(IndexPath, Int), NoError>.pipe()
+    private let viewDidAppearIO = Signal<Void, NoError>.pipe()
 
     func apply(input: Input) {
         switch input {
@@ -83,6 +85,8 @@ final class MainViewModel: SectionedDataSource {
             markDeleteIO.input.send(value: (indexPath, photoIndex, isOn))
         case .swipePhoto(let indexPath, let photoIndex):
             swipePhotoIO.input.send(value: (indexPath, photoIndex))
+        case .viewDidAppear:
+            viewDidAppearIO.input.send(value: ())
         }
     }
 
@@ -129,17 +133,24 @@ final class MainViewModel: SectionedDataSource {
         // MARK: Paginate here, load 50 images at a time
 
         Signal.merge(
-            viewDidLoadIO.output,
             reachedPaginationOffsetYIO.output
             ).observeValues { [photoLibraryService, localDatabase] in
                 // Fetch 50 photos and send them to similar photos service
                 // if similar photo still process preview batch, then cancel the request
                 let currentCount = localDatabase.outputs.numberOfPhotoObjects()
+                guard currentCount > 0 else { return }
                 photoLibraryService.inputs.fetchImage(currentCount)
         }
 
-        refreshControlActionIO.output.observeValues { [weak self] in
-            self?.photoLibraryService.inputs.fetchImage(0)
+        Signal.merge(
+            viewDidAppearIO.output,
+            refreshControlActionIO.output
+            ).observeValues { [photoLibraryService, localDatabase, displayModel] in
+                localDatabase.inputs.deleteAllObjects()
+                displayModel.value.removeAll()
+                let currentCount = localDatabase.outputs.numberOfPhotoObjects()
+//                photoLibraryService.inputs.fetchImage(currentCount)
+                photoLibraryService.inputs.freshFetch(currentCount)
         }
 
         removeAllObjcsIO.output.observeValues { [weak self] in
