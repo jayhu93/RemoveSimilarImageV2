@@ -49,11 +49,12 @@ final class AdCollectionViewCell: UICollectionViewCell, InputAppliable {
 
     /// The ad unit ID.
     var adUnitID: String {
-        #if DEBUG
-            return  "ca-app-pub-3940256099942544/3986624511"
-        #else
-            return "ca-app-pub-9309051447775957/4023871969"
-        #endif
+        return  "ca-app-pub-3940256099942544/3986624511"
+//        #if DEBUG
+//            return  "ca-app-pub-3940256099942544/3986624511"
+//        #else
+//            return "ca-app-pub-9309051447775957/4023871969"
+//        #endif
     }
 
     override func awakeFromNib() {
