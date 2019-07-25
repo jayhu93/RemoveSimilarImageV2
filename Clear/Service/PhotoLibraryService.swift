@@ -144,6 +144,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
 
         fetchResultProperty.signal.observeValues { [weak self] fetch in
             var rawPhotos = [RawPhoto]()
+            let keepPhotoIds = UserDefaults().value(forKey: "keep") as? [String] ?? [String]()
             guard let strongSelf = self else { return }
             guard let fetch = fetch else { return }
             let indexSet = IndexSet(0..<fetch.count)
@@ -151,6 +152,7 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, PhotoLi
             for asset in assets {
                 // make sure the asset is not yet in the database
                 guard !localDatabase.inputs.existInDatabase(asset.localIdentifier) else { continue }
+                guard !keepPhotoIds.contains(asset.localIdentifier) else { continue }
                 strongSelf.dispatchGroup.enter()
                 strongSelf.imageManager.requestImage(for: asset, targetSize: strongSelf.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { [ weak self] image, info in
                     guard let isThumbnailInt = info?["PHImageResultIsDegradedKey"] as? Int else { return }

@@ -192,6 +192,13 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
 
     func markKeepAll(_ setID: String) {
         guard let object = realm.object(ofType: SimilarSetObject.self, forPrimaryKey: setID) else { return }
+
+        let userDefault = UserDefaults()
+        var keepArray = userDefault.array(forKey: "keep") as? [String] ?? [String]()
+        let ids = Array(object.photoObjects).map { $0.id }
+        keepArray.append(contentsOf: ids)
+        userDefault.set(keepArray, forKey: "keep")
+
         try! realm.write {
             object.showSet = false
         }
@@ -200,15 +207,23 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
     func removeAll(_ setID: String) {
         guard  let object = realm.object(ofType: SimilarSetObject.self, forPrimaryKey: setID) else { return }
         let photoIDs = Array(object.photoObjects.map { $0.id })
-        try! realm.write {
-            realm.delete(object)
-        }
-//        photoLibraryService.inputs.removePhotos(photoIDs)
+
+        let wrappedObj = ThreadSafeReference(to: object)
+        let config = realm.configuration
+
         PHPhotoLibrary.shared().performChanges({
             let imageAssetToDelete = PHAsset.fetchAssets(withLocalIdentifiers: photoIDs, options: nil)
             PHAssetChangeRequest.deleteAssets(imageAssetToDelete)
-        }, completionHandler: {success, error in
+        }, completionHandler: { success, error in
             print(success ? "Success" : error as Any )
+            guard success else { return }
+
+            let realm = try! Realm(configuration: config)
+            if let obj = realm.resolve(wrappedObj) {
+                try! realm.write {
+                    realm.delete(obj)
+                }
+            }
         })
     }
 
@@ -216,16 +231,24 @@ final class LocalDatabase: LocalDatabaseType, LocalDatabaseInputs, LocalDatabase
         let sortedIndices = selectedIndices.sorted(by: >)
         guard let object = realm.object(ofType: SimilarSetObject.self, forPrimaryKey: setID) else { return }
         let elements =  sortedIndices.map { object.photoObjects[$0] }
-        try! realm.write {
-            sortedIndices.forEach { object.photoObjects.remove(at: $0) }
-        }
-//        photoLibraryService.inputs.removePhotos(elements.map { $0.id })
         let photoIDs = elements.map { $0.id }
+
+        let wrappedObj = ThreadSafeReference(to: object)
+        let config = realm.configuration
+
         PHPhotoLibrary.shared().performChanges({
             let imageAssetToDelete = PHAsset.fetchAssets(withLocalIdentifiers: photoIDs, options: nil)
             PHAssetChangeRequest.deleteAssets(imageAssetToDelete)
-        }, completionHandler: {success, error in
+        }, completionHandler: { success, error in
             print(success ? "Success" : error as Any )
+            guard success else { return }
+
+            let realm = try! Realm(configuration: config)
+            if let obj = realm.resolve(wrappedObj) {
+                try! realm.write {
+                    sortedIndices.forEach { obj.photoObjects.remove(at: $0) }
+                }
+            }
         })
     }
 
