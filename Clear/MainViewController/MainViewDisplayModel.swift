@@ -19,15 +19,7 @@ struct MainViewDisplayModel {
 
 
     init(similarSets: [SimilarPhotosDisplayModel] = []) {
-        var elements = similarSets.map { Element.similarSet($0) }
-
-        for (index, _) in elements.enumerated() {
-            guard index != 0 else { continue }
-            if index % 4 == 0 {
-                elements.insert(Element.ad, at: index)
-            }
-        }
-
+        let elements = similarSets.map { Element.similarSet($0) }
         self.elements = elements
     }
 
@@ -37,29 +29,8 @@ struct MainViewDisplayModel {
                 photoModels: $0.photoObjects.map { PhotoModel(photoObject: $0) }
             )
         }
-        var elements = newSimilarSets.map { Element.similarSet($0) }
-        for (index, _) in elements.enumerated() {
-            guard index != 0 else { continue }
-            if index % 4 == 0 {
-                elements.insert(Element.ad, at: index)
-            }
-        }
+        let elements = newSimilarSets.map { Element.similarSet($0) }
         self.elements = elements
-    }
-
-    mutating func appendNewSimilarGroup(_ similarSets: [[PhotoObject]]) {
-        let newSimilarSets: [SimilarPhotosDisplayModel] = similarSets.map { similarSet -> SimilarPhotosDisplayModel in
-            let photoModels = similarSet.map { photoObject in PhotoModel(photoObject: photoObject) }
-            return SimilarPhotosDisplayModel(photoModels: photoModels)
-        }
-        var elements = newSimilarSets.map { Element.similarSet($0) }
-        for (index, _) in elements.enumerated() {
-            guard index != 0 else { continue }
-            if index % 4 == 0 {
-                elements.insert(Element.ad, at: index)
-            }
-        }
-        self.elements.append(contentsOf: elements)
     }
 
     mutating func removeAll() {
