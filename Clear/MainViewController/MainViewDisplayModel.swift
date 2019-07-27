@@ -26,7 +26,7 @@ struct MainViewDisplayModel {
     init(_ simialrSetObjects: [SimilarSetObject]) {
         let newSimilarSets = simialrSetObjects.map {
             SimilarPhotosDisplayModel(
-                photoModels: $0.photoObjects.map { PhotoModel(photoObject: $0) }
+                photoModels: $0.photoObjects.map { PhotoModel(photoObject: $0) }, setID: $0.id
             )
         }
         let elements = newSimilarSets.map { Element.similarSet($0) }
@@ -69,11 +69,10 @@ extension MainViewDisplayModel {
     struct SimilarPhotosDisplayModel {
         var photoModels: [PhotoModel]
         var currentIndex = 0
-        var setID: String {
-            return photoModels[0].photoObject.id
-        }
-        init(photoModels: [PhotoModel]) {
+        let setID: String
+        init(photoModels: [PhotoModel], setID: String) {
             self.photoModels = photoModels
+            self.setID = setID
         }
     }
 }
